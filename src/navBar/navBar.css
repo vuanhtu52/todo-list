@@ -1,0 +1,23 @@
+.nav-bar {
+    padding: 20px;
+    background-color: #A16207;
+    color: #e7e5e4;
+}
+
+.logo {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.logo > img {
+    width: 50px;
+}
+
+.logo > div {
+    font-size: 40px;
+    font-weight: 900;
+}
+
