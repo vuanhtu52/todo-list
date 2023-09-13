@@ -2,6 +2,7 @@
     padding: 20px;
     background-color: #A16207;
     color: #e7e5e4;
+    grid-column: 1 / 3;
 }
 
 .logo {

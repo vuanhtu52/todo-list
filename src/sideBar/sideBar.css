@@ -1,0 +1,63 @@
+.side-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: rgba(209, 213, 219, 0.2);
+    padding: 30px 20px;
+}
+
+.default-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.sidebar-item > img {
+    width: 25px;
+}
+
+.projects {
+    display: flex;
+    flex-direction: column;
+}
+
+.projects-header {
+    display: flex;  
+    justify-content: space-between; 
+    cursor: pointer;
+    padding: 5px 5px 5px 0;
+}
+
+.projects-header:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.projects-header > div {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.projects-header > button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.projects-header > button:hover {
+    background-color: white;
+}
+
