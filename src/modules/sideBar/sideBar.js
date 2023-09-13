@@ -16,7 +16,7 @@ const createItem = (imageLink, text) => {
     item.appendChild(itemName);
 
     return item;
-} 
+}; 
 
 const createProjectsHeader = () => {
     const header = document.createElement("div");
@@ -31,7 +31,7 @@ const createProjectsHeader = () => {
     header.appendChild(addProjectButton);
 
     return header;
-}
+};
 
 const createSideBar = () => {
     const sideBar = document.createElement("div");
@@ -51,6 +51,6 @@ const createSideBar = () => {
     sideBar.appendChild(projects);
 
     return sideBar;
-}
+};
 
 export default createSideBar;

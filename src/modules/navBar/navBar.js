@@ -17,7 +17,7 @@ const createLogo = () => {
     logo.appendChild(text);
 
     return logo
-}
+};
 
 const createNavBar = () => {
     const navBar = document.createElement("div");
@@ -27,6 +27,6 @@ const createNavBar = () => {
     navBar.appendChild(logo);
 
     return navBar;
-}
+};
 
 export default createNavBar;
