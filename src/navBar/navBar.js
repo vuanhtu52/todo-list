@@ -1,5 +1,5 @@
 import "./navBar.css";
-import Icon from "./logo.svg";
+import LogoLink from "./icons/logo.svg";
 
 const createLogo = () => {
     // Create the logo wrapper outside
@@ -8,7 +8,7 @@ const createLogo = () => {
 
     // Create the icon
     const image = new Image();
-    image.src = Icon;
+    image.src = LogoLink;
     logo.appendChild(image);
 
     // Create the text
