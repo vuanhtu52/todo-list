@@ -1,6 +1,6 @@
 import "./style.css";
-import createNavBar from "./navBar/navBar";
-import createSideBar from "./sideBar/sideBar";
+import createNavBar from "./modules/navBar/navBar";
+import createSideBar from "./modules/sideBar/sideBar";
 
 const loadPage = () => {
     const body = document.querySelector("body");
