@@ -17,16 +17,15 @@ const ScreenController = () => {
         const sideBar = createSideBar();
         body.appendChild(sideBar);
         _setItemListener();
+        _setItemActive(document.querySelector("#inbox"));
     
         // Add main content
         const content = document.createElement("div");
         content.id = "content";
+        body.appendChild(content);
 
         // Load the inbox page by default
-        const inboxPage = createInboxPage();
-        content.appendChild(inboxPage);
-
-        body.appendChild(content);
+        _loadInboxPage();
     };
 
     // Attach a listener to each item on the sidebar
@@ -63,20 +62,40 @@ const ScreenController = () => {
 
     const _loadInboxPage = () => {
         const content = document.querySelector("#content");
-        content.removeChild(content.lastChild);
-        content.appendChild(createInboxPage());
+        if (content.lastChild) {
+            content.removeChild(content.lastChild);
+        }
+
+        const inboxPage = createInboxPage();
+        content.appendChild(inboxPage);
+
+        _setInboxAddTaskButtonListener();
     };
 
     const _loadTodayPage = () => {
         const content = document.querySelector("#content");
-        content.removeChild(content.lastChild);
+        if (content.lastChild) {
+            content.removeChild(content.lastChild);
+        }
         content.appendChild(createTodayPage());
     };
 
     const _loadUpcomingPage = () => {
         const content = document.querySelector("#content");
-        content.removeChild(content.lastChild);
+        if (content.lastChild) {
+            content.removeChild(content.lastChild);
+        }
         content.appendChild(createUpcomingPage());
+    }
+
+    const _setInboxAddTaskButtonListener = () => {
+        const buttons = document.querySelectorAll(".add-task-button");
+        console.log(buttons);
+        buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                console.log("add");
+            });
+        });
     }
 
     return {
