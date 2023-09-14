@@ -12,6 +12,7 @@ const ScreenController = () => {
         // Add navbar
         const navBar = createNavBar();
         body.appendChild(navBar);
+        _setNavBarLogoListener();
     
         // Add sidebar
         const sideBar = createSideBar();
@@ -28,7 +29,19 @@ const ScreenController = () => {
         _loadInboxPage();
     };
 
-    // Attach a listener to each item on the sidebar
+    // Direct to inbox page when user clicks on the logo
+    const _setNavBarLogoListener = () => {
+        const logo = document.querySelector(".logo");
+        logo.addEventListener("click", () => {
+            const inboxItem = document.querySelector("#inbox");
+            if (!inboxItem.classList.contains("sidebar-item-active")) {
+                _setItemActive(inboxItem);
+                _switchPage(inboxItem.id);
+            }
+        });
+    };
+
+    // Direct to the corresponding page when user clicks an item on the sidebar
     const _setItemListener = () => {
         const sideBarItems = document.querySelectorAll(".sidebar-item");
         sideBarItems.forEach(item => {
