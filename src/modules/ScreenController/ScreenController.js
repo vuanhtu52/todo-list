@@ -33,8 +33,10 @@ const ScreenController = () => {
         const sideBarItems = document.querySelectorAll(".sidebar-item");
         sideBarItems.forEach(item => {
             item.addEventListener("click", () => {
-                _setItemActive(item);
-                _switchPage(item.id);
+                if (!item.classList.contains("sidebar-item-active")) {
+                    _setItemActive(item);
+                    _switchPage(item.id);
+                }
             });
         });
     };
@@ -90,12 +92,15 @@ const ScreenController = () => {
 
     const _setInboxAddTaskButtonListener = () => {
         const buttons = document.querySelectorAll(".add-task-button");
-        console.log(buttons);
         buttons.forEach(button => {
             button.addEventListener("click", () => {
-                console.log("add");
+                _openAddTaskDialog();
             });
         });
+    }
+
+    const _openAddTaskDialog = () => {
+        console.log("add");
     }
 
     return {
