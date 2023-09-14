@@ -1,9 +1,9 @@
-import "./ScreenController.css";
 import createNavBar from "../components/navBar/navBar";
 import createSideBar from "../components/sideBar/sideBar";
 import createInboxPage from "../components/inboxPage/inboxPage";
 import createTodayPage from "../components/todayPage/todayPage";
 import createUpcomingPage from "../components/upcomingPage/upcomingPage";
+import createAddTaskDialog from "../components/addTaskDialog/addTaskDialog";
 
 const ScreenController = () => {
     const init = () => {
@@ -113,7 +113,9 @@ const ScreenController = () => {
     }
 
     const _openAddTaskDialog = () => {
-        console.log("add");
+        const dialog = createAddTaskDialog();
+        document.body.appendChild(dialog);
+        dialog.showModal();
     }
 
     return {
