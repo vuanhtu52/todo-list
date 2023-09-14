@@ -3,16 +3,17 @@ import InboxIconLink from "./icons/inbox.svg";
 import TodayIconLink from "./icons/today.svg";
 import UpCompingIconLink from "./icons/upcoming.svg";
 
-const createItem = (imageLink, text) => {
+const createItem = (imageLink, name) => {
     const item = document.createElement("div");
     item.className = "sidebar-item";
+    item.id = name.toLowerCase();
     
     const image = new Image();
     image.src = imageLink;
     item.appendChild(image);
 
     const itemName = document.createElement("div");
-    itemName.textContent = text;
+    itemName.textContent = name;
     item.appendChild(itemName);
 
     return item;
