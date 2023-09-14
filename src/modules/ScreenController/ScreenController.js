@@ -22,7 +22,7 @@ const ScreenController = () => {
         const content = document.createElement("div");
         content.id = "content";
 
-        // Add the inbox page by default
+        // Load the inbox page by default
         const inboxPage = createInboxPage();
         content.appendChild(inboxPage);
 
