@@ -52,20 +52,36 @@ const ScreenController = () => {
     };
 
     const _switchPage = itemId => {
-        const content = document.querySelector("#content");
-        content.removeChild(content.lastChild);
         if (itemId === "inbox") {
-            content.appendChild(createInboxPage());
+            _loadInboxPage();
         } else if (itemId === "today") {
-            content.appendChild(createTodayPage());
+            _loadTodayPage();
         } else if (itemId === "upcoming") {
-            content.appendChild(createUpcomingPage());
+            _loadUpcomingPage();
         }
     };
 
+    const _loadInboxPage = () => {
+        const content = document.querySelector("#content");
+        content.removeChild(content.lastChild);
+        content.appendChild(createInboxPage());
+    };
+
+    const _loadTodayPage = () => {
+        const content = document.querySelector("#content");
+        content.removeChild(content.lastChild);
+        content.appendChild(createTodayPage());
+    };
+
+    const _loadUpcomingPage = () => {
+        const content = document.querySelector("#content");
+        content.removeChild(content.lastChild);
+        content.appendChild(createUpcomingPage());
+    }
+
     return {
         init,
-    }
+    };
 };
 
 export default ScreenController;
