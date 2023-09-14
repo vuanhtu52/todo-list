@@ -1,9 +1,9 @@
 import "./ScreenController.css";
-import createNavBar from "../navBar/navBar";
-import createSideBar from "../sideBar/sideBar";
-import createInboxPage from "../inboxPage/inboxPage";
-import createTodayPage from "../todayPage/todayPage";
-import createUpcomingPage from "../upcomingPage/upcomingPage";
+import createNavBar from "../components/navBar/navBar";
+import createSideBar from "../components/sideBar/sideBar";
+import createInboxPage from "../components/inboxPage/inboxPage";
+import createTodayPage from "../components/todayPage/todayPage";
+import createUpcomingPage from "../components/upcomingPage/upcomingPage";
 
 const ScreenController = () => {
     const init = () => {
