@@ -3,7 +3,7 @@ import createSideBar from "../components/sideBar/sideBar";
 import createInboxPage from "../components/inboxPage/inboxPage";
 import createTodayPage from "../components/todayPage/todayPage";
 import createUpcomingPage from "../components/upcomingPage/upcomingPage";
-import createAddTaskDialog from "../components/addTaskDialog/addTaskDialog";
+import createAddTaskCard from "../components/addTaskCard/addTaskCard";
 
 const ScreenController = () => {
     const init = () => {
@@ -107,15 +107,19 @@ const ScreenController = () => {
         const buttons = document.querySelectorAll(".add-task-button");
         buttons.forEach(button => {
             button.addEventListener("click", () => {
-                _openAddTaskDialog();
+                _openAddTaskCard(button);
             });
         });
     }
 
-    const _openAddTaskDialog = () => {
-        const dialog = createAddTaskDialog();
-        document.body.appendChild(dialog);
-        dialog.showModal();
+    const _openAddTaskCard = addButton => {
+        // Hide the add button
+        addButton.classList.add("add-task-button-hidden");
+
+        // Add the add-task card
+        const card = createAddTaskCard();
+        const prioritySection = addButton.parentElement;
+        prioritySection.appendChild(card);
     }
 
     return {

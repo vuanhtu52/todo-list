@@ -33,3 +33,7 @@
 .add-task-button:hover {
     color: #A16207;
 }
+
+.add-task-button-hidden {
+    display: none;
+}

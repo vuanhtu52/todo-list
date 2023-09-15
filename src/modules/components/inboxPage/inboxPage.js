@@ -23,6 +23,7 @@ const createInboxPage = () => {
 const createPrioritySection = priorityNumber => {
     // Create section
     const section = document.createElement("div");
+    section.className = "priority-section";
 
     // Add header
     const header = document.createElement("div");
