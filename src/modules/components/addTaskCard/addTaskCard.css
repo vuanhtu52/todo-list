@@ -1,8 +1,52 @@
 .add-task-card {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* .add-task-card > :first-child {
+    border: none;
+    outline: none;
+    resize: none;
+    font-weight: 900;
+} */
+
+.add-task-card > :first-child {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    resize: both;
+}
+
+
+.add-task-card > :nth-child(2) {
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 12px;
+    font-weight: 200;
+    height: max-content
 }
 
 .middle-row {
     display: flex;
+    gap: 30px;
+}
+
+.middle-row > * {
+    display: flex;
+    gap: 10px;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom-row > :last-child {
+    display: flex;
+    gap: 10px;
 }

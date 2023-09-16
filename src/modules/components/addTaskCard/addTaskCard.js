@@ -5,8 +5,12 @@ const createAddTaskCard = () => {
     card.className = "add-task-card";
 
     // Add name section
-    const nameTextBox = document.createElement("textarea");
-    nameTextBox.placeholder = "Task name";
+    // const nameTextBox = document.createElement("textarea");
+    // nameTextBox.placeholder = "Task name";
+    // card.appendChild(nameTextBox);
+    const nameTextBox = document.createElement("span");
+    nameTextBox.role = "textbox";
+    nameTextBox.contentEditable = "true";
     card.appendChild(nameTextBox);
 
     // Add description section
@@ -18,11 +22,12 @@ const createAddTaskCard = () => {
     const middleRow = document.createElement("div");
     middleRow.className = "middle-row";
     middleRow.appendChild(createDatePicker());
-    middleRow.appendChild(createDropdown(["Priority 1", "Priority 2", "Priority 3", "Priority 4"]));
+    middleRow.appendChild(createDropdown(["Priority 1", "Priority 2", "Priority 3", "Priority 4"], "Priority"));
     card.appendChild(middleRow);
 
     // Add the bottom row
     const bottomRow = document.createElement("div");
+    bottomRow.className = "bottom-row";
     bottomRow.appendChild(createDropdown(["Inbox", "Today", "Upcoming"]));
     const div = document.createElement("div");
     const cancelButton = document.createElement("button");
@@ -51,12 +56,14 @@ const createDatePicker = () => {
     return wrapper;
 }
 
-const createDropdown = options => {
+const createDropdown = (options, labelName) => {
     const wrapper = document.createElement("div");
 
-    const label = document.createElement("div");
-    label.textContent = "Priority";
-    wrapper.appendChild(label);
+    if (labelName) {
+        const label = document.createElement("div");
+        label.textContent = labelName;
+        wrapper.appendChild(label);
+    }
 
     const dropdown = document.createElement("select");
     options.forEach(option => {
