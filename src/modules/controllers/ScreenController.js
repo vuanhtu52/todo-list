@@ -113,8 +113,11 @@ const ScreenController = () => {
     }
 
     const _openAddTaskCard = addButton => {
-        // Hide the add button
-        addButton.classList.add("add-task-button-hidden");
+        // Hide the add-task buttons
+        const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
+        addButtons.forEach(button => {
+            button.classList.add("add-task-button-hidden");
+        });
 
         // Add the add-task card
         const card = createAddTaskCard();
