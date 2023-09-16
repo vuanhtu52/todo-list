@@ -1,7 +1,7 @@
 import "./sideBar.css";
-import InboxIconLink from "./icons/inbox.svg";
-import TodayIconLink from "./icons/today.svg";
-import UpCompingIconLink from "./icons/upcoming.svg";
+import InboxIconLink from "../../../assets/inbox.svg";
+import TodayIconLink from "../../../assets/today.svg";
+import UpCompingIconLink from "../../../assets/upcoming.svg";
 
 const createItem = (imageLink, name) => {
     const item = document.createElement("div");

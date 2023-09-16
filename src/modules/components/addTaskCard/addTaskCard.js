@@ -16,9 +16,23 @@ const createAddTaskCard = () => {
 
     // Add section for date picker and priority dropdown
     const middleRow = document.createElement("div");
+    middleRow.className = "middle-row";
     middleRow.appendChild(createDatePicker());
-    middleRow.appendChild(createPriorityDropDown());
+    middleRow.appendChild(createDropdown(["Priority 1", "Priority 2", "Priority 3", "Priority 4"]));
     card.appendChild(middleRow);
+
+    // Add the bottom row
+    const bottomRow = document.createElement("div");
+    bottomRow.appendChild(createDropdown(["Inbox", "Today", "Upcoming"]));
+    const div = document.createElement("div");
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    div.appendChild(cancelButton);
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add task";
+    div.appendChild(addButton);
+    bottomRow.appendChild(div);
+    card.appendChild(bottomRow);
 
     return card;
 };
@@ -37,19 +51,18 @@ const createDatePicker = () => {
     return wrapper;
 }
 
-const createPriorityDropDown = () => {
+const createDropdown = options => {
     const wrapper = document.createElement("div");
 
     const label = document.createElement("div");
     label.textContent = "Priority";
     wrapper.appendChild(label);
 
-    const dropDown = document.createElement("select");
-    dropDown.appendChild(createOption("Priority 1"));
-    dropDown.appendChild(createOption("Priority 2"));
-    dropDown.appendChild(createOption("Priority 3"));
-    dropDown.appendChild(createOption("Priority 4"));
-    wrapper.appendChild(dropDown);
+    const dropdown = document.createElement("select");
+    options.forEach(option => {
+        dropdown.appendChild(createOption(option));
+    });
+    wrapper.appendChild(dropdown);
 
     return wrapper;
 }

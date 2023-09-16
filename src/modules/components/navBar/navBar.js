@@ -1,5 +1,5 @@
 import "./navBar.css";
-import LogoLink from "./icons/logo.svg";
+import LogoLink from "../../../assets/logo.svg";
 
 const createLogo = () => {
     // Create the logo wrapper outside
