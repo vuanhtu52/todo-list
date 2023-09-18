@@ -5,17 +5,24 @@ const createInboxPage = () => {
     const inboxPage = document.createElement("div");
     inboxPage.className = "inbox-page";
 
+    // Add the content wrapper outside
+    const inboxContent = document.createElement("div");
+    inboxContent.className = "inbox-content";
+
     // Add header
     const header = document.createElement("div");
     header.className = "inbox-header";
     header.textContent = "Inbox";
-    inboxPage.appendChild(header);
+    inboxContent.appendChild(header);
 
     // Add priority sections
     for (let i = 1; i < 5; i++) {
         const section = createPrioritySection(i);
-        inboxPage.appendChild(section);
+        section.className = "priority-section";
+        inboxContent.appendChild(section);
     }
+
+    inboxPage.appendChild(inboxContent);
 
     return inboxPage;
 };
