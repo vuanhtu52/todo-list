@@ -5,17 +5,15 @@ const createAddTaskCard = () => {
     card.className = "add-task-card";
 
     // Add name section
-    // const nameTextBox = document.createElement("textarea");
-    // nameTextBox.placeholder = "Task name";
-    // card.appendChild(nameTextBox);
     const nameTextBox = document.createElement("span");
     nameTextBox.role = "textbox";
     nameTextBox.contentEditable = "true";
     card.appendChild(nameTextBox);
 
     // Add description section
-    const descriptionTextBox = document.createElement("textarea");
-    descriptionTextBox.placeholder = "Description";
+    const descriptionTextBox = document.createElement("span");
+    descriptionTextBox.role = "textbox";
+    descriptionTextBox.contentEditable = "true";
     card.appendChild(descriptionTextBox);
 
     // Add section for date picker and priority dropdown
@@ -35,6 +33,7 @@ const createAddTaskCard = () => {
     div.appendChild(cancelButton);
     const addButton = document.createElement("button");
     addButton.textContent = "Add task";
+    addButton.disabled = true;
     div.appendChild(addButton);
     bottomRow.appendChild(div);
     card.appendChild(bottomRow);

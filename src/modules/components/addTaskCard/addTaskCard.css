@@ -1,9 +1,10 @@
 .add-task-card {
     width: 100%;
+    min-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    border: 1px solid grey;
+    gap: 10px;
+    border: 1px solid #9ca3af;
     border-radius: 10px;
     padding: 10px;
 }
@@ -21,12 +22,16 @@
 }
 
 .add-task-card > :nth-child(2) {
+    width: 100%;
     border: none;
     outline: none;
-    resize: none;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 200;
-    height: max-content
+}
+
+.add-task-card > :nth-child(2)[contenteditable]:empty:before {
+    content: "Description";
+    color: #8e8e8e;
 }
 
 .middle-row {
@@ -37,14 +42,83 @@
 .middle-row > * {
     display: flex;
     gap: 10px;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+/* Date picker */
+.middle-row input {
+    min-height: 25px;
+}
+
+/* Priority dropdown */
+.middle-row select {
+    min-height: 25px;
 }
 
 .bottom-row {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
 }
 
+/* Project dropdown */
+.bottom-row select {
+    height: 30px;
+    text-align: center;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.bottom-row select:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+/* The buttons at the end of card */
 .bottom-row > :last-child {
     display: flex;
     gap: 10px;
+}
+
+/* Cancel button */
+.bottom-row button:first-child {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(115, 115, 115, 0.1);
+    cursor: pointer;
+}
+
+.bottom-row button:first-child:hover {
+    background-color: rgba(115, 115, 115, 0.2);
+}
+
+.bottom-row button:first-child:active {
+    transform: scale(0.95);
+}
+
+/* Add button */
+.bottom-row button:nth-child(2) {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: #A16207;
+    color: white;
+    cursor: pointer;
+}
+
+.bottom-row button:nth-child(2):hover {
+    background-color: rgba(161, 98, 7, 0.8);
+}
+
+.bottom-row button:nth-child(2):enabled:active {
+    transform: scale(0.95);
+}
+
+.bottom-row button:nth-child(2):disabled {
+    background-color: rgba(161, 98, 7, 0.5);
 }
