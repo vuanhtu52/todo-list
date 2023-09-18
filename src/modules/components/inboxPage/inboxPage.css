@@ -35,6 +35,20 @@
     cursor: pointer;
     color: #78716c;
     font-size: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-task-button > :first-child {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.add-task-button > :nth-child(2) {
+    display: flex;
+    align-items: center;
 }
 
 .add-task-button:hover {
