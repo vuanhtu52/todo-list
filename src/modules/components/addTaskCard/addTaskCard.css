@@ -83,7 +83,7 @@
 }
 
 /* Cancel button */
-.bottom-row button:first-child {
+.card-cancel-button {
     height: 30px;
     width: 70px;
     border-radius: 5px;
@@ -92,16 +92,16 @@
     cursor: pointer;
 }
 
-.bottom-row button:first-child:hover {
+.card-cancel-button:hover {
     background-color: rgba(115, 115, 115, 0.2);
 }
 
-.bottom-row button:first-child:active {
+.card-cancel-button:active {
     transform: scale(0.95);
 }
 
 /* Add button */
-.bottom-row button:nth-child(2) {
+.card-add-button {
     height: 30px;
     width: 70px;
     border-radius: 5px;
@@ -111,14 +111,14 @@
     cursor: pointer;
 }
 
-.bottom-row button:nth-child(2):hover {
+.card-add-button:hover {
     background-color: rgba(161, 98, 7, 0.8);
 }
 
-.bottom-row button:nth-child(2):enabled:active {
+.card-add-button:enabled:active {
     transform: scale(0.95);
 }
 
-.bottom-row button:nth-child(2):disabled {
+.card-add-button:disabled {
     background-color: rgba(161, 98, 7, 0.5);
 }

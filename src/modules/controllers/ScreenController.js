@@ -101,7 +101,7 @@ const ScreenController = () => {
             content.removeChild(content.lastChild);
         }
         content.appendChild(createUpcomingPage());
-    }
+    };
 
     const _setInboxAddTaskButtonListener = () => {
         const buttons = document.querySelectorAll(".add-task-button");
@@ -110,7 +110,7 @@ const ScreenController = () => {
                 _openAddTaskCard(button);
             });
         });
-    }
+    };
 
     const _openAddTaskCard = addButton => {
         // Hide the add-task buttons
@@ -121,9 +121,31 @@ const ScreenController = () => {
 
         // Add the add-task card
         const card = createAddTaskCard();
+        _setAddTaskCardCancelButtonListener(card.querySelector(".card-cancel-button"));
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
-    }
+    };
+
+    // Attach listener to cancel button in add-task card
+    const _setAddTaskCardCancelButtonListener = cancelButton => {
+        cancelButton.addEventListener("click", () => {
+            _closeAddTaskCard();
+        });
+    };
+
+    const _closeAddTaskCard = () => {
+        // Remove the card
+        const card = document.querySelector(".add-task-card");
+        const prioritySection = card.parentElement;
+        prioritySection.removeChild(prioritySection.lastChild);
+        console.log(card);
+
+        // Show the add-task buttons again
+        const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
+        addButtons.forEach(button => {
+            button.classList.remove("add-task-button-hidden");
+        });
+    };
 
     return {
         init,

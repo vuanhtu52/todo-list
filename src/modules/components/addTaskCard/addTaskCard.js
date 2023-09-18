@@ -29,10 +29,12 @@ const createAddTaskCard = () => {
     bottomRow.appendChild(createDropdown(["Inbox", "Today", "Upcoming"]));
     const div = document.createElement("div");
     const cancelButton = document.createElement("button");
+    cancelButton.className = "card-cancel-button";
     cancelButton.textContent = "Cancel";
     div.appendChild(cancelButton);
     const addButton = document.createElement("button");
     addButton.textContent = "Add task";
+    addButton.className = "card-add-button";
     addButton.disabled = true;
     div.appendChild(addButton);
     bottomRow.appendChild(div);
@@ -53,7 +55,7 @@ const createDatePicker = () => {
     wrapper.appendChild(picker);
 
     return wrapper;
-}
+};
 
 const createDropdown = (options, labelName) => {
     const wrapper = document.createElement("div");
@@ -71,7 +73,7 @@ const createDropdown = (options, labelName) => {
     wrapper.appendChild(dropdown);
 
     return wrapper;
-}
+};
 
 const createOption = value => {
     const option = document.createElement("option");
@@ -79,6 +81,6 @@ const createOption = value => {
     option.textContent = value;
 
     return option;
-}
+};
 
 export default createAddTaskCard;
