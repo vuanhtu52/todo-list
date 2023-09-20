@@ -138,7 +138,6 @@ const ScreenController = () => {
         const card = document.querySelector(".add-task-card");
         const prioritySection = card.parentElement;
         prioritySection.removeChild(prioritySection.lastChild);
-        console.log(card);
 
         // Show the add-task buttons again
         const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");

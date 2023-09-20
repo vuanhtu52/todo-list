@@ -1,5 +1,5 @@
 import "./style.css";
-import ScreenController from "./modules/controllers/ScreenController";
+import AppController from "./modules/controllers/AppController";
 
-const screenController = ScreenController();
-screenController.init();
+const appController = AppController();
+appController.init();
