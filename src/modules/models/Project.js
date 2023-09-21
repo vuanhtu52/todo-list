@@ -1,5 +1,4 @@
-const Project = name => {
-    let _timeCreated;
+const Project = (name, timeCreated) => {
 
     return {
 

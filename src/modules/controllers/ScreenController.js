@@ -34,8 +34,9 @@ const ScreenController = () => {
         const addProjectDialog = createAddProjectDialog();
         body.appendChild(addProjectDialog);
         _setAddProjectDialogListener();
-        _setAddProjectDialogCancelButton();
         _setAddProjectDialogInput();
+        _setAddProjectDialogCancelButton();
+        _setAddProjectDialogAddButton();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -142,6 +143,11 @@ const ScreenController = () => {
         errorMessage.textContent = "";
     };
 
+    const _closeAddProjectDialog = () => {
+        const dialog = document.querySelector(".add-project-dialog");
+        dialog.close();
+    };
+
     // Attach listener to add-project dialog to detect when it closes
     const _setAddProjectDialogListener = () => {
         const dialog = document.querySelector(".add-project-dialog");
@@ -155,8 +161,7 @@ const ScreenController = () => {
     const _setAddProjectDialogCancelButton = () => {
         const button = document.querySelector(".add-project-dialog .cancel-button");
         button.addEventListener("click", () => {
-            const dialog = document.querySelector(".add-project-dialog");
-            dialog.close();
+            _closeAddProjectDialog();
         });
     };
 
@@ -195,6 +200,20 @@ const ScreenController = () => {
         }
 
         return result;
+    };
+
+    // Add project when user clicks add button
+    const _setAddProjectDialogAddButton = () => {
+        const addButton = document.querySelector(".add-project-dialog .add-button");
+        addButton.addEventListener("click", () => {
+            const name = document.querySelector(".add-project-dialog input").value;
+            const timeStamp = (new Date()).getTime();
+            databaseController.createProject({
+                name: name,
+                timeCreated: timeStamp,
+            });
+            _closeAddProjectDialog();
+        });
     };
 
     // INBOX PAGE
