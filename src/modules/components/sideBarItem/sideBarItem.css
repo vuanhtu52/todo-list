@@ -1,0 +1,20 @@
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.sidebar-item-active {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.sidebar-item > img {
+    width: 25px;
+}

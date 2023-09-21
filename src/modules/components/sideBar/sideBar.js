@@ -1,4 +1,5 @@
 import "./sideBar.css";
+import createSideBarItem from "../sideBarItem/sideBarItem";
 import InboxIconLink from "../../../assets/inbox.svg";
 import TodayIconLink from "../../../assets/today.svg";
 import UpCompingIconLink from "../../../assets/upcoming.svg";
@@ -10,9 +11,9 @@ const createSideBar = () => {
     // Add default tabs at the top
     const defaultItems = document.createElement("div");
     defaultItems.className = "default-items";
-    defaultItems.appendChild(createItem(InboxIconLink, "Inbox"));
-    defaultItems.appendChild(createItem(TodayIconLink, "Today"));
-    defaultItems.appendChild(createItem(UpCompingIconLink, "Upcoming"));
+    defaultItems.appendChild(createSideBarItem(InboxIconLink, "Inbox", false));
+    defaultItems.appendChild(createSideBarItem(TodayIconLink, "Today", false));
+    defaultItems.appendChild(createSideBarItem(UpCompingIconLink, "Upcoming", false));
     sideBar.appendChild(defaultItems);
 
     // Projects section
@@ -22,22 +23,6 @@ const createSideBar = () => {
 
     return sideBar;
 };
-
-const createItem = (imageLink, name) => {
-    const item = document.createElement("div");
-    item.className = "sidebar-item";
-    item.id = name;
-    
-    const image = new Image();
-    image.src = imageLink;
-    item.appendChild(image);
-
-    const itemName = document.createElement("div");
-    itemName.textContent = name;
-    item.appendChild(itemName);
-
-    return item;
-}; 
 
 const createProjectsHeader = () => {
     const header = document.createElement("div");
