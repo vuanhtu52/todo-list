@@ -23,6 +23,10 @@ const createAddProjectDialog = () => {
     form.appendChild(label);
     const input = document.createElement("input");
     form.appendChild(input);
+    const errorMessage = document.createElement("span");
+    errorMessage.className = "error-message";
+    errorMessage.ariaLive = "polite";
+    form.appendChild(errorMessage)
     wrapper.appendChild(form);
 
     // Add the buttons

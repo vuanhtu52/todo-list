@@ -39,6 +39,12 @@
     border: 1px solid grey;
 }
 
+.add-project-dialog .error-message {
+    font-size: 14px;
+    color: red;
+    height: 14px;
+}
+
 .add-project-dialog .bottom-row {
     display: flex;
     justify-content: flex-end;

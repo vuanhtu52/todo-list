@@ -5,8 +5,11 @@ import createTodayPage from "../components/todayPage/todayPage";
 import createUpcomingPage from "../components/upcomingPage/upcomingPage";
 import createAddTaskCard from "../components/addTaskCard/addTaskCard";
 import createAddProjectDialog from "../components/addProjectDialog/addProjectDialog";
+import DatabaseController from "./DatabaseController";
 
 const ScreenController = () => {
+    const databaseController = DatabaseController();
+
     const init = () => {
         const body = document.querySelector("body");
 
@@ -14,14 +17,14 @@ const ScreenController = () => {
         const navBar = createNavBar();
         body.appendChild(navBar);
         _setNavBarLogoListener();
-    
+
         // Add sidebar
         const sideBar = createSideBar();
         body.appendChild(sideBar);
         _setItemListener();
         _setItemActive(document.querySelector("#inbox"));
         _setAddProjectButtonListener();
-    
+
         // Add main content
         const content = document.createElement("div");
         content.id = "content";
@@ -32,6 +35,7 @@ const ScreenController = () => {
         body.appendChild(addProjectDialog);
         _setAddProjectDialogListener();
         _setAddProjectDialogCancelButton();
+        _setAddProjectDialogInput();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -149,6 +153,43 @@ const ScreenController = () => {
             const dialog = document.querySelector(".add-project-dialog");
             dialog.close();
         });
+    };
+
+    // Detect when user is typing the project's name to input and verify it
+    const _setAddProjectDialogInput = () => {
+        const input = document.querySelector(".add-project-dialog input");
+        input.addEventListener("input", () => {
+            const nameResult = _verifyProjectName(input.value);
+            const addButton = document.querySelector(".add-project-dialog .add-button");
+            const errorMessage = document.querySelector(".add-project-dialog .error-message");
+            if (nameResult === "valid") {
+                addButton.disabled = false;
+                errorMessage.textContent = "";
+            } else {
+                addButton.disabled = true;
+                errorMessage.textContent = nameResult;
+            }
+        });
+    };
+
+    // Return the error string
+    const _verifyProjectName = name => {
+        let result = "valid";
+        // Check if the name is between 1-20 characters
+        if (name.length == 0 || name.length > 20) {
+            result = "Project's name must have 1-20 characters.";
+        } else {
+            // Check if the name is already taken
+            const projects = databaseController.getAllProjects();
+            for (let project of projects) {
+                if (project.name === name) {
+                    result = "This name is already taken.";
+                    break;
+                }
+            }
+        }
+
+        return result;
     };
 
     // INBOX PAGE
