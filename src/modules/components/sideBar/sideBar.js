@@ -3,10 +3,30 @@ import InboxIconLink from "../../../assets/inbox.svg";
 import TodayIconLink from "../../../assets/today.svg";
 import UpCompingIconLink from "../../../assets/upcoming.svg";
 
+const createSideBar = () => {
+    const sideBar = document.createElement("div");
+    sideBar.className = "side-bar";
+
+    // Add default tabs at the top
+    const defaultItems = document.createElement("div");
+    defaultItems.className = "default-items";
+    defaultItems.appendChild(createItem(InboxIconLink, "Inbox"));
+    defaultItems.appendChild(createItem(TodayIconLink, "Today"));
+    defaultItems.appendChild(createItem(UpCompingIconLink, "Upcoming"));
+    sideBar.appendChild(defaultItems);
+
+    // Projects section
+    const projects = document.createElement("div");
+    projects.appendChild(createProjectsHeader());
+    sideBar.appendChild(projects);
+
+    return sideBar;
+};
+
 const createItem = (imageLink, name) => {
     const item = document.createElement("div");
     item.className = "sidebar-item";
-    item.id = name.toLowerCase();
+    item.id = name;
     
     const image = new Image();
     image.src = imageLink;
@@ -33,26 +53,6 @@ const createProjectsHeader = () => {
     header.appendChild(addProjectButton);
 
     return header;
-};
-
-const createSideBar = () => {
-    const sideBar = document.createElement("div");
-    sideBar.className = "side-bar";
-
-    // Add default tabs at the top
-    const defaultItems = document.createElement("div");
-    defaultItems.className = "default-items";
-    defaultItems.appendChild(createItem(InboxIconLink, "Inbox"));
-    defaultItems.appendChild(createItem(TodayIconLink, "Today"));
-    defaultItems.appendChild(createItem(UpCompingIconLink, "Upcoming"));
-    sideBar.appendChild(defaultItems);
-
-    // Projects section
-    const projects = document.createElement("div");
-    projects.appendChild(createProjectsHeader());
-    sideBar.appendChild(projects);
-
-    return sideBar;
 };
 
 export default createSideBar;

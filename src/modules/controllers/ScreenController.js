@@ -22,7 +22,7 @@ const ScreenController = () => {
         const sideBar = createSideBar();
         body.appendChild(sideBar);
         _setItemListener();
-        _setItemActive(document.querySelector("#inbox"));
+        _setItemActive(document.querySelector("#Inbox"));
         _setAddProjectButtonListener();
 
         // Add main content
@@ -48,7 +48,7 @@ const ScreenController = () => {
     const _setNavBarLogoListener = () => {
         const logo = document.querySelector(".logo");
         logo.addEventListener("click", () => {
-            const inboxItem = document.querySelector("#inbox");
+            const inboxItem = document.querySelector("#Inbox");
             if (!inboxItem.classList.contains("sidebar-item-active")) {
                 _setItemActive(inboxItem);
                 _switchPage(inboxItem.id);
@@ -83,11 +83,11 @@ const ScreenController = () => {
     };
 
     const _switchPage = itemId => {
-        if (itemId === "inbox") {
+        if (itemId === "Inbox") {
             _loadInboxPage();
-        } else if (itemId === "today") {
+        } else if (itemId === "Today") {
             _loadTodayPage();
-        } else if (itemId === "upcoming") {
+        } else if (itemId === "Upcoming") {
             _loadUpcomingPage();
         }
     };
