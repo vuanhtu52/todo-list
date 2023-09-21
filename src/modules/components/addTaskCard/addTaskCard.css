@@ -56,7 +56,7 @@
     min-height: 25px;
 }
 
-.bottom-row {
+.add-task-card .bottom-row {
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #e5e7eb;
@@ -64,7 +64,7 @@
 }
 
 /* Project dropdown */
-.bottom-row select {
+.add-task-card .bottom-row select {
     height: 30px;
     text-align: center;
     border: none;
@@ -72,12 +72,12 @@
     border-radius: 5px;
 }
 
-.bottom-row select:hover {
+.add-task-card .bottom-row select:hover {
     background-color: rgba(115, 115, 115, 0.1);
 }
 
 /* The buttons at the end of card */
-.bottom-row > :last-child {
+.add-task-card .bottom-row > :last-child {
     display: flex;
     gap: 10px;
 }
@@ -101,7 +101,7 @@
 }
 
 /* Add button */
-.card-add-button {
+.add-task-card .add-button {
     height: 30px;
     width: 70px;
     border-radius: 5px;
@@ -111,14 +111,14 @@
     cursor: pointer;
 }
 
-.card-add-button:hover {
+.add-task-card .add-button:hover {
     background-color: rgba(161, 98, 7, 0.8);
 }
 
-.card-add-button:enabled:active {
+.add-task-card .add-button:enabled:active {
     transform: scale(0.95);
 }
 
-.card-add-button:disabled {
+.add-task-card .add-button:disabled {
     background-color: rgba(161, 98, 7, 0.5);
 }

@@ -1,0 +1,88 @@
+.add-project-dialog {
+    border-radius: 10px;
+    border: 1px solid grey;
+    width: 300px;
+    position: relative;
+    top: -30%;
+}
+
+.add-project-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.add-project-dialog > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-project-dialog .header {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.add-project-dialog .form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.add-project-dialog input {
+    height: 30px;
+    width: max(100%, 200px);
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.add-project-dialog input:focus {
+    outline: none;
+    border: 1px solid grey;
+}
+
+.add-project-dialog .bottom-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.add-project-dialog .cancel-button {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(115, 115, 115, 0.1);
+    cursor: pointer;
+}
+
+.add-project-dialog .cancel-button:hover {
+    background-color: rgba(115, 115, 115, 0.2);
+}
+
+.add-project-dialog .cancel-button:active {
+    transform: scale(0.95);
+}
+
+.add-project-dialog .add-button {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: #A16207;
+    color: white;
+    cursor: pointer;
+}
+
+.add-project-dialog .add-button:hover {
+    background-color: rgba(161, 98, 7, 0.8);
+}
+
+.add-project-dialog .add-button:enabled:active {
+    transform: scale(0.95);
+}
+
+.add-project-dialog .add-button:disabled {
+    background-color: rgba(161, 98, 7, 0.5);
+}
+
+
+

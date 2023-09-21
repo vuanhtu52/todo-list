@@ -4,6 +4,7 @@ import createInboxPage from "../components/inboxPage/inboxPage";
 import createTodayPage from "../components/todayPage/todayPage";
 import createUpcomingPage from "../components/upcomingPage/upcomingPage";
 import createAddTaskCard from "../components/addTaskCard/addTaskCard";
+import createAddProjectDialog from "../components/addProjectDialog/addProjectDialog";
 
 const ScreenController = () => {
     const init = () => {
@@ -19,11 +20,17 @@ const ScreenController = () => {
         body.appendChild(sideBar);
         _setItemListener();
         _setItemActive(document.querySelector("#inbox"));
+        _setAddProjectButtonListener();
     
         // Add main content
         const content = document.createElement("div");
         content.id = "content";
         body.appendChild(content);
+
+        // Add add-project dialog for later use
+        const addProjectDialog = createAddProjectDialog();
+        body.appendChild(addProjectDialog);
+        _setAddProjectDialogListener();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -101,6 +108,31 @@ const ScreenController = () => {
             content.removeChild(content.lastChild);
         }
         content.appendChild(createUpcomingPage());
+    };
+
+    // Attach listener to the add-project button on the side bar
+    const _setAddProjectButtonListener = () => {
+        const addProjectButton = document.querySelector(".add-project-button");
+        addProjectButton.addEventListener("click", () => {
+            _openAddProjectDialog();
+        });
+    };
+
+    const _openAddProjectDialog = () => {
+        const dialog = document.querySelector(".add-project-dialog");
+        dialog.classList.remove("hidden");
+        dialog.showModal();
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
+    };
+
+    // Attach listener to add-project dialog to detect when it closes
+    const _setAddProjectDialogListener = () => {
+        const dialog = document.querySelector(".add-project-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
     };
 
     const _setInboxAddTaskButtonListener = () => {

@@ -28,6 +28,7 @@ const createProjectsHeader = () => {
     header.appendChild(name);
 
     const addProjectButton = document.createElement("button");
+    addProjectButton.className = "add-project-button";
     addProjectButton.textContent = "+";
     header.appendChild(addProjectButton);
 

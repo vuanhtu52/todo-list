@@ -53,7 +53,7 @@
     font-weight: 900;
 }
 
-.projects-header > button {
+.add-project-button {
     background: none;
     border: none;
     font-size: 20px;
@@ -61,7 +61,7 @@
     border-radius: 2px;
 }
 
-.projects-header > button:hover {
+.add-project-button:hover {
     background-color: white;
 }
 

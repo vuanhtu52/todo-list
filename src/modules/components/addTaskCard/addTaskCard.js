@@ -34,7 +34,7 @@ const createAddTaskCard = () => {
     div.appendChild(cancelButton);
     const addButton = document.createElement("button");
     addButton.textContent = "Add task";
-    addButton.className = "card-add-button";
+    addButton.className = "add-button";
     addButton.disabled = true;
     div.appendChild(addButton);
     bottomRow.appendChild(div);
