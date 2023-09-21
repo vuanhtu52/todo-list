@@ -135,6 +135,11 @@ const ScreenController = () => {
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
+        // Reset input's content and any error message
+        const input = document.querySelector(".add-project-dialog input");
+        input.value = "";
+        const errorMessage = document.querySelector(".add-project-dialog .error-message");
+        errorMessage.textContent = "";
     };
 
     // Attach listener to add-project dialog to detect when it closes
