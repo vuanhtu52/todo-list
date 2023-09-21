@@ -31,10 +31,13 @@ const ScreenController = () => {
         const addProjectDialog = createAddProjectDialog();
         body.appendChild(addProjectDialog);
         _setAddProjectDialogListener();
+        _setAddProjectDialogCancelButton();
 
         // Load the inbox page by default
         _loadInboxPage();
     };
+
+    // NAVBAR
 
     // Direct to inbox page when user clicks on the logo
     const _setNavBarLogoListener = () => {
@@ -47,6 +50,8 @@ const ScreenController = () => {
             }
         });
     };
+
+    //SIDEBAR
 
     // Direct to the corresponding page when user clicks an item on the sidebar
     const _setItemListener = () => {
@@ -110,6 +115,8 @@ const ScreenController = () => {
         content.appendChild(createUpcomingPage());
     };
 
+    // ADD-PROJECT DIALOG
+
     // Attach listener to the add-project button on the side bar
     const _setAddProjectButtonListener = () => {
         const addProjectButton = document.querySelector(".add-project-button");
@@ -134,6 +141,17 @@ const ScreenController = () => {
             document.body.style.overflow = "auto";
         });
     };
+
+    // Attach listener to cancel button in add-project dialog
+    const _setAddProjectDialogCancelButton = () => {
+        const button = document.querySelector(".add-project-dialog .cancel-button");
+        button.addEventListener("click", () => {
+            const dialog = document.querySelector(".add-project-dialog");
+            dialog.close();
+        });
+    };
+
+    // INBOX PAGE
 
     const _setInboxAddTaskButtonListener = () => {
         const buttons = document.querySelectorAll(".add-task-button");
