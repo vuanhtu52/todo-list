@@ -85,7 +85,8 @@ const ScreenController = () => {
     const _setItemListener = () => {
         const sideBarItems = document.querySelectorAll(".sidebar-item");
         sideBarItems.forEach(item => {
-            item.addEventListener("click", () => {
+            const content = item.querySelector(".item-content");
+            content.addEventListener("click", () => {
                 if (!item.classList.contains("sidebar-item-active")) {
                     _setItemActive(item);
                     _switchPage(item.id);
