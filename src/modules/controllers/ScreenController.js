@@ -248,6 +248,8 @@ const ScreenController = () => {
             _closeAddProjectDialog();
             _loadProjectItems();
             _setItemListener();
+            _setItemActive(document.getElementById(`${name}`));
+            _switchPage(name);
         });
     };
 
@@ -266,6 +268,8 @@ const ScreenController = () => {
                     _closeAddProjectDialog();
                     _loadProjectItems();
                     _setItemListener();
+                    _setItemActive(document.getElementById(`${name}`));
+                    _switchPage(name);
                 }
             }
         });
