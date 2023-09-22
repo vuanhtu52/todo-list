@@ -13,6 +13,7 @@ import createEditProjectDialog from "../components/editProjectDialog/editProject
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
+    let oldProjectName = "";
 
     const init = () => {
         const body = document.querySelector("body");
@@ -51,6 +52,7 @@ const ScreenController = () => {
         _setEditProjectDialogListener();
         _setEditProjectDialogInput();
         _setEditProjectDialogCancelButton();
+        _setEditProjectDialogSaveButton();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -88,6 +90,9 @@ const ScreenController = () => {
         projects.forEach(project => {
             wrapper.appendChild(createSideBarItem(ProjectIconLink, project.name, true));
         });
+
+        // Attach listener for sidebar project items again
+        _setProjectItemEditButtons();
     };
 
     // Attach listener to edit buttons on the project item on sidebar
@@ -307,6 +312,8 @@ const ScreenController = () => {
         // Reset error message
         const errorMessage = document.querySelector(".edit-project-dialog .error-message");
         errorMessage.textContent = "";
+        // Save the old project's name for later use
+        oldProjectName = projectName;
     };
 
     // Attach listener to edit-project dialog to detect when it closes
@@ -345,6 +352,24 @@ const ScreenController = () => {
                 saveButton.disabled = true;
                 errorMessage.textContent = nameResult;
             }
+        });
+    };
+
+    // Update project when user clicks save
+    const _setEditProjectDialogSaveButton = () => {
+        const saveButton = document.querySelector(".edit-project-dialog .save-button");
+        saveButton.addEventListener("click", () => {
+            const oldProject = databaseController.getProject(oldProjectName);
+            oldProjectName = "";
+            let newProject = {}
+            newProject.name = document.querySelector(".edit-project-dialog input").value;
+            newProject.timeCreated = oldProject.timeCreated;
+            databaseController.updateProject(oldProject, newProject)
+            _closeEditProjectDialog();
+            _loadProjectItems();
+            _setItemListener();
+            _setItemActive(document.getElementById(`${newProject.name}`));
+            _switchPage(newProject.name);
         });
     };
 

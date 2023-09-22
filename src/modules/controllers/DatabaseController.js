@@ -40,11 +40,22 @@ const DatabaseController = () => {
         localStorage.setItem("projects", JSON.stringify(projects));
     };
 
+    const updateProject =  (oldProject, newProject) => {
+        let projects = getAllProjects();
+        for (let i = 0; i < projects.length; i++) {
+            if (projects[i].name === oldProject.name) {
+                projects[i] = newProject;
+            }
+        }
+        localStorage.setItem("projects", JSON.stringify(projects));
+    }
+
     return {
         init,
         getProject,
         getAllProjects,
         createProject,
+        updateProject,
     };
 };
 
