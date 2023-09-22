@@ -49,6 +49,7 @@ const ScreenController = () => {
         const editProjectDialog = createEditProjectDialog();
         body.appendChild(editProjectDialog);
         _setEditProjectDialogListener();
+        _setEditProjectDialogInput();
         _setEditProjectDialogCancelButton();
 
         // Load the inbox page by default
@@ -303,11 +304,9 @@ const ScreenController = () => {
         // Populate project name to input field
         const input = dialog.querySelector("input");
         input.value = projectName;
-        // Reset input's content and any error message
-        // const input = document.querySelector(".add-project-dialog input");
-        // input.value = "";
-        // const errorMessage = document.querySelector(".add-project-dialog .error-message");
-        // errorMessage.textContent = "";
+        // Reset error message
+        const errorMessage = document.querySelector(".edit-project-dialog .error-message");
+        errorMessage.textContent = "";
     };
 
     // Attach listener to edit-project dialog to detect when it closes
@@ -331,6 +330,23 @@ const ScreenController = () => {
         const dialog = document.querySelector(".edit-project-dialog");
         dialog.close();
     }
+
+    // Detect when user is typing new name to input field and verify
+    const _setEditProjectDialogInput = () => {
+        const input = document.querySelector(".edit-project-dialog input");
+        input.addEventListener("input", () => {
+            const nameResult = _verifyProjectName(input.value);
+            const saveButton = document.querySelector(".edit-project-dialog .save-button");
+            const errorMessage = document.querySelector(".edit-project-dialog .error-message");
+            if (nameResult === "valid") {
+                saveButton.disabled = false;
+                errorMessage.textContent = "";
+            } else {
+                saveButton.disabled = true;
+                errorMessage.textContent = nameResult;
+            }
+        });
+    };
 
     // INBOX PAGE
 
