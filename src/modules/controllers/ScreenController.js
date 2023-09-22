@@ -61,7 +61,7 @@ const ScreenController = () => {
         });
     };
 
-    //SIDEBAR
+    // SIDEBAR
 
     // Load the project items on the sidebar
     const _loadProjectItems = () => {
@@ -247,6 +247,7 @@ const ScreenController = () => {
             });
             _closeAddProjectDialog();
             _loadProjectItems();
+            _setItemListener();
         });
     };
 
@@ -264,6 +265,7 @@ const ScreenController = () => {
                     });
                     _closeAddProjectDialog();
                     _loadProjectItems();
+                    _setItemListener();
                 }
             }
         });
