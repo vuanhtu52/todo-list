@@ -39,6 +39,7 @@ const ScreenController = () => {
         body.appendChild(addProjectDialog);
         _setAddProjectDialogListener();
         _setAddProjectDialogInput();
+        _setAddProjectPressEnter();
         _setAddProjectDialogCancelButton();
         _setAddProjectDialogAddButton();
 
@@ -248,6 +249,25 @@ const ScreenController = () => {
             _loadProjectItems();
         });
     };
+
+    // Add project when user presses enter
+    const _setAddProjectPressEnter = () => {
+        const input = document.querySelector(".add-project-dialog input");
+        input.addEventListener("keypress", event => {
+            if (event.keyCode === 13) {
+                if (_verifyProjectName(input.value === "valid")) {
+                    const name = input.value;
+                    const timeStamp = (new Date()).getTime();
+                    databaseController.createProject({
+                        name: name,
+                        timeCreated: timeStamp,
+                    });
+                    _closeAddProjectDialog();
+                    _loadProjectItems();
+                }
+            }
+        });
+    }
 
     // INBOX PAGE
 
