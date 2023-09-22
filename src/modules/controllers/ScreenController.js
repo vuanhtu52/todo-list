@@ -49,6 +49,7 @@ const ScreenController = () => {
         const editProjectDialog = createEditProjectDialog();
         body.appendChild(editProjectDialog);
         _setEditProjectDialogListener();
+        _setEditProjectDialogCancelButton();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -317,6 +318,19 @@ const ScreenController = () => {
             document.body.style.overflow = "auto";
         });
     };
+
+    // Detect when user clicks cancel button
+    const _setEditProjectDialogCancelButton = () => {
+        const button = document.querySelector(".edit-project-dialog .cancel-button");
+        button.addEventListener("click", () => {
+            _closeEditProjectDialog();
+        });
+    };
+
+    const _closeEditProjectDialog = () => {
+        const dialog = document.querySelector(".edit-project-dialog");
+        dialog.close();
+    }
 
     // INBOX PAGE
 
