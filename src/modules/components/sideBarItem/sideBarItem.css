@@ -1,6 +1,5 @@
 .sidebar-item {
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
     padding: 5px;
     cursor: pointer;
@@ -27,12 +26,16 @@
 }
 
 .sidebar-item > .item-buttons {
-    display: none;
+    /* display: none; */
+    display: flex;
+    gap: 5px;
+    visibility: hidden;
 }
 
 .sidebar-item:hover .item-buttons {
-    display: flex;
-    gap: 5px;
+    /* display: flex;
+    gap: 5px; */
+    visibility: visible;
 }
 
 .sidebar-item > .item-buttons > button {

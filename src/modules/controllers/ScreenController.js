@@ -9,6 +9,7 @@ import DatabaseController from "./DatabaseController";
 import createSideBarItem from "../components/sideBarItem/sideBarItem";
 import ProjectIconLink from "../../assets/circle.svg";
 import createProjectPage from "../components/projectPage/projectPage";
+import createEditProjectDialog from "../components/editProjectDialog/editProjectDialog";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -28,6 +29,7 @@ const ScreenController = () => {
         _setItemListener();
         _setItemActive(document.querySelector("#Inbox"));
         _setAddProjectButtonListener();
+        _setProjectItemEditButtons();
 
         // Add main content
         const content = document.createElement("div");
@@ -42,6 +44,10 @@ const ScreenController = () => {
         _setAddProjectPressEnter();
         _setAddProjectDialogCancelButton();
         _setAddProjectDialogAddButton();
+
+        // Add edit-project dialog for later use
+        const editProjectDialog = createEditProjectDialog();
+        body.appendChild(editProjectDialog);
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -68,16 +74,26 @@ const ScreenController = () => {
         // Get all projects except Inbox
         let projects = databaseController.getAllProjects();
         projects = projects.filter(project => project.name !== "Inbox");
-        
+
         // Remove all items
         const wrapper = document.querySelector(".side-bar .project-items");
         while (wrapper.lastChild) {
             wrapper.removeChild(wrapper.lastChild);
         }
-        
+
         // Attach the project items to sidebar
         projects.forEach(project => {
             wrapper.appendChild(createSideBarItem(ProjectIconLink, project.name, true));
+        });
+    };
+
+    // Attach listener to edit buttons on the project item on sidebar
+    const _setProjectItemEditButtons = () => {
+        const editButtons = document.querySelectorAll(".sidebar-item .edit-button");
+        editButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                _openEditProjectDialog(button.parentElement.parentElement.id);
+            })
         });
     };
 
@@ -166,7 +182,6 @@ const ScreenController = () => {
 
     const _openAddProjectDialog = () => {
         const dialog = document.querySelector(".add-project-dialog");
-        dialog.classList.remove("hidden");
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
@@ -275,6 +290,23 @@ const ScreenController = () => {
             }
         });
     }
+
+    // EDIT PROJECT DIALOG
+
+    const _openEditProjectDialog = projectName => {
+        const dialog = document.querySelector(".edit-project-dialog");
+        dialog.showModal();
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
+        // Populate project name to input field
+        const input = dialog.querySelector("input");
+        input.value = projectName;
+        // Reset input's content and any error message
+        // const input = document.querySelector(".add-project-dialog input");
+        // input.value = "";
+        // const errorMessage = document.querySelector(".add-project-dialog .error-message");
+        // errorMessage.textContent = "";
+    };
 
     // INBOX PAGE
 
