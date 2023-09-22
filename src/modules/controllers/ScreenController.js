@@ -51,6 +51,7 @@ const ScreenController = () => {
         body.appendChild(editProjectDialog);
         _setEditProjectDialogListener();
         _setEditProjectDialogInput();
+        _setEditProjectPressEnter();
         _setEditProjectDialogCancelButton();
         _setEditProjectDialogSaveButton();
 
@@ -372,6 +373,50 @@ const ScreenController = () => {
             _switchPage(newProject.name);
         });
     };
+
+    // // Add project when user presses enter
+    // const _setAddProjectPressEnter = () => {
+    //     const input = document.querySelector(".add-project-dialog input");
+    //     input.addEventListener("keypress", event => {
+    //         if (event.keyCode === 13) {
+    //             if (_verifyProjectName(input.value === "valid")) {
+    //                 const name = input.value;
+    //                 const timeStamp = (new Date()).getTime();
+    //                 databaseController.createProject({
+    //                     name: name,
+    //                     timeCreated: timeStamp,
+    //                 });
+    //                 _closeAddProjectDialog();
+    //                 _loadProjectItems();
+    //                 _setItemListener();
+    //                 _setItemActive(document.getElementById(`${name}`));
+    //                 _switchPage(name);
+    //             }
+    //         }
+    //     });
+    // }
+
+    // Update project when user presses enter
+    const _setEditProjectPressEnter = () => {
+        const input = document.querySelector(".edit-project-dialog input");
+        input.addEventListener("keypress", event => {
+            if (event.keyCode === 13) {
+                if (_verifyProjectName(input.value === "valid")) {
+                    const oldProject = databaseController.getProject(oldProjectName);
+                    oldProjectName = "";
+                    let newProject = {}
+                    newProject.name = document.querySelector(".edit-project-dialog input").value;
+                    newProject.timeCreated = oldProject.timeCreated;
+                    databaseController.updateProject(oldProject, newProject)
+                    _closeEditProjectDialog();
+                    _loadProjectItems();
+                    _setItemListener();
+                    _setItemActive(document.getElementById(`${newProject.name}`));
+                    _switchPage(newProject.name);
+                }
+            }
+        });
+    }
 
     // INBOX PAGE
 
