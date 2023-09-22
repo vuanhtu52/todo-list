@@ -48,6 +48,7 @@ const ScreenController = () => {
         // Add edit-project dialog for later use
         const editProjectDialog = createEditProjectDialog();
         body.appendChild(editProjectDialog);
+        _setEditProjectDialogListener();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -306,6 +307,15 @@ const ScreenController = () => {
         // input.value = "";
         // const errorMessage = document.querySelector(".add-project-dialog .error-message");
         // errorMessage.textContent = "";
+    };
+
+    // Attach listener to edit-project dialog to detect when it closes
+    const _setEditProjectDialogListener = () => {
+        const dialog = document.querySelector(".edit-project-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
     };
 
     // INBOX PAGE
