@@ -6,6 +6,9 @@ import createUpcomingPage from "../components/upcomingPage/upcomingPage";
 import createAddTaskCard from "../components/addTaskCard/addTaskCard";
 import createAddProjectDialog from "../components/addProjectDialog/addProjectDialog";
 import DatabaseController from "./DatabaseController";
+import createSideBarItem from "../components/sideBarItem/sideBarItem";
+import ProjectIconLink from "../../assets/circle.svg";
+import createProjectPage from "../components/projectPage/projectPage";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -21,6 +24,7 @@ const ScreenController = () => {
         // Add sidebar
         const sideBar = createSideBar();
         body.appendChild(sideBar);
+        _loadProjectItems();
         _setItemListener();
         _setItemActive(document.querySelector("#Inbox"));
         _setAddProjectButtonListener();
@@ -58,6 +62,24 @@ const ScreenController = () => {
 
     //SIDEBAR
 
+    // Load the project items on the sidebar
+    const _loadProjectItems = () => {
+        // Get all projects except Inbox
+        let projects = databaseController.getAllProjects();
+        projects = projects.filter(project => project.name !== "Inbox");
+        
+        // Remove all items
+        const wrapper = document.querySelector(".side-bar .project-items");
+        while (wrapper.lastChild) {
+            wrapper.removeChild(wrapper.lastChild);
+        }
+        
+        // Attach the project items to sidebar
+        projects.forEach(project => {
+            wrapper.appendChild(createSideBarItem(ProjectIconLink, project.name, true));
+        });
+    };
+
     // Direct to the corresponding page when user clicks an item on the sidebar
     const _setItemListener = () => {
         const sideBarItems = document.querySelectorAll(".sidebar-item");
@@ -89,6 +111,8 @@ const ScreenController = () => {
             _loadTodayPage();
         } else if (itemId === "Upcoming") {
             _loadUpcomingPage();
+        } else {
+            _loadProjectPage(itemId);
         }
     };
 
@@ -118,6 +142,14 @@ const ScreenController = () => {
             content.removeChild(content.lastChild);
         }
         content.appendChild(createUpcomingPage());
+    };
+
+    const _loadProjectPage = projectId => {
+        const content = document.querySelector("#content");
+        if (content.lastChild) {
+            content.removeChild(content.lastChild);
+        }
+        content.appendChild(createProjectPage(projectId));
     };
 
     // ADD-PROJECT DIALOG
@@ -213,6 +245,7 @@ const ScreenController = () => {
                 timeCreated: timeStamp,
             });
             _closeAddProjectDialog();
+            _loadProjectItems();
         });
     };
 

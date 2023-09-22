@@ -18,7 +18,11 @@ const createSideBar = () => {
 
     // Projects section
     const projects = document.createElement("div");
+    projects.className = "projects";
     projects.appendChild(createProjectsHeader());
+    const projectItems = document.createElement("div");
+    projectItems.className = "project-items";
+    projects.appendChild(projectItems);
     sideBar.appendChild(projects);
 
     return sideBar;

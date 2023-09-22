@@ -1,7 +1,7 @@
 .sidebar-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
@@ -15,6 +15,36 @@
     background-color: rgba(115, 115, 115, 0.1);
 }
 
-.sidebar-item > img {
+.sidebar-item > .item-content > img {
     width: 25px;
+}
+
+.sidebar-item > .item-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-item > .item-buttons {
+    display: none;
+    /* display: flex;
+    gap: 5px; */
+}
+
+.sidebar-item:hover .sidebar-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.sidebar-item > .item-buttons > button {
+    height: 15px;
+    width: 15px;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+.sidebar-item > .item-buttons > button > img {
+    width: 100%;
+    height: 100%;
 }
