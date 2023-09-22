@@ -10,6 +10,8 @@ import createSideBarItem from "../components/sideBarItem/sideBarItem";
 import ProjectIconLink from "../../assets/circle.svg";
 import createProjectPage from "../components/projectPage/projectPage";
 import createEditProjectDialog from "../components/editProjectDialog/editProjectDialog";
+import { de } from "date-fns/locale";
+import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteProjectDialog";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -30,7 +32,6 @@ const ScreenController = () => {
         _setItemListener();
         _setItemActive(document.querySelector("#Inbox"));
         _setAddProjectButtonListener();
-        _setProjectItemEditButtons();
 
         // Add main content
         const content = document.createElement("div");
@@ -54,6 +55,10 @@ const ScreenController = () => {
         _setEditProjectPressEnter();
         _setEditProjectDialogCancelButton();
         _setEditProjectDialogSaveButton();
+
+        // Add delete-project dialog for later use
+        const deleteProjectDialog = createDeleteProjectDialog();
+        body.appendChild(deleteProjectDialog);
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -94,15 +99,27 @@ const ScreenController = () => {
 
         // Attach listener for sidebar project items again
         _setProjectItemEditButtons();
+        _setProjectItemDeleteButtons();
     };
 
-    // Attach listener to edit buttons on the project item on sidebar
+    // Attach listener to edit buttons on the project items on sidebar
     const _setProjectItemEditButtons = () => {
         const editButtons = document.querySelectorAll(".sidebar-item .edit-button");
         editButtons.forEach(button => {
             button.addEventListener("click", () => {
                 _openEditProjectDialog(button.parentElement.parentElement.id);
             })
+        });
+    };
+
+    // Attach listener to delete buttons on the project items on sidebar
+    const _setProjectItemDeleteButtons = () => {
+        const deleteButtons = document.querySelectorAll(".sidebar-item .delete-button");
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                console.log("click");
+                _openDeleteProjectDialog(button.parentElement.parentElement.id);
+            });
         });
     };
 
@@ -374,28 +391,6 @@ const ScreenController = () => {
         });
     };
 
-    // // Add project when user presses enter
-    // const _setAddProjectPressEnter = () => {
-    //     const input = document.querySelector(".add-project-dialog input");
-    //     input.addEventListener("keypress", event => {
-    //         if (event.keyCode === 13) {
-    //             if (_verifyProjectName(input.value === "valid")) {
-    //                 const name = input.value;
-    //                 const timeStamp = (new Date()).getTime();
-    //                 databaseController.createProject({
-    //                     name: name,
-    //                     timeCreated: timeStamp,
-    //                 });
-    //                 _closeAddProjectDialog();
-    //                 _loadProjectItems();
-    //                 _setItemListener();
-    //                 _setItemActive(document.getElementById(`${name}`));
-    //                 _switchPage(name);
-    //             }
-    //         }
-    //     });
-    // }
-
     // Update project when user presses enter
     const _setEditProjectPressEnter = () => {
         const input = document.querySelector(".edit-project-dialog input");
@@ -416,7 +411,21 @@ const ScreenController = () => {
                 }
             }
         });
-    }
+    };
+
+    // DELETE PROJECT DIALOG
+
+    const _openDeleteProjectDialog = projectName => {
+        const dialog = document.querySelector(".delete-project-dialog");
+        dialog.showModal();
+         // Prevent scrolling
+         document.body.style.overflow = "hidden";
+         // Populate project name to messagee
+        const nameSpan = dialog.querySelector(".message span:first-Child");
+        nameSpan.textContent = projectName;
+         // Save the old project's name for later use
+         oldProjectName = projectName;
+    };
 
     // INBOX PAGE
 
