@@ -48,7 +48,13 @@ const DatabaseController = () => {
             }
         }
         localStorage.setItem("projects", JSON.stringify(projects));
-    }
+    };
+
+    const deleteProject = projectName => {
+        let projects = getAllProjects();
+        projects = projects.filter(project => project.name !== projectName);
+        localStorage.setItem("projects", JSON.stringify(projects));
+    };
 
     return {
         init,
@@ -56,6 +62,7 @@ const DatabaseController = () => {
         getAllProjects,
         createProject,
         updateProject,
+        deleteProject,
     };
 };
 

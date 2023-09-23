@@ -29,8 +29,6 @@ const ScreenController = () => {
         const sideBar = createSideBar();
         body.appendChild(sideBar);
         _loadProjectItems();
-        _setItemListener();
-        _setItemActive(document.querySelector("#Inbox"));
         _setAddProjectButtonListener();
 
         // Add main content
@@ -61,9 +59,10 @@ const ScreenController = () => {
         body.appendChild(deleteProjectDialog);
         _setDeleteProjectDialogListener();
         _setDeleteProjectDialogCancelButton();
+        _setDeleteProjectDialogDeleteButton();
 
         // Load the inbox page by default
-        _loadInboxPage();
+        _switchPage("Inbox");
     };
 
     // NAVBAR
@@ -74,7 +73,6 @@ const ScreenController = () => {
         logo.addEventListener("click", () => {
             const inboxItem = document.querySelector("#Inbox");
             if (!inboxItem.classList.contains("sidebar-item-active")) {
-                _setItemActive(inboxItem);
                 _switchPage(inboxItem.id);
             }
         });
@@ -100,6 +98,7 @@ const ScreenController = () => {
         });
 
         // Attach listener for sidebar project items again
+        _setItemListener();
         _setProjectItemEditButtons();
         _setProjectItemDeleteButtons();
     };
@@ -119,7 +118,6 @@ const ScreenController = () => {
         const deleteButtons = document.querySelectorAll(".sidebar-item .delete-button");
         deleteButtons.forEach(button => {
             button.addEventListener("click", () => {
-                console.log("click");
                 _openDeleteProjectDialog(button.parentElement.parentElement.id);
             });
         });
@@ -132,7 +130,6 @@ const ScreenController = () => {
             const content = item.querySelector(".item-content");
             content.addEventListener("click", () => {
                 if (!item.classList.contains("sidebar-item-active")) {
-                    _setItemActive(item);
                     _switchPage(item.id);
                 }
             });
@@ -140,17 +137,20 @@ const ScreenController = () => {
     };
 
     // Change background of the active item
-    const _setItemActive = item => {
+    const _setItemActive = itemId => {
         // Remove active states from all items first
-        const items = document.querySelectorAll(".sidebar-item");
+        let items = document.querySelectorAll(".sidebar-item");
         items.forEach(i => {
             i.className = "sidebar-item";
         });
         // Append active class to selected item
+        let item = document.getElementById(itemId);
         item.classList.add("sidebar-item-active");
     };
 
     const _switchPage = itemId => {
+        _setItemActive(itemId);
+
         if (itemId === "Inbox") {
             _loadInboxPage();
         } else if (itemId === "Today") {
@@ -291,8 +291,6 @@ const ScreenController = () => {
             });
             _closeAddProjectDialog();
             _loadProjectItems();
-            _setItemListener();
-            _setItemActive(document.getElementById(`${name}`));
             _switchPage(name);
         });
     };
@@ -311,8 +309,6 @@ const ScreenController = () => {
                     });
                     _closeAddProjectDialog();
                     _loadProjectItems();
-                    _setItemListener();
-                    _setItemActive(document.getElementById(`${name}`));
                     _switchPage(name);
                 }
             }
@@ -387,8 +383,6 @@ const ScreenController = () => {
             databaseController.updateProject(oldProject, newProject)
             _closeEditProjectDialog();
             _loadProjectItems();
-            _setItemListener();
-            _setItemActive(document.getElementById(`${newProject.name}`));
             _switchPage(newProject.name);
         });
     };
@@ -407,8 +401,6 @@ const ScreenController = () => {
                     databaseController.updateProject(oldProject, newProject)
                     _closeEditProjectDialog();
                     _loadProjectItems();
-                    _setItemListener();
-                    _setItemActive(document.getElementById(`${newProject.name}`));
                     _switchPage(newProject.name);
                 }
             }
@@ -438,6 +430,7 @@ const ScreenController = () => {
         });
     };
 
+    // Detect when user clicks cancel button
     const _setDeleteProjectDialogCancelButton = () => {
         const button = document.querySelector(".delete-project-dialog .cancel-button");
         button.addEventListener("click", () => {
@@ -448,7 +441,18 @@ const ScreenController = () => {
     const _closeDeleteProjectDialog = () => {
         const dialog = document.querySelector(".delete-project-dialog");
         dialog.close();
-    }
+    };
+
+    // Delete project when user clicks delete button
+    const _setDeleteProjectDialogDeleteButton = () => {
+        const deleteButton = document.querySelector(".delete-project-dialog .delete-button");
+        deleteButton.addEventListener("click", () => {
+            databaseController.deleteProject(oldProjectName);
+            _closeDeleteProjectDialog();
+            _loadProjectItems();
+            _switchPage("Inbox");
+        });
+    };
 
     // INBOX PAGE
 
