@@ -60,6 +60,7 @@ const ScreenController = () => {
         _setDeleteProjectDialogListener();
         _setDeleteProjectDialogCancelButton();
         _setDeleteProjectDialogDeleteButton();
+        _setDeleteProjectDialogPressEnter();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -412,13 +413,13 @@ const ScreenController = () => {
     const _openDeleteProjectDialog = projectName => {
         const dialog = document.querySelector(".delete-project-dialog");
         dialog.showModal();
-         // Prevent scrolling
-         document.body.style.overflow = "hidden";
-         // Populate project name to messagee
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
+        // Populate project name to messagee
         const nameSpan = dialog.querySelector(".message span:first-Child");
         nameSpan.textContent = projectName;
-         // Save the old project's name for later use
-         oldProjectName = projectName;
+        // Save the old project's name for later use
+        oldProjectName = projectName;
     };
 
     // Attach listener to delete-project dialog to detect when it closes
@@ -451,6 +452,20 @@ const ScreenController = () => {
             _closeDeleteProjectDialog();
             _loadProjectItems();
             _switchPage("Inbox");
+        });
+    };
+
+    // Delete project when user presses enter
+    const _setDeleteProjectDialogPressEnter = () => {
+        const dialog = document.querySelector(".delete-project-dialog");
+        dialog.addEventListener("keypress", event => {
+            console.log(event.keyCode);
+            if (event.keyCode === 13) {
+                databaseController.deleteProject(oldProjectName);
+                _closeDeleteProjectDialog();
+                _loadProjectItems();
+                _switchPage("Inbox");
+            }
         });
     };
 
