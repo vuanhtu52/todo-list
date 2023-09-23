@@ -59,6 +59,8 @@ const ScreenController = () => {
         // Add delete-project dialog for later use
         const deleteProjectDialog = createDeleteProjectDialog();
         body.appendChild(deleteProjectDialog);
+        _setDeleteProjectDialogListener();
+        _setDeleteProjectDialogCancelButton();
 
         // Load the inbox page by default
         _loadInboxPage();
@@ -426,6 +428,27 @@ const ScreenController = () => {
          // Save the old project's name for later use
          oldProjectName = projectName;
     };
+
+    // Attach listener to delete-project dialog to detect when it closes
+    const _setDeleteProjectDialogListener = () => {
+        const dialog = document.querySelector(".delete-project-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
+    };
+
+    const _setDeleteProjectDialogCancelButton = () => {
+        const button = document.querySelector(".delete-project-dialog .cancel-button");
+        button.addEventListener("click", () => {
+            _closeDeleteProjectDialog();
+        });
+    };
+
+    const _closeDeleteProjectDialog = () => {
+        const dialog = document.querySelector(".delete-project-dialog");
+        dialog.close();
+    }
 
     // INBOX PAGE
 
