@@ -458,7 +458,8 @@ const ScreenController = () => {
     // Detect when user clicks cancel button
     const _setDeleteProjectDialogCancelButton = () => {
         const button = document.querySelector(".delete-project-dialog .cancel-button");
-        button.addEventListener("click", () => {
+        button.addEventListener("click", event => {
+            event.preventDefault();
             _closeDeleteProjectDialog();
         });
     };
@@ -471,7 +472,8 @@ const ScreenController = () => {
     // Delete project when user clicks delete button
     const _setDeleteProjectDialogDeleteButton = () => {
         const deleteButton = document.querySelector(".delete-project-dialog .delete-button");
-        deleteButton.addEventListener("click", () => {
+        deleteButton.addEventListener("click", event => {
+            event.preventDefault();
             databaseController.deleteProject(oldProjectName);
             _closeDeleteProjectDialog();
             _loadProjectItems();
@@ -484,6 +486,7 @@ const ScreenController = () => {
         const dialog = document.querySelector(".delete-project-dialog");
         dialog.addEventListener("keypress", event => {
             if (event.keyCode === 13) {
+                event.preventDefault();
                 databaseController.deleteProject(oldProjectName);
                 _closeDeleteProjectDialog();
                 _loadProjectItems();
