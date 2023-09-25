@@ -10,7 +10,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.add-project-dialog > div {
+.add-project-dialog > form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -21,11 +21,13 @@
     font-weight: 900;
 }
 
-.add-project-dialog .form {
+ 
+.add-project-dialog form-field {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
+
 
 .add-project-dialog input {
     height: 30px;
@@ -45,7 +47,7 @@
     height: 14px;
 }
 
-.add-project-dialog .bottom-row {
+.add-project-dialog .buttons {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -88,7 +90,7 @@
 
 .add-project-dialog .add-button:disabled {
     background-color: rgba(161, 98, 7, 0.5);
-}
+} 
 
 
 

@@ -214,11 +214,16 @@ const ScreenController = () => {
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
+
         // Reset input's content and any error message
         const input = document.querySelector(".add-project-dialog input");
         input.value = "";
         const errorMessage = document.querySelector(".add-project-dialog .error-message");
         errorMessage.textContent = "";
+
+        // Disable add button
+        const addButton = document.querySelector(".add-project-dialog .add-button");
+        addButton.disabled = true;
     };
 
     const _closeAddProjectDialog = () => {
@@ -238,7 +243,8 @@ const ScreenController = () => {
     // Attach listener to cancel button in add-project dialog
     const _setAddProjectDialogCancelButton = () => {
         const button = document.querySelector(".add-project-dialog .cancel-button");
-        button.addEventListener("click", () => {
+        button.addEventListener("click", event => {
+            event.preventDefault();
             _closeAddProjectDialog();
         });
     };
@@ -280,10 +286,11 @@ const ScreenController = () => {
         return result;
     };
 
-    // Add project when user clicks add button
+    // Detect when user clicks add button
     const _setAddProjectDialogAddButton = () => {
         const addButton = document.querySelector(".add-project-dialog .add-button");
-        addButton.addEventListener("click", () => {
+        addButton.addEventListener("click", event => {
+            event.preventDefault();
             const name = document.querySelector(".add-project-dialog input").value;
             const timeStamp = (new Date()).getTime();
             databaseController.createProject({
@@ -296,12 +303,13 @@ const ScreenController = () => {
         });
     };
 
-    // Add project when user presses enter
+    // Detect when user presses enter
     const _setAddProjectPressEnter = () => {
         const input = document.querySelector(".add-project-dialog input");
         input.addEventListener("keypress", event => {
             if (event.keyCode === 13) {
-                if (_verifyProjectName(input.value === "valid")) {
+                event.preventDefault();
+                if (_verifyProjectName(input.value) === "valid") {
                     const name = input.value;
                     const timeStamp = (new Date()).getTime();
                     databaseController.createProject({
@@ -311,6 +319,11 @@ const ScreenController = () => {
                     _closeAddProjectDialog();
                     _loadProjectItems();
                     _switchPage(name);
+                } else {
+                    const errorMessage = document.querySelector(".add-project-dialog .error-message");
+                    if (errorMessage.textContent === "") {
+                        errorMessage.textContent = _verifyProjectName(input.value);
+                    }
                 }
             }
         });
@@ -459,7 +472,6 @@ const ScreenController = () => {
     const _setDeleteProjectDialogPressEnter = () => {
         const dialog = document.querySelector(".delete-project-dialog");
         dialog.addEventListener("keypress", event => {
-            console.log(event.keyCode);
             if (event.keyCode === 13) {
                 databaseController.deleteProject(oldProjectName);
                 _closeDeleteProjectDialog();
