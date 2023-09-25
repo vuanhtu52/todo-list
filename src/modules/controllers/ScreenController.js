@@ -521,12 +521,27 @@ const ScreenController = () => {
             button.classList.add("add-task-button-hidden");
         });
 
-        // Add the add-task card
+        // Create the add-task card
         const card = createAddTaskCard(databaseController.getAllProjects());
-        _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
+        
+        // Set default values
         _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
+        
+        // Set listeners
+        _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
+        _setAddTaskCardTaskNameInput(card);
+        _setAddTaskCardAddButton(card);
+        
+        // Add the card
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
+    };
+
+    // Set default priority for the dropdown
+    const _setAddTaskCardDefaultPriority = (card, priority) => {
+        const dropdown = card.querySelector(".middle-row select");
+        const option = dropdown.children.item(priority - 1);
+        option.selected = "selected";
     };
 
     // Attach listener to cancel button in add-task card
@@ -536,10 +551,53 @@ const ScreenController = () => {
         });
     };
 
-    const _setAddTaskCardDefaultPriority = (card, priority) => {
-        const dropdown = card.querySelector(".middle-row select");
-        const option = dropdown.children.item(priority - 1);
-        option.selected = "selected";
+    // Attach listener for task name input field
+    const _setAddTaskCardTaskNameInput = card => {
+        const input = card.firstChild;
+        input.addEventListener("input", () => {
+            const addButton = card.querySelector(".add-button");
+            if (input.textContent.trim() !== "") {
+                addButton.disabled = false;
+            } else {
+                addButton.disabled = true;
+            }
+        });
+    };
+
+    // Attach listener to add button in add-task card
+    const _setAddTaskCardAddButton = card => {
+        const addButton = card.querySelector(".add-button");
+        addButton.addEventListener("click", () => {
+            const timeCreated = (new Date()).getTime();
+            const name = card.firstChild.textContent.trim();
+            const description = card.children.item(1).textContent.trim();
+            const dueDateString = card.querySelector(".middle-row input").value;
+            let dueDate = new Date();
+            if (dueDateString !== "") {
+                dueDate.setUTCFullYear(dueDateString.split("-")[0]);
+                dueDate.setMonth(dueDateString.split("-")[1]);
+                dueDate.setDate(dueDateString.split("-")[2]);
+                dueDate.setUTCHours(0);
+                dueDate.setMinutes(0);
+                dueDate.setSeconds(0);
+                dueDate.setMilliseconds(0);
+                dueDate = dueDate.getTime();
+            } else {
+                dueDate = "";
+            }
+            const priority = card.querySelector(".middle-row select").value.split(" ")[1];
+            const projectName = card.querySelector(".bottom-row select").value; 
+            const task = {
+                timeCreated: timeCreated,
+                name: name,
+                description: description,
+                dueDate: dueDate,
+                priority: priority,
+                projectName: projectName,
+            }
+            databaseController.createTask(task);
+            _loadInboxPage();
+        });
     };
 
     const _closeAddTaskCard = () => {

@@ -56,6 +56,16 @@ const DatabaseController = () => {
         localStorage.setItem("projects", JSON.stringify(projects));
     };
 
+    const createTask = task => {
+        let tasks = getAllTasks();
+        tasks.push(task);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    };
+
+    const getAllTasks = () => {
+        return JSON.parse(localStorage.getItem("tasks"));
+    };
+
     return {
         init,
         getProject,
@@ -63,6 +73,8 @@ const DatabaseController = () => {
         createProject,
         updateProject,
         deleteProject,
+        createTask,
+        getAllTasks,
     };
 };
 
