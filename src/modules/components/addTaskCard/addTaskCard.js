@@ -1,6 +1,6 @@
 import "./addTaskCard.css";
 
-const createAddTaskCard = () => {
+const createAddTaskCard = projects => {
     const card = document.createElement("div");
     card.className = "add-task-card";
 
@@ -26,7 +26,7 @@ const createAddTaskCard = () => {
     // Add the bottom row
     const bottomRow = document.createElement("div");
     bottomRow.className = "bottom-row";
-    bottomRow.appendChild(createDropdown(["Inbox", "Today", "Upcoming"]));
+    bottomRow.appendChild(createDropdown(projects.map(project => project.name)));
     const div = document.createElement("div");
     const cancelButton = document.createElement("button");
     cancelButton.className = "cancel-button";

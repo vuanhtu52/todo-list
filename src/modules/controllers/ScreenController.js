@@ -522,7 +522,7 @@ const ScreenController = () => {
         });
 
         // Add the add-task card
-        const card = createAddTaskCard();
+        const card = createAddTaskCard(databaseController.getAllProjects());
         _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
