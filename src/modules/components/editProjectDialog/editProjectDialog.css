@@ -10,7 +10,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.edit-project-dialog > div {
+.edit-project-dialog > form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -21,11 +21,13 @@
     font-weight: 900;
 }
 
-.edit-project-dialog .form {
+ 
+.edit-project-dialog form-field {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
+
 
 .edit-project-dialog input {
     height: 30px;
@@ -45,7 +47,7 @@
     height: 14px;
 }
 
-.edit-project-dialog .bottom-row {
+.edit-project-dialog .buttons {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -88,7 +90,7 @@
 
 .edit-project-dialog .save-button:disabled {
     background-color: rgba(161, 98, 7, 0.5);
-}
+} 
 
 
 

@@ -342,6 +342,9 @@ const ScreenController = () => {
         // Reset error message
         const errorMessage = document.querySelector(".edit-project-dialog .error-message");
         errorMessage.textContent = "";
+        // Disable save button
+        const saveButton = document.querySelector(".edit-project-dialog .save-button");
+        saveButton.disabled = true;
         // Save the old project's name for later use
         oldProjectName = projectName;
     };
@@ -358,7 +361,8 @@ const ScreenController = () => {
     // Detect when user clicks cancel button
     const _setEditProjectDialogCancelButton = () => {
         const button = document.querySelector(".edit-project-dialog .cancel-button");
-        button.addEventListener("click", () => {
+        button.addEventListener("click", event => {
+            event.preventDefault();
             _closeEditProjectDialog();
         });
     };
@@ -385,10 +389,11 @@ const ScreenController = () => {
         });
     };
 
-    // Update project when user clicks save
+    // Detect when user clicks save
     const _setEditProjectDialogSaveButton = () => {
         const saveButton = document.querySelector(".edit-project-dialog .save-button");
-        saveButton.addEventListener("click", () => {
+        saveButton.addEventListener("click", event => {
+            event.preventDefault();
             const oldProject = databaseController.getProject(oldProjectName);
             oldProjectName = "";
             let newProject = {}
@@ -401,12 +406,13 @@ const ScreenController = () => {
         });
     };
 
-    // Update project when user presses enter
+    // Detect when user presses enter
     const _setEditProjectPressEnter = () => {
         const input = document.querySelector(".edit-project-dialog input");
         input.addEventListener("keypress", event => {
             if (event.keyCode === 13) {
-                if (_verifyProjectName(input.value === "valid")) {
+                event.preventDefault();
+                if (_verifyProjectName(input.value) === "valid") {
                     const oldProject = databaseController.getProject(oldProjectName);
                     oldProjectName = "";
                     let newProject = {}
@@ -416,6 +422,11 @@ const ScreenController = () => {
                     _closeEditProjectDialog();
                     _loadProjectItems();
                     _switchPage(newProject.name);
+                } else {
+                    const errorMessage = document.querySelector(".edit-project-dialog .error-message");
+                    if (errorMessage.textContent === "") {
+                        errorMessage.textContent = _verifyProjectName(input.value);
+                    }
                 }
             }
         });
