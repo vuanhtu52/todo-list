@@ -34,12 +34,12 @@
     color: #8e8e8e;
 }
 
-.middle-row {
+.add-task-card .middle-row {
     display: flex;
     gap: 30px;
 }
 
-.middle-row > * {
+.add-task-card .middle-row > * {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -47,12 +47,12 @@
 }
 
 /* Date picker */
-.middle-row input {
+.add-task-card .middle-row input {
     min-height: 25px;
 }
 
 /* Priority dropdown */
-.middle-row select {
+.add-task-card .middle-row select {
     min-height: 25px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 /* Cancel button */
-.card-cancel-button {
+.add-task-card .cancel-button {
     height: 30px;
     width: 70px;
     border-radius: 5px;
@@ -92,11 +92,11 @@
     cursor: pointer;
 }
 
-.card-cancel-button:hover {
+.add-task-card .cancel-button:hover {
     background-color: rgba(115, 115, 115, 0.2);
 }
 
-.card-cancel-button:active {
+.add-task-card .cancel-button:active {
     transform: scale(0.95);
 }
 

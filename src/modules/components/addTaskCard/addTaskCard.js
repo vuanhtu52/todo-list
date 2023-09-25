@@ -29,7 +29,7 @@ const createAddTaskCard = () => {
     bottomRow.appendChild(createDropdown(["Inbox", "Today", "Upcoming"]));
     const div = document.createElement("div");
     const cancelButton = document.createElement("button");
-    cancelButton.className = "card-cancel-button";
+    cancelButton.className = "cancel-button";
     cancelButton.textContent = "Cancel";
     div.appendChild(cancelButton);
     const addButton = document.createElement("button");

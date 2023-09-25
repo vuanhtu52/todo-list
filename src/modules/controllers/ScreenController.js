@@ -523,7 +523,7 @@ const ScreenController = () => {
 
         // Add the add-task card
         const card = createAddTaskCard();
-        _setAddTaskCardCancelButtonListener(card.querySelector(".card-cancel-button"));
+        _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
     };
