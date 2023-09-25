@@ -524,6 +524,7 @@ const ScreenController = () => {
         // Add the add-task card
         const card = createAddTaskCard(databaseController.getAllProjects());
         _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
+        _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
     };
@@ -533,6 +534,12 @@ const ScreenController = () => {
         cancelButton.addEventListener("click", () => {
             _closeAddTaskCard();
         });
+    };
+
+    const _setAddTaskCardDefaultPriority = (card, priority) => {
+        const dropdown = card.querySelector(".middle-row select");
+        const option = dropdown.children.item(priority - 1);
+        option.selected = "selected";
     };
 
     const _closeAddTaskCard = () => {
