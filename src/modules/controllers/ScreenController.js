@@ -476,8 +476,12 @@ const ScreenController = () => {
             event.preventDefault();
             databaseController.deleteProject(oldProjectName);
             _closeDeleteProjectDialog();
+            // Redirect to inbox page if the current page is the deleted project
+            const activePage = document.querySelector(".sidebar-item-active");
+            if (activePage.id === oldProjectName) {
+                _switchPage("Inbox");
+            }
             _loadProjectItems();
-            _switchPage("Inbox");
         });
     };
 
@@ -489,8 +493,12 @@ const ScreenController = () => {
                 event.preventDefault();
                 databaseController.deleteProject(oldProjectName);
                 _closeDeleteProjectDialog();
+                // Redirect to inbox page if the current page is the deleted project
+                const activePage = document.querySelector(".sidebar-item-active");
+                if (activePage.id === oldProjectName) {
+                    _switchPage("Inbox");
+                }
                 _loadProjectItems();
-                _switchPage("Inbox");
             }
         });
     };
