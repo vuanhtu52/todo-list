@@ -13,6 +13,7 @@ import createEditProjectDialog from "../components/editProjectDialog/editProject
 import { de } from "date-fns/locale";
 import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteProjectDialog";
 import createTaskCard from "../components/taskCard/taskCard";
+import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDialog";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -62,6 +63,10 @@ const ScreenController = () => {
         _setDeleteProjectDialogCancelButton();
         _setDeleteProjectDialogDeleteButton();
         _setDeleteProjectDialogPressEnter();
+
+        // Add delete-task dialog for later use
+        const deleteTaskDialog = createDeleteTaskDialog();
+        body.appendChild(deleteTaskDialog);
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -457,7 +462,7 @@ const ScreenController = () => {
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
-        // Populate project name to messagee
+        // Populate project name to message
         const nameSpan = dialog.querySelector(".message span:first-Child");
         nameSpan.textContent = projectName;
         // Save the old project's name for later use
@@ -631,8 +636,11 @@ const ScreenController = () => {
         });
     };
 
+    // TASK CARD
+
     const _setTaskCardListeners = card => {
         _setTaskCardCheckButton(card);
+        _setTaskCardDeleteButton(card);
     };
 
     const _setTaskCardCheckButton = card => {
@@ -642,6 +650,46 @@ const ScreenController = () => {
             _loadInboxPage();
         });
     };
+
+    const _setTaskCardDeleteButton = card => {
+        const deleteButton = card.querySelector(".delete-button");
+        deleteButton.addEventListener("click", () => {
+            const task = databaseController.getTaskByTimeCreated(parseInt(card.id));
+            _openDeleteTaskDialog(task);
+        });
+    };
+
+    const _openDeleteTaskDialog = task => {
+        console.log(task);
+        const dialog = document.querySelector(".delete-task-dialog");
+        dialog.showModal();
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
+        // Populate task name to message
+        const nameSpan = dialog.querySelector(".message span:first-Child");
+        nameSpan.textContent = task.name;
+    };
+
+    // const _openDeleteProjectDialog = projectName => {
+    //     const dialog = document.querySelector(".delete-project-dialog");
+    //     dialog.showModal();
+    //     // Prevent scrolling
+    //     document.body.style.overflow = "hidden";
+    //     // Populate project name to messagee
+    //     const nameSpan = dialog.querySelector(".message span:first-Child");
+    //     nameSpan.textContent = projectName;
+    //     // Save the old project's name for later use
+    //     oldProjectName = projectName;
+    // };
+
+    // // Attach listener to delete-project dialog to detect when it closes
+    // const _setDeleteProjectDialogListener = () => {
+    //     const dialog = document.querySelector(".delete-project-dialog");
+    //     dialog.addEventListener("close", () => {
+    //         // Enable scrolling again
+    //         document.body.style.overflow = "auto";
+    //     });
+    // };
 
     return {
         init,

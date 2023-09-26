@@ -1,9 +1,9 @@
-import "./deleteProjectDialog.css";
+import "./deleteTaskDialog.css";
 
-const createDeleteProjectDialog = () => {
+const createDeleteTaskDialog = () => {
     // Add the dialog
     const dialog = document.createElement("dialog");
-    dialog.className = "delete-project-dialog";
+    dialog.className = "delete-task-dialog";
 
     // Add the wrapper for content
     const wrapper = document.createElement("div");
@@ -11,7 +11,7 @@ const createDeleteProjectDialog = () => {
     // Add the header
     const header = document.createElement("div");
     header.className = "header";
-    header.textContent = "Delete project?";
+    header.textContent = "Delete task?";
     wrapper.appendChild(header);
 
     // Add the message
@@ -43,4 +43,4 @@ const createDeleteProjectDialog = () => {
     return dialog;
 };
 
-export default createDeleteProjectDialog;
+export default createDeleteTaskDialog;

@@ -40,7 +40,7 @@ const DatabaseController = () => {
         localStorage.setItem("projects", JSON.stringify(projects));
     };
 
-    const updateProject =  (oldProject, newProject) => {
+    const updateProject = (oldProject, newProject) => {
         let projects = getAllProjects();
         for (let i = 0; i < projects.length; i++) {
             if (projects[i].name === oldProject.name) {
@@ -73,6 +73,16 @@ const DatabaseController = () => {
         return result;
     };
 
+    const getTaskByTimeCreated = timeCreated => {
+        const tasks = getAllTasks();
+        for (let task of tasks) {
+            if (task.timeCreated === timeCreated) {
+                return task;
+            }
+        }
+        return {};
+    };
+
     const deleteTask = timeCreated => {
         let tasks = getAllTasks();
         tasks = tasks.filter(task => task.timeCreated !== timeCreated);
@@ -89,6 +99,7 @@ const DatabaseController = () => {
         createTask,
         getAllTasks,
         getTasksByProject,
+        getTaskByTimeCreated,
         deleteTask,
     };
 };
