@@ -18,6 +18,7 @@ import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDia
 const ScreenController = () => {
     const databaseController = DatabaseController();
     let oldProjectName = "";
+    let taskId = "";
 
     const init = () => {
         const body = document.querySelector("body");
@@ -67,6 +68,8 @@ const ScreenController = () => {
         // Add delete-task dialog for later use
         const deleteTaskDialog = createDeleteTaskDialog();
         body.appendChild(deleteTaskDialog);
+        _setDeleteTaskDialogClose();
+        _setDeleteTaskDialogCancelButton();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -660,7 +663,6 @@ const ScreenController = () => {
     };
 
     const _openDeleteTaskDialog = task => {
-        console.log(task);
         const dialog = document.querySelector(".delete-task-dialog");
         dialog.showModal();
         // Prevent scrolling
@@ -668,28 +670,31 @@ const ScreenController = () => {
         // Populate task name to message
         const nameSpan = dialog.querySelector(".message span:first-Child");
         nameSpan.textContent = task.name;
+        // Save the task id (timeCreated) to delete later
+        taskId = task.timeCreated;
     };
 
-    // const _openDeleteProjectDialog = projectName => {
-    //     const dialog = document.querySelector(".delete-project-dialog");
-    //     dialog.showModal();
-    //     // Prevent scrolling
-    //     document.body.style.overflow = "hidden";
-    //     // Populate project name to messagee
-    //     const nameSpan = dialog.querySelector(".message span:first-Child");
-    //     nameSpan.textContent = projectName;
-    //     // Save the old project's name for later use
-    //     oldProjectName = projectName;
-    // };
+    // Detect when the delete-task dialog closes
+    const _setDeleteTaskDialogClose = () => {
+        const dialog = document.querySelector(".delete-task-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
+    };
 
-    // // Attach listener to delete-project dialog to detect when it closes
-    // const _setDeleteProjectDialogListener = () => {
-    //     const dialog = document.querySelector(".delete-project-dialog");
-    //     dialog.addEventListener("close", () => {
-    //         // Enable scrolling again
-    //         document.body.style.overflow = "auto";
-    //     });
-    // };
+    const _setDeleteTaskDialogCancelButton = () => {
+        const button = document.querySelector(".delete-task-dialog .cancel-button");
+        button.addEventListener("click", event => {
+            event.preventDefault();
+            _closeDeleteTaskDialog();
+        });
+    };
+
+    const _closeDeleteTaskDialog = () => {
+        const dialog = document.querySelector(".delete-task-dialog");
+        dialog.close();
+    };
 
     return {
         init,
