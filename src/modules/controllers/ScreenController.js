@@ -176,14 +176,15 @@ const ScreenController = () => {
 
         // Fetch tasks from local storage
         const tasks = databaseController.getTasksByProject("Inbox");
-        console.log(tasks);
 
         // Display tasks
         const prioritySections = inboxPage.querySelectorAll(".priority-section");
         tasks.forEach(task => {
             const priority = parseInt(task.priority);
             const wrapper = prioritySections[priority - 1].children.item(1);
-            wrapper.appendChild(createTaskCard(task));
+            const card = createTaskCard(task);
+            wrapper.appendChild(card);
+            _setTaskCardListeners(card);
         });
 
         // Add inbox page
@@ -627,6 +628,18 @@ const ScreenController = () => {
         const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
         addButtons.forEach(button => {
             button.classList.remove("add-task-button-hidden");
+        });
+    };
+
+    const _setTaskCardListeners = card => {
+        _setTaskCardCheckButton(card);
+    };
+
+    const _setTaskCardCheckButton = card => {
+        const checkButton = card.querySelector(".check-button");
+        checkButton.addEventListener("click", () => {
+            databaseController.deleteTask(parseInt(card.id));
+            _loadInboxPage();
         });
     };
 

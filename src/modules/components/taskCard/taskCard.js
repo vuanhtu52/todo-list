@@ -5,6 +5,7 @@ import DeleteIconPath from "../../../assets/delete.svg";
 const createTaskCard = task => {
     const card = document.createElement("div");
     card.className = "task-card";
+    card.id = task.timeCreated;
 
     const leftColumn = document.createElement("div");
 
@@ -40,7 +41,6 @@ const createTaskCard = task => {
         dateString = "No due date";
     } else {
         let dueDate = new Date(parseInt(task.dueDate));
-        console.log(dueDate);
         dateString = `${dueDate.getFullYear()}-${dueDate.getMonth().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
     }
     text.textContent = dateString;

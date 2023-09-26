@@ -73,6 +73,12 @@ const DatabaseController = () => {
         return result;
     };
 
+    const deleteTask = timeCreated => {
+        let tasks = getAllTasks();
+        tasks = tasks.filter(task => task.timeCreated !== timeCreated);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
     return {
         init,
         getProject,
@@ -83,6 +89,7 @@ const DatabaseController = () => {
         createTask,
         getAllTasks,
         getTasksByProject,
+        deleteTask,
     };
 };
 
