@@ -71,6 +71,7 @@ const ScreenController = () => {
         _setDeleteTaskDialogClose();
         _setDeleteTaskDialogCancelButton();
         _setDeleteTaskDialogDeleteButton();
+        _setDeleteTaskDialogPressEnter();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -550,15 +551,15 @@ const ScreenController = () => {
 
         // Create the add-task card
         const card = createAddTaskCard(databaseController.getAllProjects());
-        
+
         // Set default values
         _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
-        
+
         // Set listeners
         _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
         _setAddTaskCardTaskNameInput(card);
         _setAddTaskCardAddButton(card);
-        
+
         // Add the card
         const prioritySection = addButton.parentElement;
         prioritySection.appendChild(card);
@@ -613,7 +614,7 @@ const ScreenController = () => {
                 dueDate = "";
             }
             const priority = card.querySelector(".middle-row select").value.split(" ")[1];
-            const projectName = card.querySelector(".bottom-row select").value; 
+            const projectName = card.querySelector(".bottom-row select").value;
             const task = {
                 timeCreated: timeCreated,
                 name: name,
@@ -702,10 +703,22 @@ const ScreenController = () => {
         const deleteButton = document.querySelector(".delete-task-dialog .delete-button");
         deleteButton.addEventListener("click", event => {
             event.preventDefault();
-            console.log("delete task");
             databaseController.deleteTask(taskId);
             _closeDeleteTaskDialog();
             _loadInboxPage();
+        });
+    };
+
+    // Delete task when user presses enter
+    const _setDeleteTaskDialogPressEnter = () => {
+        const dialog = document.querySelector(".delete-task-dialog");
+        dialog.addEventListener("keypress", event => {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                databaseController.deleteTask(taskId);
+                _closeDeleteTaskDialog();
+                _loadInboxPage();
+            }
         });
     };
 
