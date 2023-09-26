@@ -12,6 +12,7 @@ import createProjectPage from "../components/projectPage/projectPage";
 import createEditProjectDialog from "../components/editProjectDialog/editProjectDialog";
 import { de } from "date-fns/locale";
 import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteProjectDialog";
+import createTaskCard from "../components/taskCard/taskCard";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -164,12 +165,28 @@ const ScreenController = () => {
     };
 
     const _loadInboxPage = () => {
+        // Remove current page
         const content = document.querySelector("#content");
         if (content.lastChild) {
             content.removeChild(content.lastChild);
         }
 
+        // Create inbox page
         const inboxPage = createInboxPage();
+
+        // Fetch tasks from local storage
+        const tasks = databaseController.getTasksByProject("Inbox");
+        console.log(tasks);
+
+        // Display tasks
+        const prioritySections = inboxPage.querySelectorAll(".priority-section");
+        tasks.forEach(task => {
+            const priority = parseInt(task.priority);
+            const wrapper = prioritySections[priority - 1].children.item(1);
+            wrapper.appendChild(createTaskCard(task));
+        });
+
+        // Add inbox page
         content.appendChild(inboxPage);
 
         _setInboxAddTaskButtonListener();

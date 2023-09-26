@@ -26,15 +26,12 @@
 }
 
 .sidebar-item > .item-buttons {
-    /* display: none; */
     display: flex;
     gap: 5px;
     visibility: hidden;
 }
 
 .sidebar-item:hover .item-buttons {
-    /* display: flex;
-    gap: 5px; */
     visibility: visible;
 }
 

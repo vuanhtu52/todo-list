@@ -66,6 +66,13 @@ const DatabaseController = () => {
         return JSON.parse(localStorage.getItem("tasks"));
     };
 
+    const getTasksByProject = projectName => {
+        const tasks = getAllTasks();
+        const result = tasks.filter(task => task.projectName === projectName);
+
+        return result;
+    };
+
     return {
         init,
         getProject,
@@ -75,6 +82,7 @@ const DatabaseController = () => {
         deleteProject,
         createTask,
         getAllTasks,
+        getTasksByProject,
     };
 };
 

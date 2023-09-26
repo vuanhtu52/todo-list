@@ -1,0 +1,85 @@
+.task-card {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-rows: max-content;
+    gap: 10px;
+    border-bottom: 0.5px solid #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.task-card .check-button {
+    aspect-ratio: 1 / 1;
+    width: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #A16207;
+    background-color: rgba(161, 98, 7, 0.1);
+}
+
+.task-card .check-button:hover {
+    background-color: rgba(161, 98, 7, 0.5);
+}
+
+.task-card .check-button:active {
+    transform: scale(1.2);
+}
+
+.task-card .middle-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Name field */
+.task-card .middle-column > :first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Description field */
+.task-card .middle-column > :nth-child(2) {
+    color: #666666;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-card .due-date {
+    display: flex;
+    gap: 5px;
+    color: #666666;
+    font-size: 14px;
+}
+
+.task-card .due-date > :first-child {
+    width: 15px;
+}
+
+.task-card .delete-button {
+    height: 30px;
+    width: 30px;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.task-card .delete-button:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.task-card:hover .delete-button {
+    visibility: visible;
+}
+
+.task-card .delete-button > img {
+    width: 20px;
+    height: 20px;
+}
+

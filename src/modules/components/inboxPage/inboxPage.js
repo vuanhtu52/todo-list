@@ -40,7 +40,6 @@ const createPrioritySection = priorityNumber => {
 
     // Add tasks list
     const tasks = document.createElement("div");
-    tasks.textContent = "tasks here";
     section.appendChild(tasks);
 
     // Add add-task button
