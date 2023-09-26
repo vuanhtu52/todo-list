@@ -70,6 +70,7 @@ const ScreenController = () => {
         body.appendChild(deleteTaskDialog);
         _setDeleteTaskDialogClose();
         _setDeleteTaskDialogCancelButton();
+        _setDeleteTaskDialogDeleteButton();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -694,6 +695,18 @@ const ScreenController = () => {
     const _closeDeleteTaskDialog = () => {
         const dialog = document.querySelector(".delete-task-dialog");
         dialog.close();
+    };
+
+    // Delete task when user clicks delete button
+    const _setDeleteTaskDialogDeleteButton = () => {
+        const deleteButton = document.querySelector(".delete-task-dialog .delete-button");
+        deleteButton.addEventListener("click", event => {
+            event.preventDefault();
+            console.log("delete task");
+            databaseController.deleteTask(taskId);
+            _closeDeleteTaskDialog();
+            _loadInboxPage();
+        });
     };
 
     return {
