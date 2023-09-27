@@ -1,8 +1,9 @@
 .edit-task-dialog {
     position: relative;
     top: -30%;
-    min-width: 400px;
-    padding: 0;
+    min-width: 500px;
+    max-width: 500px;
+    padding: 10px;
     border-radius: 10px;
     border: 1px solid grey;
 }

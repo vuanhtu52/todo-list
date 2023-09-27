@@ -662,7 +662,6 @@ const ScreenController = () => {
     // Detect when user clicks the task card
     const _setTaskCardClick = card => {
         card.addEventListener("click", () => {
-            console.log("clicked");
             _openEditTaskDialog(card.dataTask);
         });
     };
@@ -691,6 +690,32 @@ const ScreenController = () => {
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
+
+        // Populate task's name
+        const nameField = dialog.querySelector("span:first-child");
+        nameField.textContent = task.name;
+
+        // Populate task's description
+        const descriptionField = dialog.querySelector("span:nth-child(2)");
+        descriptionField.textContent = task.description;
+
+        // Populate task's due date
+        const dueDatePicker = dialog.querySelector(".middle-row input");
+        dueDatePicker.value = "";
+        if (task.dueDate !== "") {
+            const dueDate = new Date(parseInt(task.dueDate));
+            dueDatePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+        }
+
+        // Populate priority
+        const priorityDropdown = dialog.querySelector(".middle-row select");
+        priorityDropdown.children.item(task.priority - 1).selected = true;
+
+        // Populate project
+        const projectDropdown = dialog.querySelector(".bottom-row select");
+        const projectName = databaseController.getProjectById(task.projectId).name;
+        const option = projectDropdown.querySelector(`option[value = "${projectName}"]`);
+        option.selected = true;
     };
 
     // DELETE TASK DIALOG
