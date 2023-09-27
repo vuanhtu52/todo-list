@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 const DatabaseController = () => {
     const init = () => {
         // Add key to store projects
@@ -6,8 +8,9 @@ const DatabaseController = () => {
         }
 
         // Create inbox project if not existing
-        if (JSON.stringify(getProject("Inbox")) === "{}") {
+        if (JSON.stringify(getProjectByName("Inbox")) === "{}") {
             createProject({
+                id: "Inbox",
                 name: "Inbox",
                 timeCreated: (new Date()).getTime(),
             })
@@ -20,7 +23,23 @@ const DatabaseController = () => {
 
     };
 
-    const getProject = name => {
+    const createProject = project => {
+        let projects = getAllProjects();
+        projects.push(project);
+        localStorage.setItem("projects", JSON.stringify(projects));
+    };
+
+    const getProjectById = id => {
+        const projects = JSON.parse(localStorage.getItem("projects"));
+        const result = projects.filter(project => project.id === id);
+        if (result.length === 0) {
+            return {};
+        } else {
+            return result[0];
+        }
+    };
+
+    const getProjectByName = name => {
         const projects = JSON.parse(localStorage.getItem("projects"));
         const result = projects.filter(project => project.name === name);
         if (result.length === 0) {
@@ -34,25 +53,19 @@ const DatabaseController = () => {
         return JSON.parse(localStorage.getItem("projects"));
     };
 
-    const createProject = project => {
-        let projects = getAllProjects();
-        projects.push(project);
-        localStorage.setItem("projects", JSON.stringify(projects));
-    };
-
     const updateProject = (oldProject, newProject) => {
         let projects = getAllProjects();
         for (let i = 0; i < projects.length; i++) {
-            if (projects[i].name === oldProject.name) {
+            if (projects[i].id === oldProject.id) {
                 projects[i] = newProject;
             }
         }
         localStorage.setItem("projects", JSON.stringify(projects));
     };
 
-    const deleteProject = projectName => {
+    const deleteProject = id => {
         let projects = getAllProjects();
-        projects = projects.filter(project => project.name !== projectName);
+        projects = projects.filter(project => project.id !== id);
         localStorage.setItem("projects", JSON.stringify(projects));
     };
 
@@ -91,7 +104,8 @@ const DatabaseController = () => {
 
     return {
         init,
-        getProject,
+        getProjectById,
+        getProjectByName,
         getAllProjects,
         createProject,
         updateProject,

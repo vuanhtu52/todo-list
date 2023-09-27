@@ -11,9 +11,9 @@ const createSideBar = () => {
     // Add default tabs at the top
     const defaultItems = document.createElement("div");
     defaultItems.className = "default-items";
-    defaultItems.appendChild(createSideBarItem(InboxIconLink, "Inbox", false));
-    defaultItems.appendChild(createSideBarItem(TodayIconLink, "Today", false));
-    defaultItems.appendChild(createSideBarItem(UpCompingIconLink, "Upcoming", false));
+    defaultItems.appendChild(createSideBarItem(InboxIconLink, {id: "Inbox", name: "Inbox"}, false));
+    defaultItems.appendChild(createSideBarItem(TodayIconLink, {id: "Today", name: "Today"}, false));
+    defaultItems.appendChild(createSideBarItem(UpCompingIconLink, {id: "Upcoming", name: "Upcoming"}, false));
     sideBar.appendChild(defaultItems);
 
     // Projects section

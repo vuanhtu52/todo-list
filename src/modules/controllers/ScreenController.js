@@ -13,10 +13,10 @@ import createEditProjectDialog from "../components/editProjectDialog/editProject
 import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteProjectDialog";
 import createTaskCard from "../components/taskCard/taskCard";
 import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDialog";
+import { v4 as uuidv4 } from "uuid";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
-    let oldProjectName = "";
     let taskId = "";
 
     const init = () => {
@@ -50,7 +50,7 @@ const ScreenController = () => {
         // Add edit-project dialog for later use
         const editProjectDialog = createEditProjectDialog();
         body.appendChild(editProjectDialog);
-        _setEditProjectDialogListener();
+        _setEditProjectDialogClose();
         _setEditProjectDialogInput();
         _setEditProjectPressEnter();
         _setEditProjectDialogCancelButton();
@@ -105,7 +105,7 @@ const ScreenController = () => {
 
         // Attach the project items to sidebar
         projects.forEach(project => {
-            wrapper.appendChild(createSideBarItem(ProjectIconLink, project.name, true));
+            wrapper.appendChild(createSideBarItem(ProjectIconLink, project, true));
         });
 
         // Attach listener for sidebar project items again
@@ -119,7 +119,8 @@ const ScreenController = () => {
         const editButtons = document.querySelectorAll(".sidebar-item .edit-button");
         editButtons.forEach(button => {
             button.addEventListener("click", () => {
-                _openEditProjectDialog(button.parentElement.parentElement.id);
+                const project = databaseController.getProjectById(button.parentElement.parentElement.id);
+                _openEditProjectDialog(project);
             })
         });
     };
@@ -129,7 +130,8 @@ const ScreenController = () => {
         const deleteButtons = document.querySelectorAll(".sidebar-item .delete-button");
         deleteButtons.forEach(button => {
             button.addEventListener("click", () => {
-                _openDeleteProjectDialog(button.parentElement.parentElement.id);
+                const project = databaseController.getProjectById(button.parentElement.parentElement.id);
+                _openDeleteProjectDialog(project);
             });
         });
     };
@@ -149,6 +151,7 @@ const ScreenController = () => {
 
     // Change background of the active item
     const _setItemActive = itemId => {
+        console.log(itemId);
         // Remove active states from all items first
         let items = document.querySelectorAll(".sidebar-item");
         items.forEach(i => {
@@ -318,15 +321,17 @@ const ScreenController = () => {
         const addButton = document.querySelector(".add-project-dialog .add-button");
         addButton.addEventListener("click", event => {
             event.preventDefault();
+            const id = uuidv4();
             const name = document.querySelector(".add-project-dialog input").value;
             const timeStamp = (new Date()).getTime();
             databaseController.createProject({
+                id: id,
                 name: name,
                 timeCreated: timeStamp,
             });
             _closeAddProjectDialog();
             _loadProjectItems();
-            _switchPage(name);
+            _switchPage(id);
         });
     };
 
@@ -337,15 +342,17 @@ const ScreenController = () => {
             if (event.keyCode === 13) {
                 event.preventDefault();
                 if (_verifyProjectName(input.value) === "valid") {
+                    const id = uuidv4();
                     const name = input.value;
                     const timeStamp = (new Date()).getTime();
                     databaseController.createProject({
+                        id: id,
                         name: name,
                         timeCreated: timeStamp,
                     });
                     _closeAddProjectDialog();
                     _loadProjectItems();
-                    _switchPage(name);
+                    _switchPage(id);
                 } else {
                     const errorMessage = document.querySelector(".add-project-dialog .error-message");
                     if (errorMessage.textContent === "") {
@@ -358,26 +365,25 @@ const ScreenController = () => {
 
     // EDIT PROJECT DIALOG
 
-    const _openEditProjectDialog = projectName => {
+    const _openEditProjectDialog = project => {
         const dialog = document.querySelector(".edit-project-dialog");
+        dialog.dataProject = project;
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
         // Populate project name to input field
         const input = dialog.querySelector("input");
-        input.value = projectName;
+        input.value = project.name;
         // Reset error message
         const errorMessage = document.querySelector(".edit-project-dialog .error-message");
         errorMessage.textContent = "";
         // Disable save button
         const saveButton = document.querySelector(".edit-project-dialog .save-button");
         saveButton.disabled = true;
-        // Save the old project's name for later use
-        oldProjectName = projectName;
     };
 
     // Attach listener to edit-project dialog to detect when it closes
-    const _setEditProjectDialogListener = () => {
+    const _setEditProjectDialogClose = () => {
         const dialog = document.querySelector(".edit-project-dialog");
         dialog.addEventListener("close", () => {
             // Enable scrolling again
@@ -421,15 +427,15 @@ const ScreenController = () => {
         const saveButton = document.querySelector(".edit-project-dialog .save-button");
         saveButton.addEventListener("click", event => {
             event.preventDefault();
-            const oldProject = databaseController.getProject(oldProjectName);
-            oldProjectName = "";
+            const oldProject = document.querySelector(".edit-project-dialog").dataProject;
             let newProject = {}
+            newProject.id = oldProject.id;
             newProject.name = document.querySelector(".edit-project-dialog input").value;
             newProject.timeCreated = oldProject.timeCreated;
             databaseController.updateProject(oldProject, newProject)
             _closeEditProjectDialog();
             _loadProjectItems();
-            _switchPage(newProject.name);
+            _switchPage(newProject.id);
         });
     };
 
@@ -440,15 +446,15 @@ const ScreenController = () => {
             if (event.keyCode === 13) {
                 event.preventDefault();
                 if (_verifyProjectName(input.value) === "valid") {
-                    const oldProject = databaseController.getProject(oldProjectName);
-                    oldProjectName = "";
+                    const oldProject = document.querySelector(".edit-project-dialog").dataProject;
                     let newProject = {}
+                    newProject.id = oldProject.id;
                     newProject.name = document.querySelector(".edit-project-dialog input").value;
                     newProject.timeCreated = oldProject.timeCreated;
-                    databaseController.updateProject(oldProject, newProject)
+                    databaseController.updateProject(oldProject, newProject);
                     _closeEditProjectDialog();
                     _loadProjectItems();
-                    _switchPage(newProject.name);
+                    _switchPage(newProject.id);
                 } else {
                     const errorMessage = document.querySelector(".edit-project-dialog .error-message");
                     if (errorMessage.textContent === "") {
@@ -461,16 +467,15 @@ const ScreenController = () => {
 
     // DELETE PROJECT DIALOG
 
-    const _openDeleteProjectDialog = projectName => {
+    const _openDeleteProjectDialog = project => {
         const dialog = document.querySelector(".delete-project-dialog");
+        dialog.dataProject = project;
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
         // Populate project name to message
         const nameSpan = dialog.querySelector(".message span:first-Child");
-        nameSpan.textContent = projectName;
-        // Save the old project's name for later use
-        oldProjectName = projectName;
+        nameSpan.textContent = project.name;
     };
 
     // Attach listener to delete-project dialog to detect when it closes
@@ -501,11 +506,12 @@ const ScreenController = () => {
         const deleteButton = document.querySelector(".delete-project-dialog .delete-button");
         deleteButton.addEventListener("click", event => {
             event.preventDefault();
-            databaseController.deleteProject(oldProjectName);
+            const project = document.querySelector(".delete-project-dialog").dataProject;
+            databaseController.deleteProject(project.id);
             _closeDeleteProjectDialog();
             // Redirect to inbox page if the current page is the deleted project
             const activePage = document.querySelector(".sidebar-item-active");
-            if (activePage.id === oldProjectName) {
+            if (activePage.id === project.id) {
                 _switchPage("Inbox");
             }
             _loadProjectItems();
@@ -518,11 +524,12 @@ const ScreenController = () => {
         dialog.addEventListener("keypress", event => {
             if (event.keyCode === 13) {
                 event.preventDefault();
-                databaseController.deleteProject(oldProjectName);
+                const project = document.querySelector(".delete-project-dialog").dataProject;
+                databaseController.deleteProject(project.id);
                 _closeDeleteProjectDialog();
                 // Redirect to inbox page if the current page is the deleted project
                 const activePage = document.querySelector(".sidebar-item-active");
-                if (activePage.id === oldProjectName) {
+                if (activePage.id === project.id) {
                     _switchPage("Inbox");
                 }
                 _loadProjectItems();

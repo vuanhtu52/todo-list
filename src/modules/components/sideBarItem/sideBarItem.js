@@ -2,11 +2,11 @@ import "./sideBarItem.css";
 import EditIconLink from "../../../assets/edit.svg";
 import DeleteIconLink from "../../../assets/delete.svg";
 
-const createSideBarItem = (imageLink, name, editable) => {
+const createSideBarItem = (imageLink, project, editable) => {
     // Add item 
     const item = document.createElement("div");
     item.className = "sidebar-item";
-    item.id = name;
+    item.id = project.id;
 
     // Add wrapper for icon and text
     const itemContent = document.createElement("div");
@@ -19,7 +19,7 @@ const createSideBarItem = (imageLink, name, editable) => {
 
     // Add text
     const itemName = document.createElement("div");
-    itemName.textContent = name;
+    itemName.textContent = project.name;
     itemContent.appendChild(itemName);
 
     item.appendChild(itemContent);
