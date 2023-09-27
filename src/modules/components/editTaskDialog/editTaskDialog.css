@@ -1,0 +1,134 @@
+.edit-task-dialog {
+    position: relative;
+    top: -30%;
+    min-width: 400px;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid grey;
+}
+
+.edit-task-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-task-dialog > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.edit-task-dialog > div > :first-child {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-weight: 900;
+}
+
+.edit-task-dialog > div > :first-child[contenteditable]:empty:before {
+    content: "Task name";
+    color: #8e8e8e;
+}
+
+.edit-task-dialog > div > :nth-child(2) {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.edit-task-dialog > div > :nth-child(2)[contenteditable]:empty:before {
+    content: "Description";
+    color: #8e8e8e;
+}
+
+.edit-task-dialog > div .middle-row {
+    display: flex;
+    gap: 30px;
+}
+
+.edit-task-dialog > div .middle-row > * {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+/* Date picker */
+.edit-task-dialog > div .middle-row input {
+    min-height: 25px;
+}
+
+/* Priority dropdown */
+.edit-task-dialog > div .middle-row select {
+    min-height: 25px;
+}
+
+.edit-task-dialog > div .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+}
+
+/* Project dropdown */
+.edit-task-dialog > div .bottom-row select {
+    height: 30px;
+    text-align: center;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.edit-task-dialog > div .bottom-row select:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+/* The buttons at the end of card */
+.edit-task-dialog > div .bottom-row > :last-child {
+    display: flex;
+    gap: 10px;
+}
+
+/* Cancel button */
+.edit-task-dialog .cancel-button {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(115, 115, 115, 0.1);
+    cursor: pointer;
+}
+
+.edit-task-dialog .cancel-button:hover {
+    background-color: rgba(115, 115, 115, 0.2);
+}
+
+.edit-task-dialog .cancel-button:active {
+    transform: scale(0.95);
+}
+
+/* Save button */
+.edit-task-dialog .save-button {
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+    border: none;
+    background-color: #A16207;
+    color: white;
+    cursor: pointer;
+}
+
+.edit-task-dialog .save-button:hover {
+    background-color: rgba(161, 98, 7, 0.8);
+}
+
+.edit-task-dialog .save-button:enabled:active {
+    transform: scale(0.95);
+}
+
+.edit-task-dialog .save-button:disabled {
+    background-color: rgba(161, 98, 7, 0.5);
+}

@@ -1,6 +1,6 @@
 .task-card {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    grid-template-columns: max-content minmax(400px, 1fr) max-content;
     grid-template-rows: max-content;
     gap: 10px;
     border-bottom: 0.5px solid #ddd;

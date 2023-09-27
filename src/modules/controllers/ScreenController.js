@@ -14,6 +14,7 @@ import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteP
 import createTaskCard from "../components/taskCard/taskCard";
 import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDialog";
 import { v4 as uuidv4 } from "uuid";
+import createEditTaskDialog from "../components/editTaskDialog/editTaskDialog";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -62,6 +63,10 @@ const ScreenController = () => {
         _setDeleteProjectDialogCancelButton();
         _setDeleteProjectDialogDeleteButton();
         _setDeleteProjectDialogPressEnter();
+
+        // Add edit-task dialog for later use
+        const editTaskDialog = createEditTaskDialog(databaseController.getAllProjects());
+        body.appendChild(editTaskDialog);
 
         // Add delete-task dialog for later use
         const deleteTaskDialog = createDeleteTaskDialog();
@@ -658,6 +663,7 @@ const ScreenController = () => {
     const _setTaskCardClick = card => {
         card.addEventListener("click", () => {
             console.log("clicked");
+            _openEditTaskDialog(card.dataTask);
         });
     };
 
@@ -677,6 +683,14 @@ const ScreenController = () => {
             const task = card.dataTask;
             _openDeleteTaskDialog(task);
         });
+    };
+
+    // EDIT TASK DIALOG
+    const _openEditTaskDialog = task => {
+        const dialog = document.querySelector(".edit-task-dialog");
+        dialog.showModal();
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
     };
 
     // DELETE TASK DIALOG
