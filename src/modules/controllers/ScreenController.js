@@ -10,7 +10,6 @@ import createSideBarItem from "../components/sideBarItem/sideBarItem";
 import ProjectIconLink from "../../assets/circle.svg";
 import createProjectPage from "../components/projectPage/projectPage";
 import createEditProjectDialog from "../components/editProjectDialog/editProjectDialog";
-import { de } from "date-fns/locale";
 import createDeleteProjectDialog from "../components/deleteProjectDialog/deleteProjectDialog";
 import createTaskCard from "../components/taskCard/taskCard";
 import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDialog";
@@ -603,7 +602,7 @@ const ScreenController = () => {
             let dueDate = new Date();
             if (dueDateString !== "") {
                 dueDate.setUTCFullYear(dueDateString.split("-")[0]);
-                dueDate.setMonth(dueDateString.split("-")[1]);
+                dueDate.setMonth(parseInt(dueDateString.split("-")[1]) - 1);
                 dueDate.setDate(dueDateString.split("-")[2]);
                 dueDate.setUTCHours(0);
                 dueDate.setMinutes(0);
@@ -646,11 +645,20 @@ const ScreenController = () => {
     const _setTaskCardListeners = card => {
         _setTaskCardCheckButton(card);
         _setTaskCardDeleteButton(card);
+        _setTaskCardClick(card);
+    };
+
+    // Detect when user clicks the task card
+    const _setTaskCardClick = card => {
+        card.addEventListener("click", () => {
+            console.log("clicked");
+        });
     };
 
     const _setTaskCardCheckButton = card => {
         const checkButton = card.querySelector(".check-button");
-        checkButton.addEventListener("click", () => {
+        checkButton.addEventListener("click", event => {
+            event.stopImmediatePropagation();
             databaseController.deleteTask(parseInt(card.id));
             _loadInboxPage();
         });
@@ -658,11 +666,14 @@ const ScreenController = () => {
 
     const _setTaskCardDeleteButton = card => {
         const deleteButton = card.querySelector(".delete-button");
-        deleteButton.addEventListener("click", () => {
+        deleteButton.addEventListener("click", event => {
+            event.stopImmediatePropagation();
             const task = databaseController.getTaskByTimeCreated(parseInt(card.id));
             _openDeleteTaskDialog(task);
         });
     };
+
+    // DELETE TASK DIALOG
 
     const _openDeleteTaskDialog = task => {
         const dialog = document.querySelector(".delete-task-dialog");

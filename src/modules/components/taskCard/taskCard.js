@@ -41,7 +41,7 @@ const createTaskCard = task => {
         dateString = "No due date";
     } else {
         let dueDate = new Date(parseInt(task.dueDate));
-        dateString = `${dueDate.getFullYear()}-${dueDate.getMonth().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+        dateString = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
     }
     text.textContent = dateString;
     dueDateDiv.appendChild(text);

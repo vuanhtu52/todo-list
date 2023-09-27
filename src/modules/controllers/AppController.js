@@ -1,4 +1,3 @@
-import Project from "../models/Project";
 import DatabaseController from "./DatabaseController";
 import ScreenController from "./ScreenController";
 
