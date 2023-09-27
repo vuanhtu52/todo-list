@@ -67,6 +67,7 @@ const ScreenController = () => {
         // Add edit-task dialog for later use
         const editTaskDialog = createEditTaskDialog(databaseController.getAllProjects());
         body.appendChild(editTaskDialog);
+        _setEditTaskDialogNameInput();
         _setEditTaskDialogClose();
         _setEditTaskDialogCancelButton();
 
@@ -741,6 +742,19 @@ const ScreenController = () => {
     const _closeEditTaskDialog = () => {
         const dialog = document.querySelector(".edit-task-dialog");
         dialog.close();
+    };
+
+    // Disable the save button when name field is empty
+    const _setEditTaskDialogNameInput = () => {
+        const input = document.querySelector(".edit-task-dialog span:first-child");
+        input.addEventListener("input", () => {
+            const saveButton = document.querySelector(".edit-task-dialog .save-button");
+            if (input.textContent === "") {
+                saveButton.disabled = true;
+            } else {
+                saveButton.disabled = false;
+            }
+        });
     };
 
     // DELETE TASK DIALOG
