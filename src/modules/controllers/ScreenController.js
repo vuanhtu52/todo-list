@@ -67,6 +67,8 @@ const ScreenController = () => {
         // Add edit-task dialog for later use
         const editTaskDialog = createEditTaskDialog(databaseController.getAllProjects());
         body.appendChild(editTaskDialog);
+        _setEditTaskDialogClose();
+        _setEditTaskDialogCancelButton();
 
         // Add delete-task dialog for later use
         const deleteTaskDialog = createDeleteTaskDialog();
@@ -716,6 +718,29 @@ const ScreenController = () => {
         const projectName = databaseController.getProjectById(task.projectId).name;
         const option = projectDropdown.querySelector(`option[value = "${projectName}"]`);
         option.selected = true;
+    };
+
+    // Detect when the edit-task dialog closes
+    const _setEditTaskDialogClose = () => {
+        const dialog = document.querySelector(".edit-task-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
+    };
+
+    // Detect when user clicks cancel button on edit-task dialog
+    const _setEditTaskDialogCancelButton = () => {
+        const button = document.querySelector(".edit-task-dialog .cancel-button");
+        button.addEventListener("click", event => {
+            event.preventDefault();
+            _closeEditTaskDialog();
+        });
+    };
+
+    const _closeEditTaskDialog = () => {
+        const dialog = document.querySelector(".edit-task-dialog");
+        dialog.close();
     };
 
     // DELETE TASK DIALOG
