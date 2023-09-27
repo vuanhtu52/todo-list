@@ -96,6 +96,16 @@ const DatabaseController = () => {
         return {};
     };
 
+    const updateTask = (oldTask, newTask) => {
+        let tasks = getAllTasks();
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id === oldTask.id) {
+                tasks[i] = newTask;
+            }
+        }
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    };
+
     const deleteTask = id => {
         let tasks = getAllTasks();
         tasks = tasks.filter(task => task.id !== id);
@@ -114,6 +124,7 @@ const DatabaseController = () => {
         getAllTasks,
         getTasksByProjectId,
         getTaskById,
+        updateTask,
         deleteTask,
     };
 };

@@ -70,6 +70,7 @@ const ScreenController = () => {
         _setEditTaskDialogNameInput();
         _setEditTaskDialogClose();
         _setEditTaskDialogCancelButton();
+        _setEditTaskDialogSaveButton();
 
         // Add delete-task dialog for later use
         const deleteTaskDialog = createDeleteTaskDialog();
@@ -691,6 +692,7 @@ const ScreenController = () => {
     const _openEditTaskDialog = task => {
         const dialog = document.querySelector(".edit-task-dialog");
         dialog.showModal();
+        dialog.dataTask = task;
         // Prevent scrolling
         document.body.style.overflow = "hidden";
 
@@ -754,6 +756,42 @@ const ScreenController = () => {
             } else {
                 saveButton.disabled = false;
             }
+        });
+    };
+
+    // Detect when user clicks save button on edit-task dialog
+    const _setEditTaskDialogSaveButton = () => {
+        const saveButton = document.querySelector(".edit-task-dialog .save-button");
+        saveButton.addEventListener("click", event => {
+            event.preventDefault();
+            // Get the old task
+            const task = document.querySelector(".edit-task-dialog").dataTask;
+            // Create the new task
+            let newTask = {
+                id: task.id,
+                name: document.querySelector(".edit-task-dialog span:first-child").textContent.trim(),
+                description: document.querySelector(".edit-task-dialog span:nth-child(2)").textContent.trim(),
+                priority: parseInt(document.querySelector(".edit-task-dialog .middle-row select").value.split(" ")[1]),
+                projectId: databaseController.getProjectByName(document.querySelector(".edit-task-dialog .bottom-row select").value).id,
+            };     
+            const dueDateString = document.querySelector(".edit-task-dialog .middle-row input").value;
+            if (dueDateString === "") {
+                newTask.dueDate = "";
+            } else {
+                let dueDate = new Date();
+                dueDate.setUTCFullYear(dueDateString.split("-")[0]);
+                dueDate.setMonth(parseInt(dueDateString.split("-")[1]) - 1);
+                dueDate.setDate(dueDateString.split("-")[2]);
+                dueDate.setUTCHours(0);
+                dueDate.setMinutes(0);
+                dueDate.setSeconds(0);
+                dueDate.setMilliseconds(0);
+                newTask.dueDate = dueDate.getTime();
+            }
+            // Update the old task to new task
+            databaseController.updateTask(task, newTask);
+            _closeEditTaskDialog();
+            _loadInboxPage();
         });
     };
 
