@@ -5,7 +5,7 @@ import DeleteIconPath from "../../../assets/delete.svg";
 const createTaskCard = task => {
     const card = document.createElement("div");
     card.className = "task-card";
-    card.id = task.timeCreated;
+    card.dataTask = task;
 
     const leftColumn = document.createElement("div");
 

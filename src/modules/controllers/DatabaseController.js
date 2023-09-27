@@ -79,26 +79,26 @@ const DatabaseController = () => {
         return JSON.parse(localStorage.getItem("tasks"));
     };
 
-    const getTasksByProject = projectName => {
+    const getTasksByProjectId = projectId => {
         const tasks = getAllTasks();
-        const result = tasks.filter(task => task.projectName === projectName);
+        const result = tasks.filter(task => task.projectId === projectId);
 
         return result;
     };
 
-    const getTaskByTimeCreated = timeCreated => {
+    const getTaskById = id => {
         const tasks = getAllTasks();
         for (let task of tasks) {
-            if (task.timeCreated === timeCreated) {
+            if (task.id === id) {
                 return task;
             }
         }
         return {};
     };
 
-    const deleteTask = timeCreated => {
+    const deleteTask = id => {
         let tasks = getAllTasks();
-        tasks = tasks.filter(task => task.timeCreated !== timeCreated);
+        tasks = tasks.filter(task => task.id !== id);
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
@@ -112,8 +112,8 @@ const DatabaseController = () => {
         deleteProject,
         createTask,
         getAllTasks,
-        getTasksByProject,
-        getTaskByTimeCreated,
+        getTasksByProjectId,
+        getTaskById,
         deleteTask,
     };
 };

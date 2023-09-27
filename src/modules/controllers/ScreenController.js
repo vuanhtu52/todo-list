@@ -17,7 +17,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
-    let taskId = "";
 
     const init = () => {
         const body = document.querySelector("body");
@@ -151,7 +150,6 @@ const ScreenController = () => {
 
     // Change background of the active item
     const _setItemActive = itemId => {
-        console.log(itemId);
         // Remove active states from all items first
         let items = document.querySelectorAll(".sidebar-item");
         items.forEach(i => {
@@ -187,7 +185,7 @@ const ScreenController = () => {
         const inboxPage = createInboxPage();
 
         // Fetch tasks from local storage
-        const tasks = databaseController.getTasksByProject("Inbox");
+        const tasks = databaseController.getTasksByProjectId("Inbox");
 
         // Display tasks
         const prioritySections = inboxPage.querySelectorAll(".priority-section");
@@ -622,12 +620,13 @@ const ScreenController = () => {
             const priority = card.querySelector(".middle-row select").value.split(" ")[1];
             const projectName = card.querySelector(".bottom-row select").value;
             const task = {
-                timeCreated: timeCreated,
+                id: uuidv4(),
                 name: name,
                 description: description,
                 dueDate: dueDate,
                 priority: priority,
-                projectName: projectName,
+                projectId: databaseController.getProjectByName(projectName).id,
+                timeCreated: timeCreated,
             }
             databaseController.createTask(task);
             _loadInboxPage();
@@ -666,7 +665,7 @@ const ScreenController = () => {
         const checkButton = card.querySelector(".check-button");
         checkButton.addEventListener("click", event => {
             event.stopImmediatePropagation();
-            databaseController.deleteTask(parseInt(card.id));
+            databaseController.deleteTask(card.dataTask.id);
             _loadInboxPage();
         });
     };
@@ -675,7 +674,7 @@ const ScreenController = () => {
         const deleteButton = card.querySelector(".delete-button");
         deleteButton.addEventListener("click", event => {
             event.stopImmediatePropagation();
-            const task = databaseController.getTaskByTimeCreated(parseInt(card.id));
+            const task = card.dataTask;
             _openDeleteTaskDialog(task);
         });
     };
@@ -684,14 +683,13 @@ const ScreenController = () => {
 
     const _openDeleteTaskDialog = task => {
         const dialog = document.querySelector(".delete-task-dialog");
+        dialog.dataTask = task;
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
         // Populate task name to message
         const nameSpan = dialog.querySelector(".message span:first-Child");
         nameSpan.textContent = task.name;
-        // Save the task id (timeCreated) to delete later
-        taskId = task.timeCreated;
     };
 
     // Detect when the delete-task dialog closes
@@ -721,7 +719,8 @@ const ScreenController = () => {
         const deleteButton = document.querySelector(".delete-task-dialog .delete-button");
         deleteButton.addEventListener("click", event => {
             event.preventDefault();
-            databaseController.deleteTask(taskId);
+            const task = document.querySelector(".delete-task-dialog").dataTask;
+            databaseController.deleteTask(task.id);
             _closeDeleteTaskDialog();
             _loadInboxPage();
         });
@@ -733,7 +732,8 @@ const ScreenController = () => {
         dialog.addEventListener("keypress", event => {
             if (event.keyCode === 13) {
                 event.preventDefault();
-                databaseController.deleteTask(taskId);
+                const task = document.querySelector(".delete-task-dialog").dataTask;
+                databaseController.deleteTask(task.id);
                 _closeDeleteTaskDialog();
                 _loadInboxPage();
             }
