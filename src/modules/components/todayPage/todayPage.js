@@ -46,6 +46,24 @@ const createTodayPage = () => {
 
     wrapper.appendChild(overdueSection);
 
+    // Add today's task section
+    const todaySection = document.createElement("div");
+    todaySection.className = "today-section";
+    
+    const todayHeader = document.createElement("div");
+    todayHeader.className = "header";
+    todayHeader.textContent = `${today.getDate()} ${today.toLocaleString("default", {month: "long"}).substring(0, 3)} ‧ Today ‧ ${today.toLocaleString("en-us", {weekday: "long"})}`;
+    todaySection.appendChild(todayHeader);
+
+    const todayTasks = document.createElement("div");
+    todayTasks.className = "tasks";
+    todaySection.appendChild(todayTasks);
+
+    const addButton = createAddTaskButton();
+    todaySection.appendChild(addButton);
+
+    wrapper.appendChild(todaySection);
+
     todayPage.appendChild(wrapper);
 
     return todayPage;

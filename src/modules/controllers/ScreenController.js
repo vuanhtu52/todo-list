@@ -234,16 +234,13 @@ const ScreenController = () => {
             overdueTasksDiv.appendChild(card);
         });
 
-        // Fetch tasks from local storage
-        // const tasks = databaseController.getTasksByDueDate(new Date());
-
-        // Display tasks
-        // const tasksDiv = document.querySelector(".today-page .tasks");
-        // tasks.forEach(task => {
-        //     const card = createTaskCard({task: task, showPriority: true});
-        //     tasksDiv.appendChild(card);
-        //     // _setTaskCardListeners(card);
-        // });
+        // Fetch today's tasks and display them
+        const todayTasks = databaseController.getTasksByDueDate(today);
+        const todayTasksDiv = document.querySelector(".today-page .today-section .tasks");
+        todayTasks.forEach(task => {
+            const card = createTaskCard({task: task, showPriority: true});
+            todayTasksDiv.appendChild(card);
+        });
     };
 
     const _loadUpcomingPage = () => {
