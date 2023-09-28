@@ -230,7 +230,7 @@ const ScreenController = () => {
         const overdueTasks = databaseController.getOverdueTasks(today);
         const overdueTasksDiv = document.querySelector(".today-page .overdue-section .tasks");
         overdueTasks.forEach(task => {
-            const card = createTaskCard({task: task, showPriority: true});
+            const card = createTaskCard({task: task, showPriority: true, showProject: true});
             overdueTasksDiv.appendChild(card);
         });
 
@@ -238,7 +238,7 @@ const ScreenController = () => {
         const todayTasks = databaseController.getTasksByDueDate(today);
         const todayTasksDiv = document.querySelector(".today-page .today-section .tasks");
         todayTasks.forEach(task => {
-            const card = createTaskCard({task: task, showPriority: true});
+            const card = createTaskCard({task: task, showPriority: true, showProject: true});
             todayTasksDiv.appendChild(card);
         });
     };

@@ -50,10 +50,17 @@
 
 .task-card .bottom-row {
     display: flex;
+    justify-content: space-between;
+}
+
+.task-card .bottom-row .left {
+    display: flex;
     gap: 15px;
 }
 
 .task-card .priority {
+    display: flex;
+    align-items: center;
     color: #666666;
     font-size: 14px;
 }
@@ -67,6 +74,23 @@
 
 .task-card .due-date > :first-child {
     width: 15px;
+}
+
+.task-card .due-date > :nth-child(2) {
+    display: flex;
+    align-items: center;
+}
+
+.task-card .project {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.task-card .project img {
+    width: 20px;
 }
 
 .task-card .delete-button {

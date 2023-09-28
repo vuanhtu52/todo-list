@@ -1,8 +1,10 @@
 import "./taskCard.css";
 import CalendarIconPath from "../../../assets/calendar.svg";
 import DeleteIconPath from "../../../assets/delete.svg";
+import DatabaseController from "../../controllers/DatabaseController";
+import CircleIconLink from "../../../assets/circle.svg";
 
-const createTaskCard = ({task, showPriority = false}) => {
+const createTaskCard = ({task, showPriority = false, showProject = false}) => {
     const card = document.createElement("div");
     card.className = "task-card";
     card.dataTask = task;
@@ -32,6 +34,10 @@ const createTaskCard = ({task, showPriority = false}) => {
     const bottomRow = document.createElement("div");
     bottomRow.className = "bottom-row";
 
+    const leftDiv = document.createElement("div");
+    leftDiv.className = "left";
+    bottomRow.appendChild(leftDiv);
+
     // Add due date
     const dueDateDiv = document.createElement("div");
     dueDateDiv.className = "due-date";
@@ -48,19 +54,35 @@ const createTaskCard = ({task, showPriority = false}) => {
     }
     text.textContent = dateString;
     dueDateDiv.appendChild(text);
-    bottomRow.appendChild(dueDateDiv);
+    leftDiv.appendChild(dueDateDiv);
 
     // Add priority
     if (showPriority) {
-        console.log("show priority");
-        const priority = document.createElement("div");
-        priority.className = "priority";
-        priority.textContent = `Priority ${task.priority.toString()}`;
-        bottomRow.appendChild(priority);
+        const priorityDiv = document.createElement("div");
+        priorityDiv.className = "priority";
+        priorityDiv.textContent = `Priority ${task.priority.toString()}`;
+        leftDiv.appendChild(priorityDiv);
     }
 
+    bottomRow.appendChild(leftDiv)
     middleColumn.appendChild(bottomRow);
     card.appendChild(middleColumn)
+
+    // Add project
+    if (showProject) {
+        const projectDiv = document.createElement("div")
+        projectDiv.className = "project";
+
+        const textDiv = document.createElement("div");
+        textDiv.textContent = DatabaseController().getProjectById(task.projectId).name;
+        projectDiv.appendChild(textDiv);
+
+        const icon = new Image();
+        icon.src = CircleIconLink;
+        projectDiv.appendChild(icon);
+
+        bottomRow.appendChild(projectDiv);
+    }
 
     const rightColumn = document.createElement("div");
 
