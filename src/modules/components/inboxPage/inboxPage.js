@@ -1,3 +1,4 @@
+import createAddTaskButton from "../addTaskButton/addTaskButton";
 import "./inboxPage.css";
 
 const createInboxPage = () => {
@@ -43,15 +44,7 @@ const createPrioritySection = priorityNumber => {
     section.appendChild(tasks);
 
     // Add add-task button
-    const addTaskButton = document.createElement("button");
-    addTaskButton.className = "add-task-button";
-    const addSymbol = document.createElement("span");
-    addSymbol.textContent = "+";
-    const addText = document.createElement("span");
-    addText.textContent = "Add task";
-    // addTaskButton.textContent = "+ Add task";
-    addTaskButton.appendChild(addSymbol);
-    addTaskButton.appendChild(addText);
+    const addTaskButton = createAddTaskButton();
     section.appendChild(addTaskButton);
 
     return section;
