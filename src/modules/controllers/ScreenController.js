@@ -213,11 +213,24 @@ const ScreenController = () => {
     };
 
     const _loadTodayPage = () => {
+        // Remove current page
         const content = document.querySelector("#content");
         if (content.lastChild) {
             content.removeChild(content.lastChild);
         }
+        // Add today page
         content.appendChild(createTodayPage());
+
+        // Fetch tasks from local storage
+        const tasks = databaseController.getTasksByDueDate(new Date());
+
+        // Display tasks
+        const tasksDiv = document.querySelector(".today-page .tasks");
+        tasks.forEach(task => {
+            const card = createTaskCard(task);
+            tasksDiv.appendChild(card);
+            // _setTaskCardListeners(card);
+        });
     };
 
     const _loadUpcomingPage = () => {

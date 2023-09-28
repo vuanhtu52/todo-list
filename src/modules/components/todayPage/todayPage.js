@@ -1,3 +1,4 @@
+import createAddTaskButton from "../addTaskButton/addTaskButton";
 import "./todayPage.css";
 
 const createTodayPage = () => {
@@ -24,9 +25,10 @@ const createTodayPage = () => {
     // Add content section
     const content = document.createElement("div");
     const tasks = document.createElement("div");
+    tasks.className = "tasks";
     content.appendChild(tasks);
-
-
+    const addTaskButton = createAddTaskButton();
+    content.appendChild(addTaskButton);
     wrapper.appendChild(content);
 
     todayPage.appendChild(wrapper);

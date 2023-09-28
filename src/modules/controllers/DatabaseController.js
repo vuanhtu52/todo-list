@@ -96,6 +96,15 @@ const DatabaseController = () => {
         return {};
     };
 
+    const getTasksByDueDate = date => {
+        let tasks = getAllTasks();
+        tasks = tasks.filter(task => {
+            const dueDate = new Date(task.dueDate);
+            return dueDate.getDate() === date.getDate() && dueDate.getMonth() === date.getMonth() && dueDate.getFullYear() === date.getFullYear();
+        });
+        return tasks;
+    };
+
     const updateTask = (oldTask, newTask) => {
         let tasks = getAllTasks();
         for (let i = 0; i < tasks.length; i++) {
@@ -124,6 +133,7 @@ const DatabaseController = () => {
         getAllTasks,
         getTasksByProjectId,
         getTaskById,
+        getTasksByDueDate,
         updateTask,
         deleteTask,
     };
