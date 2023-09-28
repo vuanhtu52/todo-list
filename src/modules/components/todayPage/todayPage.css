@@ -29,3 +29,7 @@
     font-size: 16px;
     color: grey;
 }
+
+.today-page .overdue-section .header {
+    font-weight: 900;
+}

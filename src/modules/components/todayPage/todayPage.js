@@ -22,14 +22,29 @@ const createTodayPage = () => {
     header.appendChild(date);
     wrapper.appendChild(header); 
 
-    // Add content section
-    const content = document.createElement("div");
-    const tasks = document.createElement("div");
-    tasks.className = "tasks";
-    content.appendChild(tasks);
-    const addTaskButton = createAddTaskButton();
-    content.appendChild(addTaskButton);
-    wrapper.appendChild(content);
+    // // Add content section
+    // const content = document.createElement("div");
+    // const tasks = document.createElement("div");
+    // tasks.className = "tasks";
+    // content.appendChild(tasks);
+    // const addTaskButton = createAddTaskButton();
+    // content.appendChild(addTaskButton);
+    // wrapper.appendChild(content);
+
+    // Add overdue section
+    const overdueSection = document.createElement("div");
+    overdueSection.className = "overdue-section";
+    
+    const overdueHeader = document.createElement("div");
+    overdueHeader.className = "header";
+    overdueHeader.textContent = "Overdue";
+    overdueSection.appendChild(overdueHeader);
+
+    const overdueTasks = document.createElement("div");
+    overdueTasks.className = "tasks";
+    overdueSection.appendChild(overdueTasks);
+
+    wrapper.appendChild(overdueSection);
 
     todayPage.appendChild(wrapper);
 

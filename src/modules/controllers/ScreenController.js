@@ -221,16 +221,29 @@ const ScreenController = () => {
         // Add today page
         content.appendChild(createTodayPage());
 
+        // Fetch overdue tasks and display them
+        const today = new Date();
+        today.setUTCHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+        const overdueTasks = databaseController.getOverdueTasks(today);
+        const overdueTasksDiv = document.querySelector(".today-page .overdue-section .tasks");
+        overdueTasks.forEach(task => {
+            const card = createTaskCard({task: task, showPriority: true});
+            overdueTasksDiv.appendChild(card);
+        });
+
         // Fetch tasks from local storage
-        const tasks = databaseController.getTasksByDueDate(new Date());
+        // const tasks = databaseController.getTasksByDueDate(new Date());
 
         // Display tasks
-        const tasksDiv = document.querySelector(".today-page .tasks");
-        tasks.forEach(task => {
-            const card = createTaskCard({task: task, showPriority: true});
-            tasksDiv.appendChild(card);
-            // _setTaskCardListeners(card);
-        });
+        // const tasksDiv = document.querySelector(".today-page .tasks");
+        // tasks.forEach(task => {
+        //     const card = createTaskCard({task: task, showPriority: true});
+        //     tasksDiv.appendChild(card);
+        //     // _setTaskCardListeners(card);
+        // });
     };
 
     const _loadUpcomingPage = () => {

@@ -96,6 +96,12 @@ const DatabaseController = () => {
         return {};
     };
 
+    const getOverdueTasks = today => {
+        let tasks = getAllTasks();
+        tasks = tasks.filter(task => task.dueDate < today.getTime());
+        return tasks;
+    };
+
     const getTasksByDueDate = date => {
         let tasks = getAllTasks();
         tasks = tasks.filter(task => {
@@ -133,6 +139,7 @@ const DatabaseController = () => {
         getAllTasks,
         getTasksByProjectId,
         getTaskById,
+        getOverdueTasks,
         getTasksByDueDate,
         updateTask,
         deleteTask,
