@@ -2,7 +2,7 @@ import "./taskCard.css";
 import CalendarIconPath from "../../../assets/calendar.svg";
 import DeleteIconPath from "../../../assets/delete.svg";
 
-const createTaskCard = task => {
+const createTaskCard = ({task, showPriority = false}) => {
     const card = document.createElement("div");
     card.className = "task-card";
     card.dataTask = task;
@@ -29,6 +29,9 @@ const createTaskCard = task => {
     descriptionDiv.textContent = task.description;
     middleColumn.appendChild(descriptionDiv);
 
+    const bottomRow = document.createElement("div");
+    bottomRow.className = "bottom-row";
+
     // Add due date
     const dueDateDiv = document.createElement("div");
     dueDateDiv.className = "due-date";
@@ -45,8 +48,18 @@ const createTaskCard = task => {
     }
     text.textContent = dateString;
     dueDateDiv.appendChild(text);
-    middleColumn.appendChild(dueDateDiv)
+    bottomRow.appendChild(dueDateDiv);
 
+    // Add priority
+    if (showPriority) {
+        console.log("show priority");
+        const priority = document.createElement("div");
+        priority.className = "priority";
+        priority.textContent = `Priority ${task.priority.toString()}`;
+        bottomRow.appendChild(priority);
+    }
+
+    middleColumn.appendChild(bottomRow);
     card.appendChild(middleColumn)
 
     const rightColumn = document.createElement("div");

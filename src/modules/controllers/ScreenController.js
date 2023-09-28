@@ -201,7 +201,7 @@ const ScreenController = () => {
         tasks.forEach(task => {
             const priority = parseInt(task.priority);
             const wrapper = prioritySections[priority - 1].children.item(1);
-            const card = createTaskCard(task);
+            const card = createTaskCard({task: task});
             wrapper.appendChild(card);
             _setTaskCardListeners(card);
         });
@@ -227,7 +227,7 @@ const ScreenController = () => {
         // Display tasks
         const tasksDiv = document.querySelector(".today-page .tasks");
         tasks.forEach(task => {
-            const card = createTaskCard(task);
+            const card = createTaskCard({task: task, showPriority: true});
             tasksDiv.appendChild(card);
             // _setTaskCardListeners(card);
         });

@@ -48,6 +48,16 @@
     text-overflow: ellipsis;
 }
 
+.task-card .bottom-row {
+    display: flex;
+    gap: 15px;
+}
+
+.task-card .priority {
+    color: #666666;
+    font-size: 14px;
+}
+
 .task-card .due-date {
     display: flex;
     gap: 5px;
