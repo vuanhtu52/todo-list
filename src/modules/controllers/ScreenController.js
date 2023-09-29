@@ -201,7 +201,7 @@ const ScreenController = () => {
         tasks.forEach(task => {
             const priority = parseInt(task.priority);
             const wrapper = prioritySections[priority - 1].children.item(1);
-            const card = createTaskCard({task: task});
+            const card = createTaskCard({ task: task });
             wrapper.appendChild(card);
             _setTaskCardListeners(card);
         });
@@ -231,7 +231,7 @@ const ScreenController = () => {
         const overdueTasks = databaseController.getOverdueTasks(today);
         const overdueTasksDiv = document.querySelector(".today-page .overdue-section .tasks");
         overdueTasks.forEach(task => {
-            const card = createTaskCard({task: task, showPriority: true, showProject: true});
+            const card = createTaskCard({ task: task, showPriority: true, showProject: true });
             overdueTasksDiv.appendChild(card);
             _setTaskCardListeners(card);
         });
@@ -240,7 +240,7 @@ const ScreenController = () => {
         const todayTasks = databaseController.getTasksByDueDate(today);
         const todayTasksDiv = document.querySelector(".today-page .today-section .tasks");
         todayTasks.forEach(task => {
-            const card = createTaskCard({task: task, showPriority: true, showProject: true});
+            const card = createTaskCard({ task: task, showPriority: true, showProject: true });
             todayTasksDiv.appendChild(card);
             _setTaskCardListeners(card);
         });
@@ -595,7 +595,7 @@ const ScreenController = () => {
         } else if (pageId === "Today") {
             addButtons = document.querySelectorAll(".today-page .add-task-button");
         }
-        
+
         addButtons.forEach(button => {
             button.classList.add("add-task-button-hidden");
         });
@@ -603,13 +603,18 @@ const ScreenController = () => {
         // Create the add-task card
         const card = createAddTaskCard(databaseController.getAllProjects());
 
-        // Set default values
+        // Set default due date
+        if (pageId === "Today") {
+            _setAddTaskCardDefaultDueDate(card, new Date());
+        }
+
+        // Set default priority
         if (pageId === "Inbox") {
             _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
         } else if (pageId === "Today") {
             _setAddTaskCardDefaultPriority(card, 4);
         }
-        
+
         // Set listeners
         _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
         _setAddTaskCardTaskNameInput(card);
@@ -626,6 +631,12 @@ const ScreenController = () => {
         const option = dropdown.children.item(priority - 1);
         option.selected = "selected";
     };
+
+    // Set default due date for add-task card
+    const _setAddTaskCardDefaultDueDate = (card, dueDate) => {
+        const datePicker = card.querySelector(".middle-row input");
+        datePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+    }
 
     // Attach listener to cancel button in add-task card
     const _setAddTaskCardCancelButtonListener = cancelButton => {
@@ -775,7 +786,7 @@ const ScreenController = () => {
         dueDatePicker.value = "";
         if (task.dueDate !== "") {
             const dueDate = new Date(parseInt(task.dueDate));
-            dueDatePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+            dueDatePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${dueDate.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
         }
 
         // Populate priority
@@ -839,7 +850,7 @@ const ScreenController = () => {
                 description: document.querySelector(".edit-task-dialog span:nth-child(2)").textContent.trim(),
                 priority: parseInt(document.querySelector(".edit-task-dialog .middle-row select").value.split(" ")[1]),
                 projectId: databaseController.getProjectByName(document.querySelector(".edit-task-dialog .bottom-row select").value).id,
-            };     
+            };
             const dueDateString = document.querySelector(".edit-task-dialog .middle-row input").value;
             if (dueDateString === "") {
                 newTask.dueDate = "";
@@ -857,7 +868,14 @@ const ScreenController = () => {
             // Update the old task to new task
             databaseController.updateTask(task, newTask);
             _closeEditTaskDialog();
-            _loadInboxPage();
+
+            // Reload current page
+            const pageId = document.querySelector(".sidebar-item-active").id;
+            if (pageId === "Inbox") {
+                _loadInboxPage();
+            } else if (pageId === "Today") {
+                _loadTodayPage();
+            }
         });
     };
 
@@ -904,7 +922,14 @@ const ScreenController = () => {
             const task = document.querySelector(".delete-task-dialog").dataTask;
             databaseController.deleteTask(task.id);
             _closeDeleteTaskDialog();
-            _loadInboxPage();
+
+            // Reload current page
+            const pageId = document.querySelector(".sidebar-item-active").id;
+            if (pageId === "Inbox") {
+                _loadInboxPage();
+            } else if (pageId === "Today") {
+                _loadTodayPage();
+            }
         });
     };
 
@@ -917,7 +942,14 @@ const ScreenController = () => {
                 const task = document.querySelector(".delete-task-dialog").dataTask;
                 databaseController.deleteTask(task.id);
                 _closeDeleteTaskDialog();
-                _loadInboxPage();
+
+                // Reload current page
+                const pageId = document.querySelector(".sidebar-item-active").id;
+                if (pageId === "Inbox") {
+                    _loadInboxPage();
+                } else if (pageId === "Today") {
+                    _loadTodayPage();
+                }
             }
         });
     };
