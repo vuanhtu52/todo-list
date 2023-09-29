@@ -649,6 +649,7 @@ const ScreenController = () => {
     const _setAddTaskCardAddButton = card => {
         const addButton = card.querySelector(".add-button");
         addButton.addEventListener("click", () => {
+            // Create a new task
             const timeCreated = (new Date()).getTime();
             const name = card.firstChild.textContent.trim();
             const description = card.children.item(1).textContent.trim();
@@ -678,7 +679,15 @@ const ScreenController = () => {
                 timeCreated: timeCreated,
             }
             databaseController.createTask(task);
-            _loadInboxPage();
+
+            // Reload current page
+            // Get the current active item's id
+            const pageId = document.querySelector(".sidebar-item-active").id;
+            if (pageId === "Inbox") {
+                _loadInboxPage();
+            } else if (pageId === "Today") {
+                _loadTodayPage();
+            }
         });
     };
 
