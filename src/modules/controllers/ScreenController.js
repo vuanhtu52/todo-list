@@ -692,13 +692,21 @@ const ScreenController = () => {
     };
 
     const _closeAddTaskCard = () => {
+        // Get the current active item's id
+        const pageId = document.querySelector(".sidebar-item-active").id;
+
         // Remove the card
         const card = document.querySelector(".add-task-card");
         const prioritySection = card.parentElement;
         prioritySection.removeChild(prioritySection.lastChild);
 
         // Show the add-task buttons again
-        const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
+        let addButtons;
+        if (pageId === "Inbox") {
+            addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
+        } else if (pageId === "Today") {
+            addButtons = document.querySelector(".today-page").querySelectorAll(".add-task-button");
+        }
         addButtons.forEach(button => {
             button.classList.remove("add-task-button-hidden");
         });
