@@ -233,6 +233,7 @@ const ScreenController = () => {
         overdueTasks.forEach(task => {
             const card = createTaskCard({task: task, showPriority: true, showProject: true});
             overdueTasksDiv.appendChild(card);
+            _setTaskCardListeners(card);
         });
 
         // Fetch today's tasks and display them
@@ -241,6 +242,7 @@ const ScreenController = () => {
         todayTasks.forEach(task => {
             const card = createTaskCard({task: task, showPriority: true, showProject: true});
             todayTasksDiv.appendChild(card);
+            _setTaskCardListeners(card);
         });
 
         // Set listeners
@@ -732,7 +734,14 @@ const ScreenController = () => {
         checkButton.addEventListener("click", event => {
             event.stopImmediatePropagation();
             databaseController.deleteTask(card.dataTask.id);
-            _loadInboxPage();
+
+            // Reload the current page
+            const pageId = document.querySelector(".sidebar-item-active").id;
+            if (pageId === "Inbox") {
+                _loadInboxPage();
+            } else if (pageId === "Today") {
+                _loadTodayPage();
+            }
         });
     };
 
