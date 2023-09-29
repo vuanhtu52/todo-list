@@ -209,7 +209,8 @@ const ScreenController = () => {
         // Add inbox page
         content.appendChild(inboxPage);
 
-        _setInboxAddTaskButtonListener();
+        // Set listeners
+        _setAddTaskButtonListener();
     };
 
     const _loadTodayPage = () => {
@@ -241,6 +242,9 @@ const ScreenController = () => {
             const card = createTaskCard({task: task, showPriority: true, showProject: true});
             todayTasksDiv.appendChild(card);
         });
+
+        // Set listeners
+        _setAddTaskButtonListener();
     };
 
     const _loadUpcomingPage = () => {
@@ -569,7 +573,7 @@ const ScreenController = () => {
 
     // INBOX PAGE
 
-    const _setInboxAddTaskButtonListener = () => {
+    const _setAddTaskButtonListener = () => {
         const buttons = document.querySelectorAll(".add-task-button");
         buttons.forEach(button => {
             button.addEventListener("click", () => {
@@ -579,8 +583,17 @@ const ScreenController = () => {
     };
 
     const _openAddTaskCard = addButton => {
+        // Get the current active item's id
+        const pageId = document.querySelector(".sidebar-item-active").id;
+
         // Hide the add-task buttons
-        const addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
+        let addButtons;
+        if (pageId === "Inbox") {
+            addButtons = document.querySelectorAll(".inbox-page .add-task-button");
+        } else if (pageId === "Today") {
+            addButtons = document.querySelectorAll(".today-page .add-task-button");
+        }
+        
         addButtons.forEach(button => {
             button.classList.add("add-task-button-hidden");
         });
@@ -589,16 +602,20 @@ const ScreenController = () => {
         const card = createAddTaskCard(databaseController.getAllProjects());
 
         // Set default values
-        _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
-
+        if (pageId === "Inbox") {
+            _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
+        } else if (pageId === "Today") {
+            _setAddTaskCardDefaultPriority(card, 4);
+        }
+        
         // Set listeners
         _setAddTaskCardCancelButtonListener(card.querySelector(".add-task-card .cancel-button"));
         _setAddTaskCardTaskNameInput(card);
         _setAddTaskCardAddButton(card);
 
         // Add the card
-        const prioritySection = addButton.parentElement;
-        prioritySection.appendChild(card);
+        const section = addButton.parentElement;
+        section.appendChild(card);
     };
 
     // Set default priority for the dropdown

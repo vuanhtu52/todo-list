@@ -22,15 +22,6 @@ const createTodayPage = () => {
     header.appendChild(date);
     wrapper.appendChild(header); 
 
-    // // Add content section
-    // const content = document.createElement("div");
-    // const tasks = document.createElement("div");
-    // tasks.className = "tasks";
-    // content.appendChild(tasks);
-    // const addTaskButton = createAddTaskButton();
-    // content.appendChild(addTaskButton);
-    // wrapper.appendChild(content);
-
     // Add overdue section
     const overdueSection = document.createElement("div");
     overdueSection.className = "overdue-section";
