@@ -1,4 +1,102 @@
 .upcoming-page {
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
 }
+
+.upcoming-page .wrapper {
+    width: 90%;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.upcoming-page .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upcoming-page .header .date {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.upcoming-page .header .buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.upcoming-page .header .arrow-buttons > button {
+    height: 26px;
+    width: 28px;
+    background-color: transparent;
+    color: grey;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    cursor: pointer;
+}
+.upcoming-page .header .arrow-buttons > button:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.upcoming-page .header .arrow-buttons > button:active {
+    background-color: rgba(115, 115, 115, 0.5);
+}
+
+.upcoming-page .back-button {
+    border-left: 1px solid grey;
+    border-right: 0.5px solid grey;
+    border-radius: 3px 0 0 3px;
+}
+
+.upcoming-page .forward-button {
+    border-right: 1px solid grey;
+    border-left: none;
+    border-radius: 0 3px 3px 0;
+}
+
+.upcoming-page .today-button {
+    height: 26px;
+    width: 60px;
+    background-color: transparent;
+    border: 1px solid grey;
+    border-radius: 3px;
+    color: grey;
+    cursor: pointer;
+}
+
+.upcoming-page .today-button:hover {
+    background-color: rgba(115, 115, 115, 0.1);
+}
+
+.upcoming-page .today-button:active {
+    background-color: rgba(115, 115, 115, 0.5);
+}
+
+.upcoming-page .calendar {
+    display: flex;
+}
+
+.upcoming-page .calendar .column {
+    flex-grow: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+.upcoming-page .calendar .column .header {
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    gap: 5px;
+    border-bottom: 0.5px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.upcoming-page .calendar .column .header > :nth-child(2) {
+    font-weight: 700;
+}
+
