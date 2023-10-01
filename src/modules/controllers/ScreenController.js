@@ -87,6 +87,7 @@ const ScreenController = () => {
         _setAddTaskDialogClose();
         _setAddTaskDialogNameInput();
         _setAddTaskDialogCancelButton();
+        _setAddTaskDialogAddButon();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -1040,12 +1041,54 @@ const ScreenController = () => {
         });
     };
 
-    // Setect when user presses cancel on add-task dialog
+    // Detect when user presses cancel on add-task dialog
     const _setAddTaskDialogCancelButton = () => {
         const cancelButton = document.querySelector(".add-task-dialog .cancel-button");
         cancelButton.addEventListener("click", event => {
             event.preventDefault();
             _closeAddTaskDialog();
+        });
+    };
+
+    // Detect when user clicks add button on add-task dialog
+    const _setAddTaskDialogAddButon = () => {
+        const addButton = document.querySelector(".add-task-dialog .add-button");
+        addButton.addEventListener("click", event => {
+            event.preventDefault();
+            // Create new task
+            const timeCreated = (new Date()).getTime();
+            const name = document.querySelector(".add-task-dialog span:first-child").textContent.trim();
+            const description = document.querySelector(".add-task-dialog span:nth-child(2)").textContent.trim();
+            const dueDateString = document.querySelector(".add-task-dialog .middle-row input").value;
+            let dueDate = new Date();
+            if (dueDateString !== "") {
+                dueDate.setFullYear(dueDateString.split("-")[0]);
+                dueDate.setMonth(parseInt(dueDateString.split("-")[1]) - 1);
+                dueDate.setDate(dueDateString.split("-")[2]);
+                dueDate.setHours(0);
+                dueDate.setMinutes(0);
+                dueDate.setSeconds(0);
+                dueDate.setMilliseconds(0);
+                dueDate = dueDate.getTime();
+            } else {
+                dueDate = "";
+            }
+            const priority = document.querySelector(".add-task-dialog .middle-row select").value.split(" ")[1];
+            const projectName = document.querySelector(".add-task-dialog .bottom-row select").value;
+            const task = {
+                id: uuidv4(),
+                name: name,
+                description: description,
+                dueDate: dueDate,
+                priority: priority,
+                projectId: databaseController.getProjectByName(projectName).id,
+                timeCreated: timeCreated,
+            }
+            databaseController.createTask(task);
+
+            // Reload current page
+            _closeAddTaskDialog();
+            _loadUpcomingPage();
         });
     };
 
