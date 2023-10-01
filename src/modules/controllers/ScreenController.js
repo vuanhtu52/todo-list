@@ -84,6 +84,8 @@ const ScreenController = () => {
         // Add add-task dialog for later use
         const addTaskDialog = createAddTaskDialog(databaseController.getAllProjects());
         body.appendChild(addTaskDialog);
+        _setAddTaskDialogClose();
+        _setAddTaskDialogNameInput();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -607,7 +609,6 @@ const ScreenController = () => {
                 const pageId = document.querySelector(".sidebar-item-active").id;
                 
                 if (pageId === "Upcoming") {
-                    console.log("clicked");
                     _openAddTaskDialog();
                 } else {
                     _openAddTaskCard(button);
@@ -995,12 +996,35 @@ const ScreenController = () => {
     };
 
     // ADD TASK DIALOG
+
     const _openAddTaskDialog = () => {
         const dialog = document.querySelector(".add-task-dialog");
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
-    }
+    };
+
+    // Detect when add-task dialog closes
+    const _setAddTaskDialogClose = () => {
+        const dialog = document.querySelector(".add-task-dialog");
+        dialog.addEventListener("close", () => {
+            // Enable scrolling again
+            document.body.style.overflow = "auto";
+        });
+    };
+
+    // Detect when user is typing the task's name
+    const _setAddTaskDialogNameInput = () => {
+        const input = document.querySelector(".add-task-dialog span:first-child");
+        input.addEventListener("input", () => {
+            const addButton = document.querySelector(".add-task-dialog .add-button");
+            if (input.textContent.trim() !== "") {
+                addButton.disabled = false;
+            } else {
+                addButton.disabled = true;
+            }
+        });
+    };
 
     return {
         init,
