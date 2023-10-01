@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import getMonday from "../utils/getMonday";
 
 const DatabaseController = () => {
     const init = () => {
@@ -113,7 +113,8 @@ const DatabaseController = () => {
 
     const getTasksOfTheWeek = date => {
         let tasks = getAllTasks();
-        const monday = _getMonday(date);
+        // const monday = _getMonday(date);
+        const monday = getMonday(date);
         const sunday = new Date(monday);
         sunday.setDate(sunday.getDate() + 7);
         sunday.setMilliseconds(sunday.getMilliseconds() - 1);

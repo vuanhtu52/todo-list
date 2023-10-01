@@ -2,8 +2,9 @@ import DatabaseController from "./DatabaseController";
 import ScreenController from "./ScreenController";
 
 const AppController = () => {
-    let screenController = ScreenController();
-    let databaseController = DatabaseController();
+    const screenController = ScreenController();
+    const databaseController = DatabaseController();
+    
     const init = () => {
         databaseController.init();
         screenController.init();

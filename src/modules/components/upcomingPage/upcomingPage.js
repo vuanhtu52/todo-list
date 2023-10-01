@@ -1,5 +1,6 @@
 import createAddTaskButton from "../addTaskButton/addTaskButton";
 import "./upcomingPage.css";
+import getMonday from "../../utils/getMonday";
 
 const createUpcomingPage = () => {
     const upcomingPage = document.createElement("div");
@@ -102,23 +103,6 @@ const createUpcomingPage = () => {
     upcomingPage.appendChild(wrapper);
 
     return upcomingPage;
-};
-
-// Get monday of the week
-const getMonday = date => {
-    const monday = new Date(date);
-    if (date.getDay() !== 0) {
-        monday.setDate(date.getDate() - (date.getDay() - 1));
-    } else { // Adjust formula for Sunday
-        monday.setDate(date.getDate() - 6);
-    }
-
-    monday.setHours(0);
-    monday.setMinutes(0);
-    monday.setSeconds(0);
-    monday.setMilliseconds(0);
-
-    return monday;
 };
 
 export default createUpcomingPage;
