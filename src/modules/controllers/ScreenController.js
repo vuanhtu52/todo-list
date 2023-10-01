@@ -268,6 +268,7 @@ const ScreenController = () => {
             selectedTasks.forEach(task => {
                 const card = createTaskCard({task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true});
                 column.querySelector(".tasks").appendChild(card);
+                _setTaskCardListeners(card);
             })
         });
     };
@@ -767,6 +768,8 @@ const ScreenController = () => {
                 _loadInboxPage();
             } else if (pageId === "Today") {
                 _loadTodayPage();
+            } else if (pageId === "Upcoming") {
+                _loadUpcomingPage();
             }
         });
     };
@@ -890,6 +893,8 @@ const ScreenController = () => {
                 _loadInboxPage();
             } else if (pageId === "Today") {
                 _loadTodayPage();
+            } else if (pageId === "Upcoming") {
+                _loadUpcomingPage();
             }
         });
     };
@@ -944,6 +949,8 @@ const ScreenController = () => {
                 _loadInboxPage();
             } else if (pageId === "Today") {
                 _loadTodayPage();
+            } else if (pageId === "Upcoming") {
+                _loadUpcomingPage();
             }
         });
     };
@@ -964,6 +971,8 @@ const ScreenController = () => {
                     _loadInboxPage();
                 } else if (pageId === "Today") {
                     _loadTodayPage();
+                } else if (pageId === "Upcoming") {
+                    _loadUpcomingPage();
                 }
             }
         });
