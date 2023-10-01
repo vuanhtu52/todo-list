@@ -192,7 +192,7 @@ const ScreenController = () => {
             document.querySelector("#content").monday = newMonday;
             _loadUpcomingPage(document.querySelector("#content").monday);
         } else {
-            _loadProjectPage(itemId);
+            _loadProjectPage(databaseController.getProjectById(itemId));
         }
     };
 
@@ -292,12 +292,24 @@ const ScreenController = () => {
         _setTodayButtonClick();
     };
 
-    const _loadProjectPage = projectId => {
+    const _loadProjectPage = project => {
+        // Remove current page
         const content = document.querySelector("#content");
         if (content.lastChild) {
             content.removeChild(content.lastChild);
         }
-        content.appendChild(createProjectPage(projectId));
+        // Add project page
+        content.appendChild(createProjectPage(project));
+
+        // Fetch the tasks of the project
+        const tasks = databaseController.getTasksByProjectId(project.id);
+        
+        // Display the tasks
+        const taskSection = document.querySelector(".project-page .tasks");
+        tasks.forEach(task => {
+            const card = createTaskCard({task, showPriority: true});
+            taskSection.appendChild(card);
+        });
     };
 
     // ADD-PROJECT DIALOG
