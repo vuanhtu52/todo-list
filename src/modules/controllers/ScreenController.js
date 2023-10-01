@@ -86,6 +86,7 @@ const ScreenController = () => {
         body.appendChild(addTaskDialog);
         _setAddTaskDialogClose();
         _setAddTaskDialogNameInput();
+        _setAddTaskDialogCancelButton();
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -1012,6 +1013,11 @@ const ScreenController = () => {
         option.selected = true;
     };
 
+    const _closeAddTaskDialog = () => {
+        const dialog = document.querySelector(".add-task-dialog");
+        dialog.close();
+    }
+
     // Detect when add-task dialog closes
     const _setAddTaskDialogClose = () => {
         const dialog = document.querySelector(".add-task-dialog");
@@ -1031,6 +1037,15 @@ const ScreenController = () => {
             } else {
                 addButton.disabled = true;
             }
+        });
+    };
+
+    // Setect when user presses cancel on add-task dialog
+    const _setAddTaskDialogCancelButton = () => {
+        const cancelButton = document.querySelector(".add-task-dialog .cancel-button");
+        cancelButton.addEventListener("click", event => {
+            event.preventDefault();
+            _closeAddTaskDialog();
         });
     };
 
