@@ -1,12 +1,13 @@
 .task-card {
     display: grid;
-    grid-template-columns: max-content minmax(400px, 1fr) max-content;
+    grid-template-columns: max-content minmax(70px, 1fr) max-content;
     grid-template-rows: max-content;
     gap: 10px;
     border-bottom: 0.5px solid #ddd;
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
+    background-color: white;
 }
 
 .task-card .check-button {
@@ -46,16 +47,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* height: 16px; */
 }
 
 .task-card .bottom-row {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .task-card .bottom-row .left {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .task-card .priority {

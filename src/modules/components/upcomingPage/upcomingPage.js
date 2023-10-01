@@ -16,7 +16,7 @@ const createUpcomingPage = () => {
     const dateDiv = document.createElement("div");
     dateDiv.className = "date";
     const today = new Date();
-    dateDiv.textContent = `${today.toLocaleString("default", {month: "long"})} ${today.getFullYear()}`;
+    dateDiv.textContent = `${today.toLocaleString("default", { month: "long" })} ${today.getFullYear()}`;
     header.appendChild(dateDiv);
 
     const buttons = document.createElement("div");
@@ -48,60 +48,23 @@ const createUpcomingPage = () => {
     // Add calendar
     const calendar = document.createElement("div");
     calendar.className = "calendar";
-    
-    // // Add calendar's header
-    // const calenderHeader = document.createElement("div");
-    // calenderHeader.className = "header";
-    // let currentDate = getMonday(new Date());
-    // for (let i = 0; i < 7; i++) {
-    //     const title = document.createElement("div");
-
-    //     // Add day of the week
-    //     const weekday = document.createElement("div");
-    //     weekday.textContent = currentDate.toLocaleString("en-us", {weekday: "long"});
-    //     title.appendChild(weekday);
-
-    //     // Add day of the month
-    //     const monthday = document.createElement("div");
-    //     monthday.textContent = currentDate.getDate();
-    //     title.appendChild(monthday);
-
-    //     // Change color if current date is today
-    //     const today = new Date();
-    //     if (today.getDate() === currentDate.getDate()) {
-    //         title.style.color = "#A16207";
-    //     } else {
-    //         weekday.color = "grey";
-    //         monthday.color = "black";
-    //     }
-
-    //     calenderHeader.appendChild(title);
-    //     currentDate.setDate(currentDate.getDate() + 1);
-    // }
-    // calender.appendChild(calenderHeader);
-
-    // // Add calendar's content
-    // const calendarContent = document.createElement("div");
-    // calendarContent.className = "content";
-    // currentDate = getMonday(new Date());
-    // for (let i = 0; i < 7; i++) {
-    //     const column = document.createElement("div");
-    //     column.textContent = "cards here";
-    //     calendarContent.appendChild(column);
-    // }
-    // calender.appendChild(calendarContent);
 
     let currentDate = getMonday(new Date());
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
     for (let i = 0; i < 7; i++) {
         const column = document.createElement("div");
-        column.className = "column";
+        column.className = "column"; 
+        column.date = new Date(currentDate);
 
         // Add header
         const header = document.createElement("div");
         header.className = "header";
 
         const weekday = document.createElement("div");
-        weekday.textContent = currentDate.toLocaleString("en-us", {weekday: "long"});
+        weekday.textContent = currentDate.toLocaleString("en-us", { weekday: "long" });
         header.appendChild(weekday);
 
         const monthday = document.createElement("div");
@@ -136,10 +99,7 @@ const createUpcomingPage = () => {
     }
 
     wrapper.appendChild(calendar);
-
     upcomingPage.appendChild(wrapper);
-
-    console.log(getMonday(new Date()));
 
     return upcomingPage;
 };
@@ -147,11 +107,16 @@ const createUpcomingPage = () => {
 // Get monday of the week
 const getMonday = date => {
     const monday = new Date(date);
-    if (date.getDate() !== 0) {
+    if (date.getDay() !== 0) {
         monday.setDate(date.getDate() - (date.getDay() - 1));
     } else { // Adjust formula for Sunday
         monday.setDate(date.getDate() - 6);
     }
+
+    monday.setHours(0);
+    monday.setMinutes(0);
+    monday.setSeconds(0);
+    monday.setMilliseconds(0);
 
     return monday;
 };

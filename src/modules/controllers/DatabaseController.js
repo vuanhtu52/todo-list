@@ -111,6 +111,35 @@ const DatabaseController = () => {
         return tasks;
     };
 
+    const getTasksOfTheWeek = date => {
+        let tasks = getAllTasks();
+        const monday = _getMonday(date);
+        const sunday = new Date(monday);
+        sunday.setDate(sunday.getDate() + 7);
+        sunday.setMilliseconds(sunday.getMilliseconds() - 1);
+
+        tasks = tasks.filter(task => task.dueDate >= monday.getTime() && task.dueDate <= sunday.getTime());
+
+        return tasks;
+    };
+
+    // Get monday of the week
+    const _getMonday = date => {
+        const monday = new Date(date);
+        if (date.getDay() !== 0) {
+            monday.setDate(date.getDate() - (date.getDay() - 1));
+        } else { // Adjust formula for Sunday
+            monday.setDate(date.getDate() - 6);
+        }
+
+        monday.setHours(0);
+        monday.setMinutes(0);
+        monday.setSeconds(0);
+        monday.setMilliseconds(0);
+
+        return monday;
+    };
+
     const updateTask = (oldTask, newTask) => {
         let tasks = getAllTasks();
         for (let i = 0; i < tasks.length; i++) {
@@ -141,6 +170,7 @@ const DatabaseController = () => {
         getTaskById,
         getOverdueTasks,
         getTasksByDueDate,
+        getTasksOfTheWeek,
         updateTask,
         deleteTask,
     };

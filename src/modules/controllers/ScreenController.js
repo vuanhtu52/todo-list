@@ -224,7 +224,7 @@ const ScreenController = () => {
 
         // Fetch overdue tasks and display them
         const today = new Date();
-        today.setUTCHours(0);
+        today.setHours(0);
         today.setMinutes(0);
         today.setSeconds(0);
         today.setMilliseconds(0);
@@ -250,11 +250,26 @@ const ScreenController = () => {
     };
 
     const _loadUpcomingPage = () => {
+        // Remove current page
         const content = document.querySelector("#content");
         if (content.lastChild) {
             content.removeChild(content.lastChild);
         }
+        // Add upcoming page
         content.appendChild(createUpcomingPage());
+
+        // Fetch tasks of the displayed week
+        const tasks = databaseController.getTasksOfTheWeek(new Date());
+
+        // Display the tasks on the calendar
+        const columns = document.querySelectorAll(".upcoming-page .calendar .column");
+        columns.forEach(column => {
+            const selectedTasks = tasks.filter(task => task.dueDate === column.date.getTime());
+            selectedTasks.forEach(task => {
+                const card = createTaskCard({task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true});
+                column.querySelector(".tasks").appendChild(card);
+            })
+        });
     };
 
     const _loadProjectPage = projectId => {
@@ -669,10 +684,10 @@ const ScreenController = () => {
             const dueDateString = card.querySelector(".middle-row input").value;
             let dueDate = new Date();
             if (dueDateString !== "") {
-                dueDate.setUTCFullYear(dueDateString.split("-")[0]);
+                dueDate.setFullYear(dueDateString.split("-")[0]);
                 dueDate.setMonth(parseInt(dueDateString.split("-")[1]) - 1);
                 dueDate.setDate(dueDateString.split("-")[2]);
-                dueDate.setUTCHours(0);
+                dueDate.setHours(0);
                 dueDate.setMinutes(0);
                 dueDate.setSeconds(0);
                 dueDate.setMilliseconds(0);
@@ -856,10 +871,10 @@ const ScreenController = () => {
                 newTask.dueDate = "";
             } else {
                 let dueDate = new Date();
-                dueDate.setUTCFullYear(dueDateString.split("-")[0]);
+                dueDate.setFullYear(dueDateString.split("-")[0]);
                 dueDate.setMonth(parseInt(dueDateString.split("-")[1]) - 1);
                 dueDate.setDate(dueDateString.split("-")[2]);
-                dueDate.setUTCHours(0);
+                dueDate.setHours(0);
                 dueDate.setMinutes(0);
                 dueDate.setSeconds(0);
                 dueDate.setMilliseconds(0);

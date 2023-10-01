@@ -4,10 +4,16 @@ import DeleteIconPath from "../../../assets/delete.svg";
 import DatabaseController from "../../controllers/DatabaseController";
 import CircleIconLink from "../../../assets/circle.svg";
 
-const createTaskCard = ({task, showPriority = false, showProject = false}) => {
+const createTaskCard = ({task, showDueDate = true, showPriority = false, showProject = false, calendarMode = false}) => {
     const card = document.createElement("div");
     card.className = "task-card";
     card.dataTask = task;
+    if (calendarMode) {
+        card.style.border = "0.5px solid #ddd";
+        card.style.borderRadius = "5px";
+        card.style.padding = "5px";
+        card.style.boxShadow = "0 5px 5px rgb(0, 0, 0, 0.2)";
+    }
 
     const leftColumn = document.createElement("div");
 
@@ -29,6 +35,9 @@ const createTaskCard = ({task, showPriority = false, showProject = false}) => {
     // Add task description
     const descriptionDiv = document.createElement("div");
     descriptionDiv.textContent = task.description;
+    if (calendarMode) {
+        descriptionDiv.style.height = "16px";
+    }
     middleColumn.appendChild(descriptionDiv);
 
     const bottomRow = document.createElement("div");
@@ -39,22 +48,24 @@ const createTaskCard = ({task, showPriority = false, showProject = false}) => {
     bottomRow.appendChild(leftDiv);
 
     // Add due date
-    const dueDateDiv = document.createElement("div");
-    dueDateDiv.className = "due-date";
-    const icon = new Image();
-    icon.src = CalendarIconPath;
-    dueDateDiv.appendChild(icon);
-    const text = document.createElement("div");
-    let dateString;
-    if (task.dueDate === "") {
-        dateString = "No due date";
-    } else {
-        let dueDate = new Date(parseInt(task.dueDate));
-        dateString = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+    if (showDueDate) {
+        const dueDateDiv = document.createElement("div");
+        dueDateDiv.className = "due-date";
+        const icon = new Image();
+        icon.src = CalendarIconPath;
+        dueDateDiv.appendChild(icon);
+        const text = document.createElement("div");
+        let dateString;
+        if (task.dueDate === "") {
+            dateString = "No due date";
+        } else {
+            let dueDate = new Date(parseInt(task.dueDate));
+            dateString = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+        }
+        text.textContent = dateString;
+        dueDateDiv.appendChild(text);
+        leftDiv.appendChild(dueDateDiv);
     }
-    text.textContent = dateString;
-    dueDateDiv.appendChild(text);
-    leftDiv.appendChild(dueDateDiv);
 
     // Add priority
     if (showPriority) {
