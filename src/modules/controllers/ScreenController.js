@@ -1003,9 +1003,13 @@ const ScreenController = () => {
         // Prevent scrolling
         document.body.style.overflow = "hidden";
 
-        // Populate default due date based on the column user clicked on
+        // Set default due date based on the column user clicked on
         const datePicker = document.querySelector(".add-task-dialog .middle-row input");
         datePicker.value = `${date.getFullYear()}-${(date.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${date.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
+
+        // Set default priority 
+        const option = document.querySelector(".add-task-dialog .middle-row select").children.item(3);
+        option.selected = true;
     };
 
     // Detect when add-task dialog closes
