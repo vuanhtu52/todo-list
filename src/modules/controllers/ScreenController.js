@@ -289,6 +289,7 @@ const ScreenController = () => {
         _setAddTaskButtonListener();
         _setBackButtonClick();
         _setForwardButtonClick();
+        _setTodayButtonClick();
     };
 
     const _loadProjectPage = projectId => {
@@ -1127,6 +1128,17 @@ const ScreenController = () => {
             // Set the new monday and reload upcoming page
             let newMonday = new Date(document.querySelector("#content").monday)
             newMonday.setDate(newMonday.getDate() + 7);
+            document.querySelector("#content").monday = newMonday;
+            _loadUpcomingPage(document.querySelector("#content").monday);
+        });
+    };
+
+    // Detect when user clicks today button at the top
+    const _setTodayButtonClick = () => {
+        const todayButton = document.querySelector(".upcoming-page .today-button");
+        todayButton.addEventListener("click", () => {
+            // Set the new monday and reload upcoming page
+            const newMonday = getMonday(new Date());
             document.querySelector("#content").monday = newMonday;
             _loadUpcomingPage(document.querySelector("#content").monday);
         });
