@@ -1005,6 +1005,14 @@ const ScreenController = () => {
         // Prevent scrolling
         document.body.style.overflow = "hidden";
 
+        // Reset values
+        const nameField = document.querySelector(".add-task-dialog span:first-child");
+        nameField.textContent = "";
+        const descriptionField = document.querySelector(".add-task-dialog span:nth-child(2)");
+        descriptionField.textContent = "";
+        const addButton = document.querySelector(".add-task-dialog .add-button");
+        addButton.disabled = true;
+
         // Set default due date based on the column user clicked on
         const datePicker = document.querySelector(".add-task-dialog .middle-row input");
         datePicker.value = `${date.getFullYear()}-${(date.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${date.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
