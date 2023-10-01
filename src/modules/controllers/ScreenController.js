@@ -16,6 +16,7 @@ import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDia
 import { v4 as uuidv4 } from "uuid";
 import createEditTaskDialog from "../components/editTaskDialog/editTaskDialog";
 import createAddTaskDialog from "../components/addTaskDialog/addTaskDialog";
+import getMonday from "../utils/getMonday";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -37,6 +38,7 @@ const ScreenController = () => {
         // Add main content
         const content = document.createElement("div");
         content.id = "content";
+        content.monday = getMonday(new Date()); // Keep track of which monday to load upcoming page
         body.appendChild(content);
 
         // Add add-project dialog for later use
@@ -186,7 +188,7 @@ const ScreenController = () => {
         } else if (itemId === "Today") {
             _loadTodayPage();
         } else if (itemId === "Upcoming") {
-            _loadUpcomingPage();
+            _loadUpcomingPage(document.querySelector("#content").monday);
         } else {
             _loadProjectPage(itemId);
         }
@@ -258,22 +260,23 @@ const ScreenController = () => {
         _setAddTaskButtonListener();
     };
 
-    const _loadUpcomingPage = () => {
+    const _loadUpcomingPage = monday => {
         // Remove current page
         const content = document.querySelector("#content");
         if (content.lastChild) {
             content.removeChild(content.lastChild);
         }
         // Add upcoming page
-        content.appendChild(createUpcomingPage());
+        content.appendChild(createUpcomingPage(monday));
 
         // Fetch tasks of the displayed week
-        const tasks = databaseController.getTasksOfTheWeek(new Date());
+        const tasks = databaseController.getTasksOfTheWeek(monday);
 
         // Display the tasks on the calendar
         const columns = document.querySelectorAll(".upcoming-page .calendar .column");
         columns.forEach(column => {
             const selectedTasks = tasks.filter(task => task.dueDate === column.date.getTime());
+            console.log(selectedTasks);
             selectedTasks.forEach(task => {
                 const card = createTaskCard({ task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true });
                 column.querySelector(".tasks").appendChild(card);
@@ -283,6 +286,7 @@ const ScreenController = () => {
 
         // Set listener for add-task button
         _setAddTaskButtonListener();
+        _setBackButtonClick();
     };
 
     const _loadProjectPage = projectId => {
@@ -788,7 +792,7 @@ const ScreenController = () => {
             } else if (pageId === "Today") {
                 _loadTodayPage();
             } else if (pageId === "Upcoming") {
-                _loadUpcomingPage();
+                _loadUpcomingPage(document.querySelector("#content").monday);
             }
         });
     };
@@ -913,7 +917,7 @@ const ScreenController = () => {
             } else if (pageId === "Today") {
                 _loadTodayPage();
             } else if (pageId === "Upcoming") {
-                _loadUpcomingPage();
+                _loadUpcomingPage(document.querySelector("#content").monday);
             }
         });
     };
@@ -969,7 +973,7 @@ const ScreenController = () => {
             } else if (pageId === "Today") {
                 _loadTodayPage();
             } else if (pageId === "Upcoming") {
-                _loadUpcomingPage();
+                _loadUpcomingPage(document.querySelector("#content").monday);
             }
         });
     };
@@ -991,7 +995,7 @@ const ScreenController = () => {
                 } else if (pageId === "Today") {
                     _loadTodayPage();
                 } else if (pageId === "Upcoming") {
-                    _loadUpcomingPage();
+                    _loadUpcomingPage(document.querySelector("#content").monday);
                 }
             }
         });
@@ -1096,7 +1100,23 @@ const ScreenController = () => {
 
             // Reload current page
             _closeAddTaskDialog();
-            _loadUpcomingPage();
+            _loadUpcomingPage(document.querySelector("#content").monday);
+        });
+    };
+
+    // UPCOMING PAGE
+
+    // Detect when user clicks the back button at the top
+    const _setBackButtonClick = () => {
+        const backButton = document.querySelector(".upcoming-page .back-button");
+        backButton.addEventListener("click", () => {
+            console.log("click");
+            // Set the new monday and reload upcoming page
+            // document.querySelector("#content").monday.setDate(document.querySelector("#content").monday - 7);
+            let newMonday = new Date(document.querySelector("#content").monday)
+            newMonday.setDate(newMonday.getDate() - 7);
+            document.querySelector("#content").monday = newMonday;
+            _loadUpcomingPage(document.querySelector("#content").monday);
         });
     };
 

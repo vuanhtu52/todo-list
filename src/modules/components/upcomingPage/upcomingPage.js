@@ -2,7 +2,7 @@ import createAddTaskButton from "../addTaskButton/addTaskButton";
 import "./upcomingPage.css";
 import getMonday from "../../utils/getMonday";
 
-const createUpcomingPage = () => {
+const createUpcomingPage = monday => {
     const upcomingPage = document.createElement("div");
     upcomingPage.className = "upcoming-page";
 
@@ -16,8 +16,7 @@ const createUpcomingPage = () => {
 
     const dateDiv = document.createElement("div");
     dateDiv.className = "date";
-    const today = new Date();
-    dateDiv.textContent = `${today.toLocaleString("default", { month: "long" })} ${today.getFullYear()}`;
+    dateDiv.textContent = `${monday.toLocaleString("default", { month: "long" })} ${monday.getFullYear()}`;
     header.appendChild(dateDiv);
 
     const buttons = document.createElement("div");
@@ -50,11 +49,7 @@ const createUpcomingPage = () => {
     const calendar = document.createElement("div");
     calendar.className = "calendar";
 
-    let currentDate = getMonday(new Date());
-    currentDate.setHours(0);
-    currentDate.setMinutes(0);
-    currentDate.setSeconds(0);
-    currentDate.setMilliseconds(0);
+    let currentDate = new Date(monday);
     for (let i = 0; i < 7; i++) {
         const column = document.createElement("div");
         column.className = "column"; 
@@ -72,10 +67,11 @@ const createUpcomingPage = () => {
         monthday.textContent = currentDate.getDate();
         header.appendChild(monthday);
 
-        // Change header's color if current date is today
+        // Change column header's color and header's content if current date is today
         const today = new Date();
-        if (today.getDate() === currentDate.getDate()) {
+        if (today.getDate() === currentDate.getDate() && today.getMonth() === currentDate.getMonth() && today.getFullYear() === currentDate.getFullYear()) {
             header.style.color = "#A16207";
+            wrapper.querySelector(".header .date").textContent = `${today.toLocaleString("default", { month: "long" })} ${today.getFullYear()}`;
         } else {
             weekday.style.color = "grey";
             monthday.style.color = "black";
