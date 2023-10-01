@@ -15,6 +15,7 @@ import createTaskCard from "../components/taskCard/taskCard";
 import createDeleteTaskDialog from "../components/deleteTaskDialog/deleteTaskDialog";
 import { v4 as uuidv4 } from "uuid";
 import createEditTaskDialog from "../components/editTaskDialog/editTaskDialog";
+import createAddTaskDialog from "../components/addTaskDialog/addTaskDialog";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
@@ -79,6 +80,10 @@ const ScreenController = () => {
         _setDeleteTaskDialogCancelButton();
         _setDeleteTaskDialogDeleteButton();
         _setDeleteTaskDialogPressEnter();
+
+        // Add add-task dialog for later use
+        const addTaskDialog = createAddTaskDialog(databaseController.getAllProjects());
+        body.appendChild(addTaskDialog);
 
         // Load the inbox page by default
         _switchPage("Inbox");
@@ -209,7 +214,7 @@ const ScreenController = () => {
         // Add inbox page
         content.appendChild(inboxPage);
 
-        // Set listeners
+        // Set listener for add-task button
         _setAddTaskButtonListener();
     };
 
@@ -245,7 +250,7 @@ const ScreenController = () => {
             _setTaskCardListeners(card);
         });
 
-        // Set listeners
+        // Set listener for add-task button
         _setAddTaskButtonListener();
     };
 
@@ -266,11 +271,14 @@ const ScreenController = () => {
         columns.forEach(column => {
             const selectedTasks = tasks.filter(task => task.dueDate === column.date.getTime());
             selectedTasks.forEach(task => {
-                const card = createTaskCard({task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true});
+                const card = createTaskCard({ task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true });
                 column.querySelector(".tasks").appendChild(card);
                 _setTaskCardListeners(card);
             })
         });
+
+        // Set listener for add-task button
+        _setAddTaskButtonListener();
     };
 
     const _loadProjectPage = projectId => {
@@ -595,7 +603,15 @@ const ScreenController = () => {
         const buttons = document.querySelectorAll(".add-task-button");
         buttons.forEach(button => {
             button.addEventListener("click", () => {
-                _openAddTaskCard(button);
+                // Get the current active item's id
+                const pageId = document.querySelector(".sidebar-item-active").id;
+                
+                if (pageId === "Upcoming") {
+                    console.log("clicked");
+                    _openAddTaskDialog();
+                } else {
+                    _openAddTaskCard(button);
+                }
             });
         });
     };
@@ -651,7 +667,7 @@ const ScreenController = () => {
     // Set default due date for add-task card
     const _setAddTaskCardDefaultDueDate = (card, dueDate) => {
         const datePicker = card.querySelector(".middle-row input");
-        datePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${dueDate.getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}`;
+        datePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${dueDate.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
     }
 
     // Attach listener to cancel button in add-task card
@@ -977,6 +993,14 @@ const ScreenController = () => {
             }
         });
     };
+
+    // ADD TASK DIALOG
+    const _openAddTaskDialog = () => {
+        const dialog = document.querySelector(".add-task-dialog");
+        dialog.showModal();
+        // Prevent scrolling
+        document.body.style.overflow = "hidden";
+    }
 
     return {
         init,

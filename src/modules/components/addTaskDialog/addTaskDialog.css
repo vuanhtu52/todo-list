@@ -1,0 +1,11 @@
+.add-task-dialog {
+    position: relative;
+    top: -30%;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+}
+
+.add-task-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
