@@ -188,6 +188,8 @@ const ScreenController = () => {
         } else if (itemId === "Today") {
             _loadTodayPage();
         } else if (itemId === "Upcoming") {
+            const newMonday = getMonday(new Date());
+            document.querySelector("#content").monday = newMonday;
             _loadUpcomingPage(document.querySelector("#content").monday);
         } else {
             _loadProjectPage(itemId);
