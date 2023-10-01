@@ -276,7 +276,6 @@ const ScreenController = () => {
         const columns = document.querySelectorAll(".upcoming-page .calendar .column");
         columns.forEach(column => {
             const selectedTasks = tasks.filter(task => task.dueDate === column.date.getTime());
-            console.log(selectedTasks);
             selectedTasks.forEach(task => {
                 const card = createTaskCard({ task, showDueDate: false, showPriority: true, showProject: false, calendarMode: true });
                 column.querySelector(".tasks").appendChild(card);
@@ -287,6 +286,7 @@ const ScreenController = () => {
         // Set listener for add-task button
         _setAddTaskButtonListener();
         _setBackButtonClick();
+        _setForwardButtonClick();
     };
 
     const _loadProjectPage = projectId => {
@@ -1110,11 +1110,21 @@ const ScreenController = () => {
     const _setBackButtonClick = () => {
         const backButton = document.querySelector(".upcoming-page .back-button");
         backButton.addEventListener("click", () => {
-            console.log("click");
             // Set the new monday and reload upcoming page
-            // document.querySelector("#content").monday.setDate(document.querySelector("#content").monday - 7);
             let newMonday = new Date(document.querySelector("#content").monday)
             newMonday.setDate(newMonday.getDate() - 7);
+            document.querySelector("#content").monday = newMonday;
+            _loadUpcomingPage(document.querySelector("#content").monday);
+        });
+    };
+
+    // Detech when user clicks the forward button at the top
+    const _setForwardButtonClick = () => {
+        const forwardButon = document.querySelector(".upcoming-page .forward-button");
+        forwardButon.addEventListener("click", () => {
+            // Set the new monday and reload upcoming page
+            let newMonday = new Date(document.querySelector("#content").monday)
+            newMonday.setDate(newMonday.getDate() + 7);
             document.querySelector("#content").monday = newMonday;
             _loadUpcomingPage(document.querySelector("#content").monday);
         });
