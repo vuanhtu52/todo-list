@@ -609,7 +609,7 @@ const ScreenController = () => {
                 const pageId = document.querySelector(".sidebar-item-active").id;
                 
                 if (pageId === "Upcoming") {
-                    _openAddTaskDialog();
+                    _openAddTaskDialog(button.parentElement.parentElement.date);
                 } else {
                     _openAddTaskCard(button);
                 }
@@ -997,11 +997,15 @@ const ScreenController = () => {
 
     // ADD TASK DIALOG
 
-    const _openAddTaskDialog = () => {
+    const _openAddTaskDialog = date => {
         const dialog = document.querySelector(".add-task-dialog");
         dialog.showModal();
         // Prevent scrolling
         document.body.style.overflow = "hidden";
+
+        // Populate default due date based on the column user clicked on
+        const datePicker = document.querySelector(".add-task-dialog .middle-row input");
+        datePicker.value = `${date.getFullYear()}-${(date.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${date.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
     };
 
     // Detect when add-task dialog closes
