@@ -309,6 +309,7 @@ const ScreenController = () => {
         tasks.forEach(task => {
             const card = createTaskCard({task, showPriority: true});
             taskSection.appendChild(card);
+            _setTaskCardListeners(card);
         });
     };
 
@@ -808,6 +809,9 @@ const ScreenController = () => {
                 _loadTodayPage();
             } else if (pageId === "Upcoming") {
                 _loadUpcomingPage(document.querySelector("#content").monday);
+            } else {
+                const project = databaseController.getProjectById(pageId);
+                _loadProjectPage(project);
             }
         });
     };
