@@ -937,6 +937,9 @@ const ScreenController = () => {
                 _loadTodayPage();
             } else if (pageId === "Upcoming") {
                 _loadUpcomingPage(document.querySelector("#content").monday);
+            } else {
+                const project = databaseController.getProjectById(pageId);
+                _loadProjectPage(project);
             }
         });
     };
