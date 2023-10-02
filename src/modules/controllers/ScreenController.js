@@ -789,6 +789,8 @@ const ScreenController = () => {
             addButtons = document.querySelector(".inbox-page").querySelectorAll(".add-task-button");
         } else if (pageId === "Today") {
             addButtons = document.querySelector(".today-page").querySelectorAll(".add-task-button");
+        } else if (pageId !== "Upcoming") {
+            addButtons = document.querySelector(".project-page").querySelectorAll(".add-task-button");
         }
         addButtons.forEach(button => {
             button.classList.remove("add-task-button-hidden");
