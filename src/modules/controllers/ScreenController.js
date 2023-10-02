@@ -770,6 +770,9 @@ const ScreenController = () => {
                 _loadInboxPage();
             } else if (pageId === "Today") {
                 _loadTodayPage();
+            } else if (pageId !== "Upcoming") {
+                const project = databaseController.getProjectById(pageId);
+                _loadProjectPage(project);
             }
         });
     };
