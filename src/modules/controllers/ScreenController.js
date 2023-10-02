@@ -17,12 +17,20 @@ import { v4 as uuidv4 } from "uuid";
 import createEditTaskDialog from "../components/editTaskDialog/editTaskDialog";
 import createAddTaskDialog from "../components/addTaskDialog/addTaskDialog";
 import getMonday from "../utils/getMonday";
+import LogoIconLink from "../../assets/logo.svg";
 
 const ScreenController = () => {
     const databaseController = DatabaseController();
 
     const init = () => {
         const body = document.querySelector("body");
+
+        // Add favicon
+        const link = document.createElement("link");
+        link.rel = "icon";
+        link.type = "image/x-icon";
+        link.href = LogoIconLink;
+        document.head.appendChild(link);
 
         // Add navbar
         const navBar = createNavBar();
