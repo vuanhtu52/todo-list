@@ -64,9 +64,16 @@ const DatabaseController = () => {
     };
 
     const deleteProject = id => {
+        // Delete the project
         let projects = getAllProjects();
         projects = projects.filter(project => project.id !== id);
         localStorage.setItem("projects", JSON.stringify(projects));
+
+        // Delete the tasks in the project
+        let tasks = getTasksByProjectId(id);
+        tasks.forEach(task => {
+            deleteTask(task.id);
+        });
     };
 
     const createTask = task => {
@@ -113,7 +120,6 @@ const DatabaseController = () => {
 
     const getTasksOfTheWeek = date => {
         let tasks = getAllTasks();
-        // const monday = _getMonday(date);
         const monday = getMonday(date);
         const sunday = new Date(monday);
         sunday.setDate(sunday.getDate() + 7);
@@ -122,23 +128,6 @@ const DatabaseController = () => {
         tasks = tasks.filter(task => task.dueDate >= monday.getTime() && task.dueDate <= sunday.getTime());
 
         return tasks;
-    };
-
-    // Get monday of the week
-    const _getMonday = date => {
-        const monday = new Date(date);
-        if (date.getDay() !== 0) {
-            monday.setDate(date.getDate() - (date.getDay() - 1));
-        } else { // Adjust formula for Sunday
-            monday.setDate(date.getDate() - 6);
-        }
-
-        monday.setHours(0);
-        monday.setMinutes(0);
-        monday.setSeconds(0);
-        monday.setMilliseconds(0);
-
-        return monday;
     };
 
     const updateTask = (oldTask, newTask) => {
