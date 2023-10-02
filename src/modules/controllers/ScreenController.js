@@ -223,7 +223,7 @@ const ScreenController = () => {
         content.appendChild(inboxPage);
 
         // Set listener for add-task button
-        _setAddTaskButtonListener();
+        _setAddTaskButtonClick();
     };
 
     const _loadTodayPage = () => {
@@ -259,7 +259,7 @@ const ScreenController = () => {
         });
 
         // Set listener for add-task button
-        _setAddTaskButtonListener();
+        _setAddTaskButtonClick();
     };
 
     const _loadUpcomingPage = monday => {
@@ -285,8 +285,8 @@ const ScreenController = () => {
             })
         });
 
-        // Set listener for add-task button
-        _setAddTaskButtonListener();
+        // Set listeners
+        _setAddTaskButtonClick();
         _setBackButtonClick();
         _setForwardButtonClick();
         _setTodayButtonClick();
@@ -311,6 +311,9 @@ const ScreenController = () => {
             taskSection.appendChild(card);
             _setTaskCardListeners(card);
         });
+
+        // Set listener for add-task button
+        _setAddTaskButtonClick();
     };
 
     // ADD-PROJECT DIALOG
@@ -623,7 +626,7 @@ const ScreenController = () => {
 
     // INBOX PAGE
 
-    const _setAddTaskButtonListener = () => {
+    const _setAddTaskButtonClick = () => {
         const buttons = document.querySelectorAll(".add-task-button");
         buttons.forEach(button => {
             button.addEventListener("click", () => {
@@ -649,6 +652,8 @@ const ScreenController = () => {
             addButtons = document.querySelectorAll(".inbox-page .add-task-button");
         } else if (pageId === "Today") {
             addButtons = document.querySelectorAll(".today-page .add-task-button");
+        } else {
+            addButtons = document.querySelectorAll(".project-page .add-task-button");
         }
 
         addButtons.forEach(button => {
@@ -668,6 +673,9 @@ const ScreenController = () => {
             _setAddTaskCardDefaultPriority(card, parseInt(addButton.parentElement.firstChild.textContent.split(" ")[1]));
         } else if (pageId === "Today") {
             _setAddTaskCardDefaultPriority(card, 4);
+        } else if (pageId !== "Upcoming") {
+            _setAddTaskCardDefaultPriority(card, 4);
+            _setAddTaskCardDefaultProject(card, databaseController.getProjectById(pageId));
         }
 
         // Set listeners
@@ -692,6 +700,13 @@ const ScreenController = () => {
         const datePicker = card.querySelector(".middle-row input");
         datePicker.value = `${dueDate.getFullYear()}-${(dueDate.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}-${dueDate.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
     }
+
+    // Set default project name for add-task card
+    const _setAddTaskCardDefaultProject = (card, project) => {
+        const projectSelector = card.querySelector(".bottom-row select");
+        const option = projectSelector.querySelector(`option[value = "${project.name}"]`);
+        option.selected = true;
+    };
 
     // Attach listener to cancel button in add-task card
     const _setAddTaskCardCancelButtonListener = cancelButton => {
